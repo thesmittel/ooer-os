@@ -3,40 +3,53 @@
 A website designed to emulate your typical graphical consumer OS that supports third party applications.
 It is more a proof of concept, a bit of fun, rather than anything useful.
 
+## Current version:
+`0.1.240329`
+
 ## Features
 
-- Looks and feels like an operating system
-- Doesnt work like one
-- Registering and logging in
-- Windows:
-    - Moving
-    - Snapping (only maximising)
-    - minimising
-    - closing
-- "Applications"
-    - Multiple permissions levels
-        - System (level 2): access to entire document including socket
-        - Elevated (level 1): can modify its own windows entirely allowing for example dialog boxes asking the user to save
-        - Base (level 0): can only modify the body of the window, not the header
-    - Global objects have been disabled for levels 1 and 0, so no `window`, `globalThis` etc.
-    - CSS is entirely local, meaning theres no restriction on styling, it will only ever effect the windowbody
-    - JS is entirely local too
-    - no intervals for permission levels 0 and 1
-    - `<script>` are not allowed in an applications HTML itself, scripts will be added to an applications window by the "OS" itself. The tags and their content are removed by the server.
-        - programmatically creating script elements will not work either for permission levels 0 and 1
-    - as of now, there is no way to run scripts without a window. That wouldnt even really make sense considering you cant access anything outside, but it just wont do it. 
-    - Applications can have several different forms, windowed, fullscreen, widget
-    - System level applications are themselves modules. They thus have access to all other system modules. 
-- "API": Server requests are grouped into 4 categories:
-    - "Client" deals with changes to userdata
-    - "System" deals with events that directly impact functionality
-    - "Auth" deals with login, signup, logout
-    - "App" deals with application requests
-    - Soon there will be documentation
-- Everything is neatly hidden away in modules, meaning not even system applications have access to system internals (for now)
-- Notifications (Have to go through server)
+- Login and signup somewhat functional
+- UI largely functional
+- Still lacking actual functionality
+- Push notifications (Have to go through server)
+
+### Windows
+Can be moved, closed, minimised, support snapping (so far only for maximising). Taskbar is present and functional, though not yet finished, window previews as well as app instance groups will soon be added.
+Both CSS and javascript belonging to a window are locked within their respective "scopes", CSS in particular cannot alter anything outside the window body it belongs to, meaning it essentially functions like iframes. 
+
+### Applications
+Applications have multiple permission levels that are defined serverside
+As of now, all applications run on the main thread, a draw API and webworkers are planned.
+`<script>` tags are not permitted and will be deleted serverside, if present in the html of an application. Theres a potential vulnerability still present but for that you still need to use the script delivery system, but that could conceivably be used to bypass the permission level by sending a separate file. But programmatically adding script tags doesnt work for L0/L1 applications (in theory)
+
+- Base (L0): only has access to the actual body of the window, not the header and its elements.
+    - No access to global JS objects like `window`, `globalThis` etc.
+    - locally scoped Javascript
+    - No setInterval (for now, im working on it), setTimeout is available
+
+- Elevated (L1): has access to the entire body of the window, allowing a few extra customisations
+    - Other than that, it is the same as L0
+    - Server communication will be added for L1 applications soon.
+
+- System (L2): instead of being a regular main thread global scope script that removes access to specific objects, System apps are modules and thus have access to all exposed system functions. 
+
+Running scripts without a window doesnt work, not even for system apps. That latter part might change, allowing system apps to set up permanent event handlers, for example.
+
+As of now, only windowed applications are implemented, there are plans for widgets and fullscreen applications in the future.
+
+
+### "API"
+Bit of a stretch, but you can make specific requests to the server based on 4 categories:
+- "Client" deals with changes to userdata
+- "System" deals with events that directly impact functionality
+- "Auth" deals with login, signup, logout
+- "App" deals with application requests
+Will document soon.
+
+
 
 ## Coming soon
+- unified UI element styling in the form of custom tags for a more cohesive and easier to write design 
 - "globalise" emitter and listener events for system apps only
 - App communication with the server, will only be available for system apps for now.
 - Search function
