@@ -1,0 +1,19 @@
+{
+  "name": "website",
+  "version": "0.1.0",
+  "description": "First beta test",
+  "main": "main.js",
+  "scripts": {
+    "doc": "jsdoc -c jsdoc.json"
+  },
+  "author": "Smittel",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1"
+  },
+  "devDependencies": {
+    "jsdoc": "^4.0.2"
+  },
+  "type": "module"
+}

@@ -1,0 +1,15 @@
+{
+    "source": {
+        "include":["./", "./public/js/"],
+        "includePattern": ".js$",
+        "excludePattern": "(node_modules/|docs)"
+    },
+    "plugins": ["plugins/markdown"],
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true
+    },
+    "opts": {
+        "destination": "./docs"
+    }
+}

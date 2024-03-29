@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Desktop</title>
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css">
+    </noscript>
+	<link rel="stylesheet" href="/css/login.css">
+	<link rel="stylesheet" href="/css/fonts.css">
+	<link rel="stylesheet" href="/css/desktop.css">
+	<link rel="stylesheet" href="/css/window.css">
+	<script src="/socket.io/socket.io.js"></script>
+    <script type="text/Javascript">
+        const globalGetElementById = (str) => {
+            const re = document.getElementById(str);
+            return re;
+        }
+        const globalCreate = (str) => {
+            if (str.toLowerCase() == "script") {
+                alert("Insufficient Permissions to create script elements!")
+            }
+            return document.createElement(str)
+        }
+    </script>
+	<script src="https://kit.fontawesome.com/99a9767404.js" crossorigin="anonymous"></script>
+	<script src="/js/main.js" type="module" defer></script>
+  </head>
+  <body>
+    <div class="desktop-symbols-container-outer" id="sysdsouter">
+        <div class="desktop-symbols-container" id="sysdscontainer"></div>
+    </div>
+    <!-- <div class="login-main">
+        <div class="login-container"> 
+            <input type="text" id="username" placeholder="username">
+            <div></div>
+            <input type="password" id="password" placeholder="password">
+            <input type="button" id="login" name="login" value="login">
+        </div> 
+    </div> -->
+
+    <div class="desktop-clock" id="clock-main" data-time="12:34" data-date="Monday, July 3rd 2036">
+
+    </div>
+
+    <div class="snap-preview" id="snapping-prev" data-visible="false"></div>
+    <!-- TASKBAR -->
+    <task-bar>
+        <taskbar-button id="home" data-action="home" data-ignore="startmenu"></taskbar-button>
+        <taskbar-button id="search" data-action="search" data-ignore="search"></taskbar-button>
+    </task-bar>
+    <!-- <notification-box data-visible="true">
+        <div class="notification-icon">
+            <img src="/media/icons?i=icons8-notepad-96.png">
+        </div>
+        <div class="notification-main">
+            <div class="notification-title">Notification Title oman pls to help</div>
+            <div class="notification-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+        </div>
+    </notification-box> -->
+    <!-- STARTMENU -->
+    <start-menu data-active="false" data-closeonfocus="true" data-ignore="startmenu">
+        <div class="sm-topbar" data-login="false" id="sm-topbar" data-ignore="startmenu">
+        </div>
+    </start-menu>
+    <desktop-search data-active="false" data-closeonfocus="true" data-ignore="search"><input type="text" data-type="desktopsearch" data-ignore="search"></desktop-search>
+    <noscript>
+        <div class="no-script" id="noscripterror">
+            <div class="noscript-background">
+                <div>
+                    <div class="noscript-icon"></div>
+                    <div class="noscript-warning"><p><b>This website requires Javascript</b><br>Please allow Javascript to access this site.</p></div>
+                </div>
+            </div>
+        </div>
+    </noscript>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+{
+    "users": [
+        {
+            "id": "000000000000",
+            "username": "username",
+            "nickname": "A funny nickname",
+            "email": "johndoe@example.com",
+            "banner": null,
+            "avatar": null,
+            "status": "offline",
+            "about": "Yep this is me",
+            "desktop_symbols": [
+                {
+                    "appid": "000000000001",
+                    "text": "example",
+                    "icon": null,
+                    "position": [1,4]
+                },
+                
+                {
+                    "appid": "aichat",
+                    "text": "AI Assistant",
+                    "icon": null,
+                    "position": [2,4]
+                },
+                
+                {
+                    "appid": "settings",
+                    "text": "Settings",
+                    "icon": null,
+                    "position": [2,3]
+                }
+            ]
+        },
+        {
+            "id": "203295914258",
+            "username": "user",
+            "nickname": null,
+            "email": "",
+            "banner": null,
+            "avatar": null,
+            "status": "online",
+            "about": null
+        }
+    ]
+}
