@@ -1,3 +1,27 @@
+/**
+ * Served to client on page load. Contains various eventListeners
+ * @file Handlers.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name UI:Handlers
+ * @see <a href="./client.Client_Handlers.html">Module</a>
+ */
+/**
+ * Served to client on page load. Contains various eventListeners
+ * @file Handlers.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name UI:Handlers
+ * @see <a href="./client.Client_Handlers.html">Module</a>
+ * @namespace ClientCode
+ */
+/**
+ * @module Handlers
+ * @memberof client
+ * @description Handlers.mjs is a collection of eventListener functions for various tasks
+ * @name UI:Handlers
+ * @author Smittel
+ */
 import * as Util from "./modules/Util.mjs";
 import * as Server from "./modules/Connect.mjs"
 import {handlers} from "./Error.mjs"
@@ -9,6 +33,13 @@ document.querySelector("taskbar-button#search").addEventListener("click", openSe
 
 document.addEventListener("mousedown", loseFocus);
 
+/**
+ * Creates the login screen when the login button is clicked. Sends requests to the Connect module and handles events within the login screen
+ * @see <a href="./client.Client_Connect.html">Connect</a>
+ * @param { Event } event 
+ * @method openLogin
+ * @name Export:openLogin
+ */
 function openLogin(event) {
     event.stopPropagation();
     function loginTbKeydown(event) {
@@ -106,6 +137,13 @@ function openLogin(event) {
     }
 }
 
+/**
+ * Creates signup DOM-Tree, sends signup requests to the Connect module and sets up events within the signup screen.
+ * @see <a href="./client.Client_Connect.html">Connect</a>
+ * @param { Event } event 
+ * @method openSignup
+ * @name Export:openSignup
+ */
 function openSignup(event) {
     let metRequirements = 0;
     function sendUsername(event) {
@@ -348,11 +386,23 @@ function openSignup(event) {
     document.body.append(loginscreen)
 }
 
+/**
+ * Toggles start menu
+ * @param { MouseEvent } event 
+ * @method openStartmenu
+ * @name Internal:openStartmenu
+ */
 function openStartmenu(event) {
     const startmenu = document.querySelector("start-menu");
     startmenu.dataset.active = startmenu.dataset.active == "false"
 }
 
+/**
+ * Toggles search bar
+ * @param { MouseEvent } event 
+ * @method openSearch
+ * @name Internal:openSearch
+ */
 function openSearch(event) {
     const search = document.querySelector("desktop-search");
     search.dataset.active = search.dataset.active == "false"
@@ -360,6 +410,14 @@ function openSearch(event) {
     search.children[0].focus();
 }
 
+/**
+ * If an element loses focus, this allows that element to have specific behaviours. For example: Elements with the data attribute "closeonfocus" set to "true" will set the data attribute "active" to "false", if another element is clicked. If the clicked element has the data attribute "ignore" set to "startmenu" or "search", the respective element will NOT be closed.
+ * @todo Allow multiple elements to be ignored
+ * @todo Allow elements to "register" for their own ignore tag
+ * @param { MouseEvent } event 
+ * @method loseFocus
+ * @name Internal:loseFocus
+ */
 function loseFocus(event) {
     let elements = document.querySelectorAll("[data-closeonfocus='true']")
     for (let e of elements) {
@@ -371,7 +429,16 @@ function loseFocus(event) {
     }
 }
 
-
+/**
+ * Makes request to connect module to open the settings app
+ * @see <a href="./client.Client_Connect.html">Connect</a>
+ * @todo Make event parameter optional by wrapping <code>e.stopPropagation()</code> in a try-catch block
+ * @todo Once optional: add to export
+ * @todo Let function take optional parameters for what settings submenu to initialise as
+ * @param { Event } e 
+ * @method openSettings
+ * @name Internal:openSettings
+ */
 function openSettings(e) {
     console.log("eventFIred")
     Server.System( {req: "fetch_app", data: { id: "settings" }})
@@ -389,9 +456,11 @@ let targetWindow = null;
 let resizeDirection = null;
 let originalWindow = null;
 /**
- * Saves the initial parameters required for properly resizing windows with the new and improved system
+ * Saves the initial parameters required for properly resizing windows with the new and improved system. The advantage compared to the CSS property <code>resize: both;</code> is, that this allows resizing on all edges in only one dimension as well as on all corners in both dimensions.
  * @listens mousedown
  * @param {Event} event 
+ * @method startResize
+ * @name Export:startResize
  */
 function startResize (event) {
 	mouseDown = true;
@@ -412,7 +481,8 @@ function startResize (event) {
  * Calculates the required new values for resizing the windows. Resizing from the top/left edge is equivalent to moving and resizing under the hood
  * @listens mousemove
  * @param {Event} event 
- * @returns 
+ * @method windowResize
+ * @name Export:windowResize
  */
 function windowResize(event) {
 	event.preventDefault()
@@ -485,6 +555,8 @@ function windowResize(event) {
  * Resets all initial values because they are no longer needed.
  * @listens mouseup
  * @param {Event} event 
+ * @method endResize
+ * @name Export:endResize
  */
 function endResize(event) {
     setTimeout(() => {

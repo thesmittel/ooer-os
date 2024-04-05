@@ -1,24 +1,43 @@
 /**
- * 
- * @file dragging.js
- *
- * @author W3Schools, minor changes by Smittel
+ * Served to client on page load. Handles dragging of windows
+ * @file Dragging.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name UI:Dragging
+ * @see <a href="./client.UI_Dragging.html">Module</a>
+ */
+/**
+ * Served to client on page load. Handles dragging of windows
+ * @file Dragging.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name UI:Dragging
+ * @see <a href="./client.UI_Dragging.html">Module</a>
+ * @namespace ClientCode
  */
 /**
  * @module Dragging
- * 
- * @description Disclaimer: Yes i know its not technically allowed. But its just the best thing i found that did it.
- * I imagine theres not many ways to do it vastly differently and i had to alter it slightly to make it
- * work for my purposes beyond just switching around some names. {@link https://www.w3schools.com/howto/howto_js_draggable.asp}
+ * @memberof client
+ * @description Technically a violation of the license. 
+ * In the future, there will be custom code, for now, a slightly 
+ * modified version of the original.
+ * will handle Dragging windows and other draggable elements, for 
+ * now, this isnt a high priority, being in the proof of concept stage.
+ * @name UI:Dragging
+ * @author W3Schools, minor changes by Smittel
+ * @see {@link https://www.w3schools.com/howto/howto_js_draggable.asp}
+ * @todo Replace with own approach that better suits the needs of the project (and doesnt violate the License)
  */
+
 import { getElement, clamp } from "./Util.mjs";
 import { maximiseWindow } from "./App.mjs";
 import { loseFocus } from "../Handlers.mjs";
+
 /**
- * Adds the necessary event handlers to a div to allow it to be dragged around.
- * If the container div does not have a child div with the id of the parent with "header" appended to it, it can be dragged from everywhere inside the div, if the header is present, only the header will trigger the event
- * @memberof module:Dragging
- * @param {DOMElement:div} elmnt The element to add the dragging function to
+ * Registers an element as draggable. Dragging is accomplished by listening to a mousedown event being fired
+ * @listens MouseEvent
+ * @param { HTMLElement } elmnt 
+ * @name Export:dragElement
  */
 function dragElement(elmnt) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -29,7 +48,12 @@ function dragElement(elmnt) {
     // otherwise, move the DIV from anywhere inside the DIV:
     // elmnt.onmousedown = dragMouseDown;
   }
-
+  /**
+   * Moves element that triggered the mousedown event, if the mouse is moved while held down. mouseup stops the dragging in place.
+   * @listens MouseEvent mouseup, mousemove
+   * @param { MouseEvent } e
+   * @name Internal:dragMouseDown
+   */
   function dragMouseDown(e) {
     loseFocus(e)
     e = e || window.event;
@@ -43,6 +67,12 @@ function dragElement(elmnt) {
     document.onmousemove = elementDrag;
   }
 
+  /**
+   * Adjusts the Elements style property, more specifically, the top and left offset in px based on the mouse position delta
+   * @param { MouseEvent } e 
+   * @listens MouseEvent mousemove
+   * @name Internal:elementDrag
+   */
   function elementDrag(e) {
     let target = e.target;
 
@@ -94,7 +124,12 @@ function dragElement(elmnt) {
 
 
   }
-
+  /**
+   * Stops the dragging by fixing the top and left offsets and removing the mouseup and mousemove listeners
+   * @listens MouseEvent mouseup
+   * @param { MouseEvent } e 
+   * @name Internal:closeDragElement
+   */
   function closeDragElement(e) {
     // e.stopPropagation();
     // stop moving when mouse button is released:

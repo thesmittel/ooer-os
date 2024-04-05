@@ -1,15 +1,59 @@
+/**
+ * Served to client on page load. Handles general tasks.
+ * @file System.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:System
+ * @see <a href="./client.Client_System.html">Module</a>
+ */
+/**
+ * Served to client on page load. Handles general tasks.
+ * @file System.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:System
+ * @see <a href="./client.Client_System.html">Module</a>
+ * @namespace ClientCode
+ */
+/**
+ * @module System
+ * @memberof client
+ * @description System.mjs handles general management, handles intercommunication between system apps, initialisation as well as general UI
+ * @name Client:System
+ * @author Smittel
+ */
+
 import { System as emit, App } from "./Connect.mjs"
 import { handlers } from "../Error.mjs";
 import * as Util from "./Util.mjs";
 
 let lastheartbeat = Date.now();
 
-let registeredSysApps = []
+/**
+ * @constant registeredSysApps Array of apps that registered for intercommunication
+ * @name Internal:registeredSysApps
+ */
+const registeredSysApps = []
 
+/**
+ * To be able to talk to other apps, it must first register using this function.
+ * @param {String} fullId The full id of the application instance (AppID + InstanceID + WindowID)
+ * @param {Function} func Callback function
+ * @method registerSysApp
+ * @name Export:registeredSysApp
+ * @todo Implement actual communications
+ */
 function registerSysApp(fullId, func) {
-    registerSysApp.push({id: fullId, handle: func})
+    registeredSysApps.push({id: fullId, handle: func})
 }
 
+/**
+ * Handles incoming server messages that passed through the Connect module.
+ * @see Client:Connect
+ * @param { Object } data Server Data
+ * @method handle
+ * @name Export:handle 
+ */
 function handle(data) {
     console.log("System", data)
     switch (data.res) {
@@ -27,6 +71,12 @@ function handle(data) {
     }
 }
 
+/**
+ * Sets up the desktop symbols supplied by the server based on user preference
+ * @param { Object } data Server Data
+ * @method setupDesktopSymbols
+ * @name Internal:setupDesktopSymbols 
+ */
 function setupDesktopSymbols({ data }) {
     const container = document.getElementById("sysdsouter");
 
@@ -56,7 +106,14 @@ function setupDesktopSymbols({ data }) {
         container.append(curr)
     }
 }
-// TODO: desktop symbol dragging
+
+/**
+ * Handles incoming server messages that passed through the Connect module.
+ * @param { Event } e 
+ * @method dragSymbol
+ * @name Internal:dragSymbol
+ * @todo Actually implement something
+ */
 function dragSymbol (e) {
     const timer = setTimeout(() => {
         alert("dragging")
@@ -65,6 +122,13 @@ function dragSymbol (e) {
     e.target.addEventListener("mouseup", () => {clearTimeout(timer)})
 }
 
+/**
+ * Creates a push notification including sliding in and out, deletes it after.
+ * @todo Add click listener with attached application, screen or other event
+ * @param { Object } notificationData Icon, title, text and app associated with the notification
+ * @method makeNotification
+ * @name Internal:makeNotification 
+ */
 function makeNotification({ icon, title, text, app }) {
     const box = Util.create({
         tagname: "notification-box",
@@ -118,4 +182,4 @@ function makeNotification({ icon, title, text, app }) {
 //     if (Date.now() - lastheartbeat > 10) handlers["S-0001"]({code: "S-0001", message: "Connection to server timed out"})
 // }, 1000)
 
-export { handle }
+export { handle, registerSysApp }

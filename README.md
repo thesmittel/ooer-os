@@ -8,11 +8,30 @@ It is more a proof of concept, a bit of fun, rather than anything useful.
 - `express`
 - `socket.io`
 
+
 ## THIS IS NOT READY TO USE. DO NOT ATTEMPT TO DO SO! 
-See section `Why isn't this ready?`
+Apart from the glaring security holes - MD5 hashing for password storage, with salt-hashed passwords being stored together with their salts - which are an immediate disqualification already, both backend and front end are far from finished. While some stuff works, and works well, im only so confident in my containment of non-system applications. I think I covered my bases but that assumption isnt worth the paper its written on. 
+Apart from that, most of the functionality is missing anyways, even apart from apps, so theres that. 
+I also plan on replacing the backend with rust, once i find the time for it, since i will be using this project to learn it. The advantages are clear, it'll be faster, cheaper and probably safer. 
 
 ## Current version:
-`0.1.240329`
+`0.1.240405`
+https://www.reddit.com/r/webdev/comments/shjcdc/does_anyone_have_any_recommendations_for_font/
+## Information regarding documentation
+Modules are divided into groups: `Server:`, `Client:`, `Sysapp:`, `App:` and `ThirdParty:`.
+They show these prefixes in the name so its clearer, which is which. 
+
+- `Client:` modules are front-end code that runs clientside
+- `Server:` is the back-end
+- `Sysapp:` are applications that are only sent to the user on demand, while retaining system-level privileges
+- `App:` are first-party applications that do not have system-level privileges
+- `ThirdParty:` explains third party applications and their limitations
+
+Functions and Properties within modules can have one of two prefixes:
+- `Internal:` means, it is not exported
+- `Export:` by extention needs no explanation
+
+Documentation is implemented via JSDoc. Works well in VSCode/Codium with JSDoc installed, you know how it works. A minifier will be provided, a simple script that removes all comments to reduce the filesize for eventual deployment. It will save into a separate directory, keeping the development copy intact.
 
 ## Features
 
@@ -90,5 +109,3 @@ Will document soon.
 Eventually, i plan on rewriting the backend entirely using a more "professional" approach instead of a Node.JS script and a billion modules but for now. I do not plan on using any frameworks for the front-end, this project is too different to what a website is "supposed" to be, i dont think those would be of much help, so i want to keep this as vanilla as possible. For now im sticking to EN (like M.E.A.N., but not.) Express/Socket.io plus Node on the backend, JSON WILL be replaced though, probably by MongoDB, not decided yet.
 Depending on how i feel i may even go serverless somewhere down the line, but i doubt it.
 
-## Why isnt this ready?
-In theory, you can sit down and write all the system applications yourself. So thats not a problem. The UI works, i am 85% confident that my system of containment works and you can log in, the content delivery, if you can call it that, does what its supposed to do. The issue is the remaining 15%. Also, passwords are stored (as salted hashes, im not that naive) in a JSON. There are no user settings at all, not even password changes. These will come when i add database support. 

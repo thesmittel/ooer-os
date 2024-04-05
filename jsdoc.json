@@ -1,15 +1,14 @@
 {
     "source": {
-        "include":["./", "./public/js/"],
-        "includePattern": ".js$",
-        "excludePattern": "(node_modules/|docs)"
+      "include": ["C:\\Users\\admin\\Documents\\final_webos\\web-os"],
+      "includePattern":".+\\.m?js(doc|x)?$",
+      "exclude": [
+        "node_modules", "docs"
+      ]
     },
-    "plugins": ["plugins/markdown"],
-    "templates": {
-        "cleverLinks": true,
-        "monospaceLinks": true
-    },
+    "sourceType": "module",
     "opts": {
-        "destination": "./docs"
+      "recurse": true,
+      "destination": "docs"
     }
 }

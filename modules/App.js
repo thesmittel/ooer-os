@@ -1,4 +1,36 @@
-
+/**
+ * Server module: handles application requests
+ * @file App.js
+ * @author Smittel
+ * @copyright 2024
+ * @name Server:App
+ * @see <a href="./client.Client_Auth.html">Server:App</a>
+ * @requires fs
+ * @requires url
+ * @todo Replace user password storage with a database instead of a JSON
+ */
+/**
+ * Server module: handles application requests
+ * @file App.js
+ * @author Smittel
+ * @copyright 2024
+ * @name Server:App
+ * @see <a href="./server.Server_App.html">Server:App</a>
+ * @namespace ServerCode
+ * @requires fs
+ * @requires url
+ * @todo Replace user password storage with a database instead of a JSON
+ */
+/**
+ * @module App
+ * @memberof server
+ * @description Server module: handles application requests
+ * @name Server:App
+ * @author Smittel
+ * @requires fs
+ * @requires url
+ * @todo Replace user password storage with a database instead of a JSON
+ */
 import * as fs from "fs"
 import * as url from 'url';
 const __filename = url.fileURLToPath(import.meta.url);

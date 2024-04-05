@@ -1,3 +1,36 @@
+/**
+ * Server module: handles System requests, opens system apps
+ * @file System.js
+ * @author Smittel
+ * @copyright 2024
+ * @name Server:System
+ * @see <a href="./client.Client_System.html">Server:System</a>
+ * @requires Crypto
+ * @requires fs
+ * @todo Application caching
+ */
+/**
+ * Server module: handles System requests, opens system apps
+ * @file System.js
+ * @author Smittel
+ * @copyright 2024
+ * @name Server:System
+ * @see <a href="./server.Server_System.html">Server:System</a>
+ * @namespace ServerCode
+ * @requires Crypto
+ * @requires fs
+ * @todo Application caching
+ */
+/**
+ * @module System
+ * @memberof server
+ * @description Server module: handles System requests, opens system apps
+ * @name Server:System
+ * @author Smittel
+ * @requires Crypto
+ * @requires fs
+ * @todo Application caching
+ */
 
 import * as fs from "fs"
 import * as url from 'url';
@@ -6,10 +39,16 @@ const __dirname = url.fileURLToPath(new URL('..', import.meta.url));
 
 let appDB = JSON.parse(fs.readFileSync("./applications/custom/db.json"))
 
-
-function grabApplication(socket, data) {
-    console.log(data)
-    const id = data.id;
+/**
+ * Takes the id of a system application, grabs the files and sends them
+ * @param { Socket } socket 
+ * @param { {id: String} } data Object containing the application id
+ * @emits Socket.emit:App
+ * @method grabApplication
+ * @name Export:grabApplication
+ */
+function grabApplication(socket, {id}) {
+    // const id = data.id;
     const appDir = __dirname + "applications/system/" + id + "/"
     console.log("app", appDir)
     fs.readFile(appDir + "config.json" , (err, res) => {

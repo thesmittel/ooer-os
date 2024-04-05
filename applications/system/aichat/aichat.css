@@ -225,6 +225,23 @@ div.textfield {
     min-height: 40px;
 }
 
+.textwrap {
+    position: absolute;
+    bottom: 0;
+    background-color: #fff3;
+    width: 100%;
+    display: block;
+    height: fit-content;
+    max-height: 120px;
+    overflow-y: scroll;
+}
+
+.textarea {
+    height: auto;
+    min-height: 20px;
+    display: block
+}
+
 .grow-wrap {
     /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
     display: grid;
@@ -323,7 +340,8 @@ a.send:active > i  {
     font-weight: 500;
     position: relative;
     width: fit-content;
-    word-wrap: break-word
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .message.human {

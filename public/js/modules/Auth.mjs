@@ -1,3 +1,27 @@
+/**
+ * Served to client on page load. Handles Authentication.
+ * @file Auth.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:Auth
+ * @see <a href="./client.Client_Auth.html">Module</a>
+ */
+/**
+ * Served to client on page load. Handles Authentication.
+ * @file Auth.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:Auth
+ * @see <a href="./client.Client_Auth.html">Module</a>
+ * @namespace ClientCode
+ */
+/**
+ * @module Auth
+ * @memberof client
+ * @description Auth.mjs handles login and authentification
+ * @name Client:Auth
+ * @author Smittel
+ */
 import { Auth as emit, System } from "./Connect.mjs"
 import { openSignup, openLogin, openSettings } from "../Handlers.mjs"
 import { create } from "./Util.mjs"
@@ -8,7 +32,9 @@ import {handlers} from "../Error.mjs"
 let login = {}
 
 /**
- * Called on load, checks if a session identification cookie is present, if so, it automatically logs in
+ * Called on load, checks if a session identification cookie is present, if so, it automatically logs in. <br>
+ * @method cookieLogin
+ * @name Export:cookieLogin
  */
 function cookieLogin() {
     if (document.cookie.length > 0) {
@@ -22,8 +48,11 @@ function cookieLogin() {
 
 
 /**
- * Entrypoint for all Auth related data coming from the server.
+ * Entrypoint for all authentification related data coming from the server, passed through Connect module.<br>
+ * @see Client:Connect
  * @param {Object} data 
+ * @method handle
+ * @name Export:handle
  */
 function handle(data) {
     if (data.error) {
@@ -61,7 +90,9 @@ function handle(data) {
 
 
 /**
- * Removes the error message for invalid email in signup
+ * Removes the error message for invalid email in signup. 
+ * @method validEmail
+ * @name Internal:validEmail
  */
 function validEmail() {
     const signup = document.querySelector("div#signup-container");
@@ -70,6 +101,8 @@ function validEmail() {
 
 /**
  * Removes the error message for unavailable username in signup
+ * @method usernameAvailable
+ * @name Internal:usernameAvailable
  */
 function usernameAvailable() {
     const signup = document.querySelector("div#signup-container");
@@ -77,7 +110,11 @@ function usernameAvailable() {
 }
 
 
-
+/**
+ * Clears the "Email already taken" error status
+ * @method emailAvailable
+ * @name Internal:emailAvailable
+ */
 function emailAvailable() {
     // console.log("email avb")
     const signup = document.querySelector("div#signup-container");
@@ -88,6 +125,8 @@ function emailAvailable() {
 /**
  * Logs out by deleting session cookie and sending a logout request to server, calls function that resets interface
  * @param {Event} event 
+ * @method userLogOut
+ * @name Internal:userLogOut
  */
 function userLogOut(event) {
     event.stopPropagation();
@@ -109,6 +148,8 @@ function userLogOut(event) {
 /**
  * Server response: successful login. Changes appearance of start menu
  * @param {Object} data 
+ * @method loggedin
+ * @name Internal:loggedin
  */
 function loggedin(data) {
     // console.log(data)
@@ -118,7 +159,8 @@ function loggedin(data) {
     smtopbar.dataset.login = "true"
     document.cookie = `userid=${data["user-id"]};expires=${expire};SameSite=Strict;secure`
 	document.cookie = `token=${data.token};expires=${expire};SameSite=Strict;secure` 
-	login = {id: data.id, token: data.token, expires: data.expires};
+    console.log(data)
+	login = {id: data.id, token: data.token, expires: data.expires, cache: data.cache};
     smtopbar.innerHTML = "";
 
     let userpfp = data.cache.avatar?`/media/images?i=${data.cache.avatar}`:`/media/images?i=default.jpg`;
@@ -187,6 +229,8 @@ function loggedin(data) {
 /**
  * When user logs out, deletes desktop symbols as well as changing the start menu to the "logged out" state
  * @todo remove desktop symbols, close windows
+ * @method loggedout
+ * @name Internal:loggedout
  */
 function loggedout() {
     const smtopbar =  document.querySelector("div#sm-topbar")
@@ -216,6 +260,17 @@ function loggedout() {
     document.querySelectorAll("div.window").forEach(a => a.remove())
 }
 
-export {handle, cookieLogin}
+/**
+ * Returns the username from the userdata returned from the server, so as to not expose anything else<br>
+ * <code>Export</code>
+ * @returns Username
+ * @method username
+ * @name Export:username
+ */
+function username() {
+    return login.cache.username
+}
+
+export {handle, cookieLogin, username}
 
 

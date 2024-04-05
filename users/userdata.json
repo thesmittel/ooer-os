@@ -29,6 +29,20 @@
                     "text": "Settings",
                     "icon": null,
                     "position": [2,3]
+                },
+                
+                {
+                    "appid": "notepad",
+                    "text": "Notepad",
+                    "icon": null,
+                    "position": [1,3]
+                },
+                
+                {
+                    "appid": "terminal",
+                    "text": "Terminal",
+                    "icon": null,
+                    "position": [1,5]
                 }
             ]
         },

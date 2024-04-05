@@ -16,7 +16,7 @@ const input = body.querySelector("textarea#text")
 const conversation = main.querySelector("div#conversation")
 let bubbles = body.querySelector("div.bubbles");
 const send = body.querySelector("a#send");
-const textbox = body.querySelector("textarea#text")
+const textbox = body.querySelector("span#text");
 
 function toggleSideMenu(e) {
     e.stopPropagation();
@@ -79,9 +79,15 @@ function valueChanged(e) {
     }, 1)
 }
 
+
+
 send.addEventListener("click", () => {
+    
+    console.log(input.value)
+    
+    console.log(input.inner)
     if (input.value.trim()) {
-        makeBubble({from: "human", content: input.value.replaceAll(/\r?\n/g, "<br>")})
+        makeBubble({from: "human", content: input.value}) // .replaceAll(/(?=\r?\n)/g, "<br>")
         input.value = ""
     }
     input.dispatchEvent(new Event('input', {
@@ -116,7 +122,7 @@ const data = {
         {from: "ai", content: "3"},
         {from: "human", content: " 4"},
         {from: "human", content: "5"},
-        {from: "ai", content: "6"},
+        {from: "ai", content: "The following is inside a tag: <b>test</b>"},
         {from: "ai", content: "7"},
         {from: "human", content: "8=========dshgiusd gdsiugsdiug uszguzag regfzua gd ag uzdsgfu gafougfuz egu zagfuzfgzu sebgvc fvzu ewsda vbgfuzv================="},
         {from: "ai", content: "9"},
@@ -153,15 +159,20 @@ const intvl = setInterval(() => {
     if (index == 17) clearInterval(intvl)
 }, 100);
 
+
+function sanitise(text) {
+    return text.replaceAll(/</g, "&lt;");
+}
+
 function makeBubble({from, content}) {
     const bubble = create({
         tagname: "div",
         classList: ["messageparent", from],
         childElements: [
             {
-                tagname: "div",
+                tagname: "pre",
                 classList: ["message", from],
-                innerHTML: content
+                innerHTML: content//sanitise(content)
             }
         ]
     })
