@@ -7,7 +7,7 @@ It is more a proof of concept, a bit of fun, rather than anything useful.
 - Node, exact minimum compatible version unknown, i estimate at least v16, potentially v18, but v21 is advised
 - `express`
 - `socket.io`
-
+https://www.reddit.com/r/webdev/comments/shjcdc/does_anyone_have_any_recommendations_for_font/
 
 ## THIS IS NOT READY TO USE. DO NOT ATTEMPT TO DO SO! 
 Apart from the glaring security holes - MD5 hashing for password storage, with salt-hashed passwords being stored together with their salts - which are an immediate disqualification already, both backend and front end are far from finished. While some stuff works, and works well, im only so confident in my containment of non-system applications. I think I covered my bases but that assumption isnt worth the paper its written on. 
@@ -40,7 +40,8 @@ Documentation is implemented via JSDoc. Works well in VSCode/Codium with JSDoc i
 - Still lacking actual functionality
 - Push notifications (Have to go through server)
     - Must be said: this does not use the notification feature that some websites insist you allow them to use. Push notifications are entirely within the DOM, showing up briefly on the top center of the screen
-- Customisable desktop symbols to launch apps
+- Customisable desktop symbols to launch apps (only customisable via back end)
+
 
 ### Windows
 Can be moved, closed, minimised, support snapping (so far only for maximising). Taskbar is present and functional, though not yet finished, window previews as well as app instance groups will soon be added.
