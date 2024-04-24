@@ -1,10 +1,38 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: public/js/modules/Window.mjs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: public/js/modules/Window.mjs</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * Contains code relating to windows
  * @file Window.mjs
  * @author Smittel
  * @copyright 2024
  * @name Client:Window
- * @see <a href="./client.Client_Window.html">Module</a>
+ * @see &lt;a href="./client.Client_Window.html">Module&lt;/a>
  */
 /**
  * Contains code relating to windows
@@ -12,7 +40,7 @@
  * @author Smittel
  * @copyright 2024
  * @name Client:Window
- * @see <a href="./client.Client_Window.html">Module</a>
+ * @see &lt;a href="./client.Client_Window.html">Module&lt;/a>
  * @namespace ClientCode
  */
 /**
@@ -48,7 +76,7 @@ function addAppInstanceObjectRef(obj) {
  * @classdesc Holds the data for a window, creates the relevant DOM Elements and appends to DOM
  * @member Window
  * @name Export:Window
- * @see <a href="./client.Client_Window.html">Internal:Window</a>
+ * @see &lt;a href="./client.Client_Window.html">Internal:Window&lt;/a>
  * @todo Figure out how to document stuff inside these classes :/
  */
 class Window {
@@ -87,7 +115,7 @@ class Window {
             tagname: "a",
             id: "windowcontrolbutton",
             dataset: { action: "cls" },
-            innerHTML: '<i id="windowcontrollbuttonicon" class="fa-solid fa-xmark"></i>',
+            innerHTML: '&lt;i id="windowcontrollbuttonicon" class="fa-solid fa-xmark">&lt;/i>',
             eventListener: {
                 click: this.close,
                 mousedown: (e) => { e.stopPropagation() }
@@ -98,7 +126,7 @@ class Window {
             tagname: "a",
             id: "windowcontrolbutton",
             dataset: { action: "min" },
-            innerHTML: '<i class="fa-solid fa-window-minimize fa-xs"></i>',
+            innerHTML: '&lt;i class="fa-solid fa-window-minimize fa-xs">&lt;/i>',
             eventListener: {
                 click: (e) => {
                     getParentWindow(e.target).dataset.minimised = "true"
@@ -133,7 +161,7 @@ class Window {
                 },
                 mousedown: (e) => { e.stopPropagation() }
             },
-            innerHTML: '<i class="fa-regular fa-window-restore"></i>'
+            innerHTML: '&lt;i class="fa-regular fa-window-restore">&lt;/i>'
         })
 
         const maximiseButton = create({
@@ -162,7 +190,7 @@ class Window {
                 },
                 mousedown: (e) => { e.stopPropagation() }
             },
-            innerHTML: '<i class="fa-regular fa-window-maximize fa-xs"></i>'
+            innerHTML: '&lt;i class="fa-regular fa-window-maximize fa-xs">&lt;/i>'
         })
 
         this.#style = create({
@@ -298,7 +326,7 @@ class Window {
         });
 
         this.windowObject = w;
-        if (data.js != undefined && data.js != "") {
+        if (data.js != undefined &amp;&amp; data.js != "") {
             this.#script = this.#addScript(data.js, this.windowObject, this.#app_id, this.#instance_id, this.windowId, this.#windowBody)
         }
 
@@ -352,7 +380,7 @@ class Window {
      * @todo make security related code modifications serverside
      * @todo attach listener function to script object that can be accessed within the script but not outside
      * @todo find way to allow intervals - idea: override setInterval with function that creates a variable in an object thats saved in this module of the following format:
-     * <code>
+     * &lt;code>
      * {
      *  appid: {
      *      instanceid: {
@@ -420,7 +448,7 @@ class Window {
         })
 
         script.type = "text/javascript";
-        js = js.replace(`"<application>"`, `const application = globalGetElementById("${windowbody.application.bodyid}").application`)
+        js = js.replace(`"&lt;application>"`, `const application = globalGetElementById("${windowbody.application.bodyid}").application`)
         /* TO DO:
             Theres a potential "exploit" with spawned webworkers with foreign scripts.
             Test, if possible, if so, patch
@@ -428,15 +456,16 @@ class Window {
         switch (this.#privilege) {
             case 0:  // fallthrough
             default: // Default permissions: only access to content of windowbody
+                script.innerHTML = `const ${id} = () => {${js}}; ${id}();`
+                break;
             case 1: // Elevated permissions: access to entire window of app
-                // Different permission levels are handled serverside
                 script.innerHTML = `const ${id} = () => {${js}}; ${id}();`
                 break;
             case 2: // System permissions: all global objects are available. scripts are treated as modules.
                 script.innerHTML = js;
                 console.log(script.innerHTML)
                 script.type = "module"
-                break;
+                break;application
         }
         // End of code that must be serverside
         script.listen = () => { }
@@ -449,9 +478,9 @@ class Window {
 
 
 /**
- * Finds the parent window of an element by walking up the DOM Tree until it finds an ID that matches the format used by windows.<br>
+ * Finds the parent window of an element by walking up the DOM Tree until it finds an ID that matches the format used by windows.&lt;br>
  * @param { DOMElement } el 
- * @returns DOMElement, if window was found, <code>null</code> if given element was not part of a window
+ * @returns DOMElement, if window was found, &lt;code>null&lt;/code> if given element was not part of a window
  * @method getParentWindow
  * @name Export:getParentWindow
  */
@@ -512,7 +541,7 @@ let targetWindow = null;
 let resizeDirection = null;
 let originalWindow = null;
 /**
- * Saves the initial parameters required for properly resizing windows with the new and improved system. The advantage compared to the CSS property <code>resize: both;</code> is, that this allows resizing on all edges in only one dimension as well as on all corners in both dimensions.
+ * Saves the initial parameters required for properly resizing windows with the new and improved system. The advantage compared to the CSS property &lt;code>resize: both;&lt;/code> is, that this allows resizing on all edges in only one dimension as well as on all corners in both dimensions.
  * @listens mousedown
  * @param {Event} event 
  * @method startResize
@@ -550,25 +579,25 @@ function windowResize(event) {
     function top(target) {
         let newTopTop = originalWindow[2] - (initialMouseY - event.clientY);
         let newTopHeight = originalWindow[1] + (initialMouseY - event.clientY);
-        if (newTopHeight < target.dataset.minHeight) return
-        if (newTopTop < 0 || newTopTop > window.innerHeight - 30) return
+        if (newTopHeight &lt; target.dataset.minHeight) return
+        if (newTopTop &lt; 0 || newTopTop > window.innerHeight - 30) return
         target.style.height = newTopHeight + "px"
         target.style.top = newTopTop + "px"
     }
     function left(target) {
         let newval = originalWindow[0] - (initialMouseX - event.clientX);
-        if (newval < target.dataset.minWidth) return;
+        if (newval &lt; target.dataset.minWidth) return;
         target.style.width = newval + "px";
     }
     function bottom(target) {
         let newBottomHeight = originalWindow[1] - (initialMouseY - event.clientY)
-        if (newBottomHeight < target.dataset.minHeight) return
+        if (newBottomHeight &lt; target.dataset.minHeight) return
         target.style.height = newBottomHeight + "px"
     }
     function right(target) {
         let newRightLeft = originalWindow[3] - (initialMouseX - event.clientX);
         let newRightWidth = originalWindow[0] + (initialMouseX - event.clientX);
-        if (newRightWidth < target.dataset.minWidth) return;
+        if (newRightWidth &lt; target.dataset.minWidth) return;
         target.style.width = newRightWidth + "px";
         target.style.left = newRightLeft + "px";
     }
@@ -648,7 +677,7 @@ let onButton = false;
 
 /**
  * Adds a small preview to the taskbar icon on hover by creating a deep copy of the window at the time of the hover event, then scaling it down via CSS scale to preserve aspect ratio, while also retaining the layout of the window
- * The HTML spec sadly lacks widespread support for <code>&lt;element&gt;</code>, so a deep copy has to be created. 
+ * The HTML spec sadly lacks widespread support for &lt;code>&amp;lt;element&amp;gt;&lt;/code>, so a deep copy has to be created. 
  * It is not a live preview, doing so would mean a massive performance hit.
  * @param {MouseEvent} mouseover
  * @method taskbarSymbolAddWindowPreview
@@ -872,4 +901,26 @@ function taskbarIconClick(e, windowid, instanceid, appid) {
     }
 }
 
-export { Window, getParentWindow, addAppInstanceObjectRef, maximiseWindow }
+export { Window, getParentWindow, addAppInstanceObjectRef, maximiseWindow }</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="Client_main.html">Client:main</a></li><li><a href="client.Client_App.html">Client:App</a></li><li><a href="client.Client_Auth.html">Client:Auth</a></li><li><a href="client.Client_Client.html">Client:Client</a></li><li><a href="client.Client_Connect.html">Client:Connect</a></li><li><a href="client.Client_Error.html">Client:Error</a></li><li><a href="client.Client_System.html">Client:System</a></li><li><a href="client.Client_Util.html">Client:Util</a></li><li><a href="client.Client_Window.html">Client:Window</a></li><li><a href="client.UI_Dragging.html">UI:Dragging</a></li><li><a href="client.UI_Handlers.html">UI:Handlers</a></li><li><a href="server.Server_App.html">Server:App</a></li><li><a href="server.Server_Auth.html">Server:Auth</a></li><li><a href="server.Server_System.html">Server:System</a></li><li><a href="server.Server_main.html">Server:main</a></li><li><a href="sysapp.Sysapp_Terminal.html">Sysapp:Terminal</a></li></ul><h3>Namespaces</h3><ul><li><a href="ClientCode.html">ClientCode</a></li><li><a href="ServerCode.html">ServerCode</a></li><li><a href="SystemApplications.html">SystemApplications</a></li></ul><h3>Classes</h3><ul><li><a href="client.Client_App-App.html">App</a></li><li><a href="client.Client_Window-Window.html">Window</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Apr 24 2024 16:28:46 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

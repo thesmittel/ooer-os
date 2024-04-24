@@ -6,7 +6,7 @@
     "windows": [{
         "defaultWidth": 800,
         "defaultHeight": 600,
-        "minWidth": 120,
+        "minWidth": 200,
         "minHeight": 60,
         "resizable": true,
         "title": "Terminal",

@@ -1,6 +1,6 @@
 {
     "source": {
-      "include": ["C:\\Users\\admin\\Documents\\final_webos\\web-os"],
+      "include": ["."],
       "includePattern":".+\\.m?js(doc|x)?$",
       "exclude": [
         "node_modules", "docs"

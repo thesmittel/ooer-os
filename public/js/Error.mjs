@@ -152,18 +152,25 @@ function errorDialog({ title, description, type, buttons, blocked, parent }) {
     parent.append(error)
 }
 
-
+/**
+ * handlers defines functions necessary to handle error codes.
+ * These errorcodes, or more accurately status codes, are limited for now, only explicitly marking which module threw them.
+ * The end goal is to assign numbers to different concepts, for example:
+ * <code> A-0001 </code> will turn into <code> A-LG-IC-U </code> meaning Auth: Login-Invalid Credentials: Username<br>
+ * However, they will probably still be converted back to collections of numbers
+ * @member handlers
+ */
 const handlers = {
-    "A-0001": invalidCredentials,
-    "A-0002": invalidCredentials,
-    "A-0003": usernameTaken,
-    "A-0004": emailTaken,
-    "A-0005": criteriaNotMet,
-    "A-0006": passwordsDontMatch,
-    "A-0007": passwordRequired,
-    "A-0008": invalidEmail,
-    "A-0009": invalidUsername,
-    "S-0001": connectionTimedOut
+    "A-0001": invalidCredentials, // A-LG-IC-U Auth; Login; invalid credentials: Username
+    "A-0002": invalidCredentials, // A-LG-IC-P Auth; Login; invalid credentials: Password
+    "A-0003": usernameTaken,      // A-SU-NA-U Auth: Signup, not available: Username
+    "A-0004": emailTaken,         // A-SU-NA-E Auth: Signup, not available: Email
+    "A-0005": criteriaNotMet,     // A-SU-II-C Auth; Signup; Invalid Input: Password Criteria not met
+    "A-0006": passwordsDontMatch, // A-SU-II-M Auth; Signup; Invalid Input: Passwords dont match
+    "A-0007": passwordRequired,   // A-SU-II-P Auth; Signup; Invalid Input: No Password entered
+    "A-0008": invalidEmail,       // A-SU-II-E Auth; Signup; Invalid Input: Invalid Email
+    "A-0009": invalidUsername,    // A-SU-II-U Auth; Signup; Invalid Input: Invalid Username
+    "S-0001": connectionTimedOut  // S-SC-CTO  System; Server Connection; Connection timed out
 }
 
 export { handlers, errorDialog }

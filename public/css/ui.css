@@ -1,5 +1,12 @@
 /* This file defines some reusable UI elements */
 
+*, :root {
+    --white-glass-color: #fff4;
+    --glass-blur: blur(15px);
+    --window-color: #0009;
+    --header-color: transparent;
+}
+
 /* ERROR MESSAGES */
 error-button {
     height: 24px;
@@ -297,4 +304,59 @@ start-menu[data-active="true"] {
     bottom: calc(3% + 60px);
     height: 400px;
     transition: all 0.1s ease-in-out;
+}
+
+
+desktop-search {
+    height: 24px;
+    bottom: -30px;
+    position: fixed;
+    left: 50%;
+    width: 400px;
+    transform: translateX(-50%);
+    display: block;
+    background-color: #0008;
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding-block: 3px;
+    padding-inline: 12px;
+    transition: all 0.1s ease-in;
+    z-index: 10000;
+    opacity:0;
+}
+
+desktop-search[data-active="true"] {
+    bottom: calc(3% + 60px);
+    transition: all 0.1s ease-out;
+    opacity:1
+}
+
+
+notification-box {
+    display: grid;
+    position: fixed;
+    transition: top 1s ease-out;
+    top: -80px;
+    transform: translateX(-50%);
+    left: 50%;
+    background-color: #0008;
+    backdrop-filter: blur(15px);
+    width: 320px;
+    height: 70px;
+    grid-template-columns: 70px 240px;
+    padding: 3px;
+    column-gap: 10px;
+    border-radius: 6px;
+    z-index: 10001;
+    color: #222;
+}
+
+notification-box[data-visible="false"] {
+    transition: top 0.1s ease-out;
+    top: -80px;
+}
+
+notification-box[data-visible="true"] {
+    transition: top 0.1s ease-in;
+    top: 48px;
 }

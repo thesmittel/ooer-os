@@ -1,3 +1,5 @@
+/* reconsider, if this should be loaded on page start or sent on request later */
+
 login-main {
     display: flex;
     height: 100%;

@@ -8,8 +8,7 @@ import * as Connect from "./modules/Connect.mjs"
 import * as Handler from "./Handlers.mjs"
 
 
-document.addEventListener("mousemove", Handler.windowResize);
-document.addEventListener("mouseup", Handler.endResize)
+
 // document.getElementById("login").addEventListener("click", Auth.login)
 
 

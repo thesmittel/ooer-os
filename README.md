@@ -15,7 +15,7 @@ Apart from that, most of the functionality is missing anyways, even apart from a
 I also plan on replacing the backend with rust, once i find the time for it, since i will be using this project to learn it. The advantages are clear, it'll be faster, cheaper and probably safer. 
 
 ## Current version:
-`0.1.240405`
+`0.1.240424`
 https://www.reddit.com/r/webdev/comments/shjcdc/does_anyone_have_any_recommendations_for_font/
 ## Information regarding documentation
 Modules are divided into groups: `Server:`, `Client:`, `Sysapp:`, `App:` and `ThirdParty:`.

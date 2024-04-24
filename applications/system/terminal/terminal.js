@@ -1,48 +1,72 @@
 /**
- * System Application: Terminal (WIP)
+ * System Application: Terminal (WIP)<br>
+ * This will soon include mostly documentation on the terminal itself, how commands are parsed and how to add new ones.
  * @file terminal.js
  * @author Smittel
  * @copyright 2024
  * @name Sysapp:Terminal
- * @see <a href="./sysapp.Sysapp_Terminal.html">Server:System</a>
- * @todo Application caching
+ * @see <a href="./sysapp.Sysapp_Terminal.html">Sysapp:Terminal</a>
+ * @todo Text input
+ * @todo Syntax highlighting
+ * @todo command history, probably comes for free when the command is in a data attribute of a child of a bigger container
+ * @todo these two require the same workaround as last time with manual in-code focussing of invisible textbox, putting text content of said textbox into a &lt;p> with syntax highlighting and ideally have the raw command be places in a data attribute of said &lt;p>
+ * @todo implement first rudimentary commands
+ * @todo filesystem
+ * @todo parser for more complex operations like piping
+ * @todo permissions
  */
 /**
- * System Application: Terminal (WIP)
+ * System Application: Terminal (WIP)<br>
+ * This will soon include mostly documentation on the terminal itself, how commands are parsed and how to add new ones.
  * @file terminal.js
  * @author Smittel
  * @copyright 2024
  * @name Sysapp:Terminal
- * @see <a href="./sysapp.Sysapp_Terminal.html">Server:System</a>
+ * @see <a href="./sysapp.Sysapp_Terminal.html">Sysapp:Terminal</a>
  * @namespace SystemApplications
  * @requires Client:Auth
  * @requires Client:Util
  * @requires Client:Connect
  * @requires Client:App
- * @todo Application caching
+ * @todo Text input
+ * @todo Syntax highlighting
+ * @todo command history, probably comes for free when the command is in a data attribute of a child of a bigger container
+ * @todo these two require the same workaround as last time with manual in-code focussing of invisible textbox, putting text content of said textbox into a &lt;p> with syntax highlighting and ideally have the raw command be places in a data attribute of said &lt;p>
+ * @todo implement first rudimentary commands
+ * @todo filesystem
+ * @todo parser for more complex operations like piping
+ * @todo permissions
  */
 /**
  * @module Terminal
  * @memberof sysapp
- * @description System Application: Terminal (WIP)
+ * @description System Application: Terminal (WIP)<br>
+ * This will soon include mostly documentation on the terminal itself, how commands are parsed and how to add new ones.
  * @name Sysapp:Terminal
  * @author Smittel
  * @requires Client:Auth
  * @requires Client:Util
  * @requires Client:Connect
  * @requires Client:App
- * @todo Application caching
+ * @todo Text input
+ * @todo Syntax highlighting
+ * @todo command history, probably comes for free when the command is in a data attribute of a child of a bigger container
+ * @todo these two require the same workaround as last time with manual in-code focussing of invisible textbox, putting text content of said textbox into a &lt;p> with syntax highlighting and ideally have the raw command be places in a data attribute of said &lt;p>
+ * @todo implement first rudimentary commands
+ * @todo filesystem
+ * @todo parser for more complex operations like piping
+ * @todo permissions
  */
 /** 
- * @member
+ * @member "&lt;import>"
  * @name Import Syntax 
  * @summary To use Imports, put your imports at the top of the file like in the example. <code>"&lt;import&gt;"</code> and <code>"&lt;/import&gt;"</code> are used to mark said imports. This is critical, as otherwise, imports wont work. They need to be on separate lines. Note that some editors will autofill incorrect paths, using the local file system to determine relative paths. This obviously needs to be changed, the correct path is <code>/js/</code>, since everything on the clients end is relative to the <code>/public/</code> directory. Imports are only available for system applications, by design and definition. Non-system applications must not have the same level of access. Conversely, system apps often do need the access to system functionality.
- * @example "&lt;import&gt;"
+ * @example "<​import>"
  * import { username } from "/js/modules/Auth.mjs"
  * import { getElement } from "/js/modules/Util.mjs"
  * import { App } from "/js/modules/Connect.mjs"
  * import { registerListener } from "/js/modules/App.mjs"
- * "&lt;/import&gt;"
+ * "<​/import>"
  * 
 */
 "<import>"

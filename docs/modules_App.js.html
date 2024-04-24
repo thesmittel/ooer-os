@@ -67,24 +67,67 @@ const __dirname = url.fileURLToPath(new URL('..', import.meta.url));
 let appDB = JSON.parse(fs.readFileSync("./applications/custom/db.json"))
 
 function grabApplication(socket, data) {
+    console.log("grabApp")
     const id = data.id;
     const appDir = __dirname + "/applications/custom/" + id + "/"
     fs.readFile(appDir + "config.json" , (err, res) => {
         let config = JSON.parse(res)
         let count = 3 * config.windows.length;
 
+        const scripttemplate = [`
+const setInterval = () => {throw new Error("Intervals are forbidden")};
+const globalThis = {};self = {};frames = {}
+"&lt;application>"
+const body = globalGetElementById(application.bodyid)
+const socket = {}
+const document = {
+    getElementById: (str) => {
+        return globalGetElementById(application.windowid).querySelector("#" + str)
+    },
+    create: (str) => {
+        return globalCreate(str)
+    }
+};`,
+["", `const window = globalGetElementById(application.windowid);`],
+`const getParent = (e, n = 1) => {
+    if (e == undefined) {
+        throw new ValueError("element is undefined")
+    }
+    for (let i = 0; i &lt; n; i++) {
+        try {
+            if (e.parentNode == document.getElementById(application.windowid)) return e;
+            e = e.parentNode;
+        } catch (err) {
+        }
+    }
+    return e;
+};`,
+        ]
+        /**
+         * This abomination removes all evals in their entirety with symmetrical parenthesis, as well as other important things. Overriding them would probably be better, but that wont work for parentNode for example.
+         * @member
+         * @type RegExp
+         * @returns { RegExp }
+         */
+        const reggie = () => /([^;\n]*?(eval *?\([^)(]*(?:\([^)(]*(?:\([^)(]*(?:\([^)(]*\)[^)(]*)*\)[^)(]*)*\)[^)(]*)*\))|((?&lt;=;|\n)[^;\r\n]*?((previous(Element)?Sibling)|(parent(Element|Node)|ownerDocument)).*?[;|\r?\n]))/gi;
+        function cbj(res, n, file) {
+            let ret = res.toString().replaceAll(reggie, "");
+            ret = scripttemplate[0] + (scripttemplate[1][appDB[id].permissions] || "") + scripttemplate[2] + ret;
+            cb(ret, n, file)
+        }
         function cb(res, n, file) {
             // if (file == "js") {
             //     res = res.toString().replace(/ +/g, " ").replace(/(\t)/g, "").replace(/(\r?\n)/g, ";")
             // }
+            
             config.windows[n][file] = res.toString();
             count--;
-            
             if (!count) send()
         }
+    console.log(appDB[id].permissions)
         for (let w = 0; w &lt; config.windows.length; w++) {
             fs.readFile(appDir + config.windows[w].html, (err, res)=>{cb(res, w, "html")})
-            fs.readFile(appDir + config.windows[w].js, (err, res)=>{cb(res, w, "js")})
+            fs.readFile(appDir + config.windows[w].js, (err, res)=>{cbj(res, w, "js")})
             fs.readFile(appDir + config.windows[w].css, (err, res)=>{cb(res, w, "css")})
         }
         
@@ -96,7 +139,7 @@ function grabApplication(socket, data) {
             // config.windows[0].js = `function getScriptWorker(foo) {return window.URL.createObjectURL(new Blob([foo], {type: "text/javascript"}))};function protectCode(code) {let worker  = new Worker(getScriptWorker(code))};protectCode(${config.windows[0].js.replace(/\r/g, "")})`;
             // 
             // config.windows[0].js = config.windows[0].js.replace(/([^;\n]*?((document)|(process)|(window))(\n*).*?(;|\n|$)|(eval\([^)(]*(?:\([^)(]*(?:\([^)(]*(?:\([^)(]*\)[^)(]*)*\)[^)(]*)*\)[^)(]*)*\))|[^\n].*?parentNode.*?(;|$|\n))/gi, "")
-            
+            // (?&lt;=;|\n)[^;\n]*?((previous(Element)?Sibling)|(parent(Element|Node)|ownerDocument)).*?[;|\n]
             let appObj = {
                 config: {
                     windows: config.windows,
@@ -127,13 +170,13 @@ export {grabApplication}</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="Client_main.html">Client:main</a></li><li><a href="client.Client_App.html">Client:App</a></li><li><a href="client.Client_Auth.html">Client:Auth</a></li><li><a href="client.Client_Client.html">Client:Client</a></li><li><a href="client.Client_Connect.html">Client:Connect</a></li><li><a href="client.Client_Error.html">Client:Error</a></li><li><a href="client.Client_System.html">Client:System</a></li><li><a href="client.Client_Util.html">Client:Util</a></li><li><a href="client.UI_Dragging.html">UI:Dragging</a></li><li><a href="client.UI_Handlers.html">UI:Handlers</a></li><li><a href="server.Server_App.html">Server:App</a></li><li><a href="server.Server_Auth.html">Server:Auth</a></li><li><a href="server.Server_System.html">Server:System</a></li><li><a href="server.Server_main.html">Server:main</a></li><li><a href="sysapp.Sysapp_Terminal.html">Sysapp:Terminal</a></li></ul><h3>Namespaces</h3><ul><li><a href="ClientCode.html">ClientCode</a></li><li><a href="ServerCode.html">ServerCode</a></li><li><a href="SystemApplications.html">SystemApplications</a></li></ul><h3>Classes</h3><ul><li><a href="client.Client_App-App.html">App</a></li><li><a href="client.Client_App-Window.html">Window</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="Client_main.html">Client:main</a></li><li><a href="client.Client_App.html">Client:App</a></li><li><a href="client.Client_Auth.html">Client:Auth</a></li><li><a href="client.Client_Client.html">Client:Client</a></li><li><a href="client.Client_Connect.html">Client:Connect</a></li><li><a href="client.Client_Error.html">Client:Error</a></li><li><a href="client.Client_System.html">Client:System</a></li><li><a href="client.Client_Util.html">Client:Util</a></li><li><a href="client.Client_Window.html">Client:Window</a></li><li><a href="client.UI_Dragging.html">UI:Dragging</a></li><li><a href="client.UI_Handlers.html">UI:Handlers</a></li><li><a href="server.Server_App.html">Server:App</a></li><li><a href="server.Server_Auth.html">Server:Auth</a></li><li><a href="server.Server_System.html">Server:System</a></li><li><a href="server.Server_main.html">Server:main</a></li><li><a href="sysapp.Sysapp_Terminal.html">Sysapp:Terminal</a></li></ul><h3>Namespaces</h3><ul><li><a href="ClientCode.html">ClientCode</a></li><li><a href="ServerCode.html">ServerCode</a></li><li><a href="SystemApplications.html">SystemApplications</a></li></ul><h3>Classes</h3><ul><li><a href="client.Client_App-App.html">App</a></li><li><a href="client.Client_Window-Window.html">Window</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Apr 05 2024 12:12:56 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Apr 24 2024 16:28:46 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

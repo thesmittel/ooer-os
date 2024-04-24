@@ -16,6 +16,12 @@
                     "icon": null,
                     "position": [1,4]
                 },
+                {
+                    "appid": "000000000002",
+                    "text": "aaa",
+                    "icon": null,
+                    "position": [4,3]
+                },
                 
                 {
                     "appid": "aichat",
@@ -43,6 +49,13 @@
                     "text": "Terminal",
                     "icon": null,
                     "position": [1,5]
+                },
+                
+                {
+                    "appid": "settings_app",
+                    "text": "Settings2",
+                    "icon": null,
+                    "position": [1,6]
                 }
             ]
         },

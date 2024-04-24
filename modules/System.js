@@ -55,18 +55,32 @@ function grabApplication(socket, {id}) {
         let config = JSON.parse(res)
         let count = 3 * config.windows.length;
 
+        function cbj(res, n, file) {
+            res = res.toString();
+            const imports = (res.match(/(?<="<import>"\r?\n)[\w\W]*?(?=\r?\n+"<\/import>")/g)||[])
+                // remove manually added registerListener import, mostly convenience but this will be the mechanism used later when level 1 apps get listeners too, once i figure out how to make the original __regList unreachable
+                .filter(a => !a.match(/import *?{ *?registerListener.*?} *?from *?"\/js\/modules\/app\.mjs"[ ;\r]*\n?/g));
+            
+            const code = res.replaceAll(/"<import>"[\w\W]+?"<\/import>"/g, "")
+            const ret = `${(imports || []).join(";\n")}
+import { registerListener as __regList } from "/js/modules/app.mjs";
+"<application>"
+const body = document.getElementById(application.bodyid);
+const window = globalGetElementById(application.windowid);\n
+function registerListener(func) {
+    __regList(application.app.concat("-", application.instance, "-", application.window), func)
+};
+            ${code}`
+            cb(ret, n, file)
+        }
         function cb(res, n, file) {
-            // if (file == "js") {
-            //     res = res.toString().replace(/ +/g, " ").replace(/(\t)/g, "").replace(/(\r?\n)/g, ";")
-            // }
             config.windows[n][file] = res.toString();
             count--;
-            
             if (!count) send()
         }
         for (let w = 0; w < config.windows.length; w++) {
             fs.readFile(appDir + config.windows[w].html, (err, res)=>{cb(res, w, "html")})
-            fs.readFile(appDir + config.windows[w].js, (err, res)=>{cb(res, w, "js")})
+            fs.readFile(appDir + config.windows[w].js, (err, res)=>{cbj(res, w, "js")})
             fs.readFile(appDir + config.windows[w].css, (err, res)=>{cb(res, w, "css")})
         }
         
@@ -97,6 +111,27 @@ function grabApplication(socket, {id}) {
         
         
     })
+}
+
+function scriptPrepareSystem(raw, appId, instanceId, windowId) {
+    let script;
+    const imports = js.match(/(?<="<import>"\r?\n)[\w\W]*?(?=\r?\n+"<\/import>")/g)
+        // remove manually added registerListener import, mostly convenience but this will be the mechanism used later when level 1 apps get listeners too, once i figure out how to make the original __regList unreachable
+        .filter(a => !a.match(/import *?{ *?registerListener.*?} *?from *?"\/js\/modules\/app\.mjs"[ ;\r]*\n?/g))
+    const code = js.replaceAll(/"<import>"[\w\W]+?"<\/import>"/g, "")
+    script = `${(imports || []).join("\n")};\n
+    import { registerListener as __regList } from "/js/modules/app.mjs";
+    const application = {
+        app: "${appId}",
+        instance: "${instanceId}",
+        window: "${windowId}"
+    };
+    function registerListener(func) {
+        __regList("${appId}-${instanceId}-${windowId}", func)
+    };
+    const body = document.getElementById("${windowbody.id}");
+    const window = globalGetElementById("${windowObject.id}");\n
+    ${code}`
 }
 
 export {grabApplication}

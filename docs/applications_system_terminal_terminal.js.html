@@ -27,50 +27,74 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * System Application: Terminal (WIP)
+ * System Application: Terminal (WIP)&lt;br>
+ * This will soon include mostly documentation on the terminal itself, how commands are parsed and how to add new ones.
  * @file terminal.js
  * @author Smittel
  * @copyright 2024
  * @name Sysapp:Terminal
- * @see &lt;a href="./sysapp.Sysapp_Terminal.html">Server:System&lt;/a>
- * @todo Application caching
+ * @see &lt;a href="./sysapp.Sysapp_Terminal.html">Sysapp:Terminal&lt;/a>
+ * @todo Text input
+ * @todo Syntax highlighting
+ * @todo command history, probably comes for free when the command is in a data attribute of a child of a bigger container
+ * @todo these two require the same workaround as last time with manual in-code focussing of invisible textbox, putting text content of said textbox into a &amp;lt;p> with syntax highlighting and ideally have the raw command be places in a data attribute of said &amp;lt;p>
+ * @todo implement first rudimentary commands
+ * @todo filesystem
+ * @todo parser for more complex operations like piping
+ * @todo permissions
  */
 /**
- * System Application: Terminal (WIP)
+ * System Application: Terminal (WIP)&lt;br>
+ * This will soon include mostly documentation on the terminal itself, how commands are parsed and how to add new ones.
  * @file terminal.js
  * @author Smittel
  * @copyright 2024
  * @name Sysapp:Terminal
- * @see &lt;a href="./sysapp.Sysapp_Terminal.html">Server:System&lt;/a>
+ * @see &lt;a href="./sysapp.Sysapp_Terminal.html">Sysapp:Terminal&lt;/a>
  * @namespace SystemApplications
  * @requires Client:Auth
  * @requires Client:Util
  * @requires Client:Connect
  * @requires Client:App
- * @todo Application caching
+ * @todo Text input
+ * @todo Syntax highlighting
+ * @todo command history, probably comes for free when the command is in a data attribute of a child of a bigger container
+ * @todo these two require the same workaround as last time with manual in-code focussing of invisible textbox, putting text content of said textbox into a &amp;lt;p> with syntax highlighting and ideally have the raw command be places in a data attribute of said &amp;lt;p>
+ * @todo implement first rudimentary commands
+ * @todo filesystem
+ * @todo parser for more complex operations like piping
+ * @todo permissions
  */
 /**
  * @module Terminal
  * @memberof sysapp
- * @description System Application: Terminal (WIP)
+ * @description System Application: Terminal (WIP)&lt;br>
+ * This will soon include mostly documentation on the terminal itself, how commands are parsed and how to add new ones.
  * @name Sysapp:Terminal
  * @author Smittel
  * @requires Client:Auth
  * @requires Client:Util
  * @requires Client:Connect
  * @requires Client:App
- * @todo Application caching
+ * @todo Text input
+ * @todo Syntax highlighting
+ * @todo command history, probably comes for free when the command is in a data attribute of a child of a bigger container
+ * @todo these two require the same workaround as last time with manual in-code focussing of invisible textbox, putting text content of said textbox into a &amp;lt;p> with syntax highlighting and ideally have the raw command be places in a data attribute of said &amp;lt;p>
+ * @todo implement first rudimentary commands
+ * @todo filesystem
+ * @todo parser for more complex operations like piping
+ * @todo permissions
  */
 /** 
- * @member
+ * @member "&amp;lt;import>"
  * @name Import Syntax 
  * @summary To use Imports, put your imports at the top of the file like in the example. &lt;code>"&amp;lt;import&amp;gt;"&lt;/code> and &lt;code>"&amp;lt;/import&amp;gt;"&lt;/code> are used to mark said imports. This is critical, as otherwise, imports wont work. They need to be on separate lines. Note that some editors will autofill incorrect paths, using the local file system to determine relative paths. This obviously needs to be changed, the correct path is &lt;code>/js/&lt;/code>, since everything on the clients end is relative to the &lt;code>/public/&lt;/code> directory. Imports are only available for system applications, by design and definition. Non-system applications must not have the same level of access. Conversely, system apps often do need the access to system functionality.
- * @example "&lt;import>"
-import { username } from "/js/modules/Auth.mjs"
-import { getElement } from "/js/modules/Util.mjs"
-import { App } from "/js/modules/Connect.mjs"
-import { registerListener } from "/js/modules/App.mjs"
-"&lt;/import>"
+ * @example "&lt;​import>"
+ * import { username } from "/js/modules/Auth.mjs"
+ * import { getElement } from "/js/modules/Util.mjs"
+ * import { App } from "/js/modules/Connect.mjs"
+ * import { registerListener } from "/js/modules/App.mjs"
+ * "&lt;​/import>"
  * 
 */
 "&lt;import>"
@@ -278,13 +302,13 @@ terminalMain();</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="Client_main.html">Client:main</a></li><li><a href="client.Client_App.html">Client:App</a></li><li><a href="client.Client_Auth.html">Client:Auth</a></li><li><a href="client.Client_Client.html">Client:Client</a></li><li><a href="client.Client_Connect.html">Client:Connect</a></li><li><a href="client.Client_Error.html">Client:Error</a></li><li><a href="client.Client_System.html">Client:System</a></li><li><a href="client.Client_Util.html">Client:Util</a></li><li><a href="client.UI_Dragging.html">UI:Dragging</a></li><li><a href="client.UI_Handlers.html">UI:Handlers</a></li><li><a href="server.Server_App.html">Server:App</a></li><li><a href="server.Server_Auth.html">Server:Auth</a></li><li><a href="server.Server_System.html">Server:System</a></li><li><a href="server.Server_main.html">Server:main</a></li><li><a href="sysapp.Sysapp_Terminal.html">Sysapp:Terminal</a></li></ul><h3>Namespaces</h3><ul><li><a href="ClientCode.html">ClientCode</a></li><li><a href="ServerCode.html">ServerCode</a></li><li><a href="SystemApplications.html">SystemApplications</a></li></ul><h3>Classes</h3><ul><li><a href="client.Client_App-App.html">App</a></li><li><a href="client.Client_App-Window.html">Window</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="Client_main.html">Client:main</a></li><li><a href="client.Client_App.html">Client:App</a></li><li><a href="client.Client_Auth.html">Client:Auth</a></li><li><a href="client.Client_Client.html">Client:Client</a></li><li><a href="client.Client_Connect.html">Client:Connect</a></li><li><a href="client.Client_Error.html">Client:Error</a></li><li><a href="client.Client_System.html">Client:System</a></li><li><a href="client.Client_Util.html">Client:Util</a></li><li><a href="client.Client_Window.html">Client:Window</a></li><li><a href="client.UI_Dragging.html">UI:Dragging</a></li><li><a href="client.UI_Handlers.html">UI:Handlers</a></li><li><a href="server.Server_App.html">Server:App</a></li><li><a href="server.Server_Auth.html">Server:Auth</a></li><li><a href="server.Server_System.html">Server:System</a></li><li><a href="server.Server_main.html">Server:main</a></li><li><a href="sysapp.Sysapp_Terminal.html">Sysapp:Terminal</a></li></ul><h3>Namespaces</h3><ul><li><a href="ClientCode.html">ClientCode</a></li><li><a href="ServerCode.html">ServerCode</a></li><li><a href="SystemApplications.html">SystemApplications</a></li></ul><h3>Classes</h3><ul><li><a href="client.Client_App-App.html">App</a></li><li><a href="client.Client_Window-Window.html">Window</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Apr 05 2024 12:12:56 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Apr 24 2024 16:28:46 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>
