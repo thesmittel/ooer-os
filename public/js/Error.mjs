@@ -80,6 +80,14 @@ function connectionTimedOut(data) {
     // Display error message
 }
 
+const symbols = [
+    "<box-icon color='#37f' size='lg' name='alarm-exclamation'></box-icon>", // Alarm, Clock, Timer
+    "<box-icon name='info-circle' size='lg' color='#5ae'></box-icon>", // Info
+    "<box-icon name='help-circle'size='lg'color='#3ae'></box-icon>", // Question
+    "<box-icon name='error' size='lg' color='#ec2'></box-icon>", // Exclamation
+    "<box-icon color='#ea1425' size='lg' name='x-circle'></box-icon>" // Error (Critical)
+
+]
 
 function errorDialog({ title, description, type, buttons, blocked, parent }) {
     /*
@@ -98,12 +106,12 @@ function errorDialog({ title, description, type, buttons, blocked, parent }) {
         parent: DOMElement |Where does the error belong?|
     }
     */
-    const symbols = [
-        `<i class="fa-solid fa-circle-info fa-xl"></i>`,
-        `<i class="fa-regular fa-circle-question fa-xl"></i>`,
-        `<i class="fa-solid fa-triangle-exclamation fa-xl"></i>`,
-        `<i class="fa-solid fa-circle-xmark fa-xl"></i>`
-    ]
+    // const symbols = [
+    //     `<i class="fa-solid fa-circle-info fa-xl"></i>`,
+    //     `<i class="fa-regular fa-circle-question fa-xl"></i>`,
+    //     `<i class="fa-solid fa-triangle-exclamation fa-xl"></i>`,
+    //     `<i class="fa-solid fa-circle-xmark fa-xl"></i>`
+    // ]
     const symbolColors = ["#28f", "#82c", "#eb3", "#e31"];
     function makeButtons(a) {
         const b = {

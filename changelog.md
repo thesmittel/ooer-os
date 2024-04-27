@@ -7,7 +7,7 @@ It's in early development. I took a long break from the project, when i came bac
 
 ## Changes
 
-### 0.1.240424
+### 0.1.240427
 - App preparation now done serverside, should protect better against "escaping" applications
 - Fixed some issues with app code preparation
 

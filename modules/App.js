@@ -77,7 +77,8 @@ const document = {
         ]
         /**
          * This abomination removes all evals in their entirety with symmetrical parenthesis, as well as other important things. Overriding them would probably be better, but that wont work for parentNode for example.
-         * @member
+         * @member Reggie
+         * @name Internal:Reggie
          * @type RegExp
          * @returns { RegExp }
          */

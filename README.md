@@ -7,7 +7,6 @@ It is more a proof of concept, a bit of fun, rather than anything useful.
 - Node, exact minimum compatible version unknown, i estimate at least v16, potentially v18, but v21 is advised
 - `express`
 - `socket.io`
-https://www.reddit.com/r/webdev/comments/shjcdc/does_anyone_have_any_recommendations_for_font/
 
 ## THIS IS NOT READY TO USE. DO NOT ATTEMPT TO DO SO! 
 Apart from the glaring security holes - MD5 hashing for password storage, with salt-hashed passwords being stored together with their salts - which are an immediate disqualification already, both backend and front end are far from finished. While some stuff works, and works well, im only so confident in my containment of non-system applications. I think I covered my bases but that assumption isnt worth the paper its written on. 
@@ -16,7 +15,7 @@ I also plan on replacing the backend with rust, once i find the time for it, sin
 
 ## Current version:
 `0.1.240424`
-https://www.reddit.com/r/webdev/comments/shjcdc/does_anyone_have_any_recommendations_for_font/
+
 ## Information regarding documentation
 Modules are divided into groups: `Server:`, `Client:`, `Sysapp:`, `App:` and `ThirdParty:`.
 They show these prefixes in the name so its clearer, which is which. 
@@ -84,7 +83,7 @@ Will document soon.
 - App communication with the server, will only be available for system apps for now.
 - Search function
 - Clocks
-- A way to still talk to windows of the same app, not just same app, while not allowing communication across apps
+- A way to still talk to windows of the same app, not just same instance, while not allowing communication across apps
     - MAYBE ill add that too in a way that apps can only send data and have to decide how they respond to protect data
 - Moving desktop symbols
 - Dialog boxes for things like Error Messages
@@ -104,9 +103,9 @@ Will document soon.
     - Friend requests
     - Messaging
     - Event sharing
-
+- Replacing fontawesome with a non-tracking alternative
 
 ## Anything else?
-Eventually, i plan on rewriting the backend entirely using a more "professional" approach instead of a Node.JS script and a billion modules but for now. I do not plan on using any frameworks for the front-end, this project is too different to what a website is "supposed" to be, i dont think those would be of much help, so i want to keep this as vanilla as possible. For now im sticking to EN (like M.E.A.N., but not.) Express/Socket.io plus Node on the backend, JSON WILL be replaced though, probably by MongoDB, not decided yet.
+Eventually, i plan on rewriting the backend entirely using a more "professional" approach instead of a Node.JS script and a billion modules but for now, thatll do. I do not plan on using any frameworks for the front-end, this project is too different to what a website is "supposed" to be, i dont think those would be of much help, so i want to keep this as vanilla as possible. For now im sticking to EN (like M.E.A.N., but not) Express/Socket.io plus Node on the backend, JSON WILL be replaced though, probably by MongoDB, not decided yet.
 Depending on how i feel i may even go serverless somewhere down the line, but i doubt it.
 

@@ -141,7 +141,7 @@ socket.on("disconnect", () => {
         parent: document.querySelector("body"),
         title: "Connection lost",
         description: "Connection to the server has been lost.\nTry again?",
-        type: 3,
+        type: 4,
         blocked: true,
         parent: document.body,
         buttons: [
