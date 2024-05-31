@@ -1,11 +1,15 @@
 
 ## Version
-0.1.240424
+0.1.240531
 
 ## Why such a weird version numbering?
 It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
 
 ## Changes
+
+### 0.1.240521
+- Maximising windows by double clicking the header
+- System applications can now register app event listeners and delete them, although server communication is still not implemented.
 
 ### 0.1.240427
 - App preparation now done serverside, should protect better against "escaping" applications

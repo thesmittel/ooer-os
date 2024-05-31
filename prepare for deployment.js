@@ -1,9 +1,9 @@
-
+import * as fs from "fs"
 
 const suffix = () => /\.(css|m?js)$/g
-
+const comment = () => /(\/\*.*?\*\/)|(\/{2,}.*?(\n|$))/gs
 // create output folder
-
+fs.mkdir("./deploy")
 // function (directory)
     // if output folder: abort
     // readdir

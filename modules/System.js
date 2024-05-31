@@ -57,20 +57,26 @@ function grabApplication(socket, {id}) {
 
         function cbj(res, n, file) {
             res = res.toString();
-            const imports = (res.match(/(?<="<import>"\r?\n)[\w\W]*?(?=\r?\n+"<\/import>")/g)||[])
-                // remove manually added registerListener import, mostly convenience but this will be the mechanism used later when level 1 apps get listeners too, once i figure out how to make the original __regList unreachable
-                .filter(a => !a.match(/import *?{ *?registerListener.*?} *?from *?"\/js\/modules\/app\.mjs"[ ;\r]*\n?/g));
+            let imports = (res.match(/(?<="<import>"\r?\n)[\w\W]*?(?=\r?\n+"<\/import>")/g)||"")[0];
+
+            if (imports.length > 0) {
+                imports = imports.split(/;(\r?\n)|;|(\r?\n)/g)
+                imports = imports.filter(a => {
+                    if (!a || a.trim() == "") return false;
+                    return !a.match(/import *?{ *?(registerListener|deleteListener).*?} *?from *?"\/js\/modules\/app\.mjs"[ ;\r]*\n?/g)
+                });
+            }
+
+
+                // remove manually added registerListener and deleteListener import. This is done such that there is a layer of "control". Apps cannot register listeners for other apps because the ID is baked into the call by means of a small "detour". But since system apps are modules they could in theory import these functions manually and go ham. Not terribly relevant assuming sysapps are written by trusted sources, but it prevents issues. 
+                
             
             const code = res.replaceAll(/"<import>"[\w\W]+?"<\/import>"/g, "")
             const ret = `${(imports || []).join(";\n")}
-import { registerListener as __regList } from "/js/modules/app.mjs";
 "<application>"
 const body = document.getElementById(application.bodyid);
 const window = globalGetElementById(application.windowid);\n
-function registerListener(func) {
-    __regList(application.app.concat("-", application.instance, "-", application.window), func)
-};
-            ${code}`
+${code}`
             cb(ret, n, file)
         }
         function cb(res, n, file) {

@@ -27,6 +27,7 @@ import { App as emit } from "./Connect.mjs"
 import { create, randomId, getElement } from "./Util.mjs";
 import { dragElement } from "./Dragging.mjs";
 import { loseFocus } from "../Handlers.mjs";
+import { registerListener, deleteListener } from "./App.mjs";
 document.addEventListener("mousemove", windowResize);
 document.addEventListener("mouseup", endResize)
 
@@ -236,7 +237,10 @@ class Window {
                                 closebutton
                             ]
                         }
-                    ]
+                    ],
+                    eventListener: {
+                        dblclick: (e) => {maximiseWindow(getParentWindow(e.target))}
+                    }
                 }, this.#style, this.#windowBody, {
                     tagname: "div",
                     classList: ["resize", "left"],
@@ -410,9 +414,67 @@ class Window {
                 configurable: false,
                 enumerable: false,
                 writable: false
+            },
+            body: {
+                value: this.#windowBody,
+                configurable: false,
+                enumerable: false,
+                writable: false
+            },
+            addListener: {
+                value: (func) => {
+                    if (typeof func !== "function") {
+                        throw new TypeError("Listener callback must be a function, got " + typeof func)
+                    }
+                    const id = `${appId}-${instanceId}-${windowId}`;
+                    console.log(id)
+                    registerListener(id, func)
+                },
+                configurable: false,
+                enumerable: false,
+                writable: false
+            },
+            removeListener: {
+                value: () => {
+                    const id = `${appId}-${instanceId}-${windowId}`;
+                    deleteListener(id);
+                },
+                configurable: false,
+                enumerable: false,
+                writable: false
+            },
+            addOverride: {
+                value: (name, func) => {
+                    if (typeof func !== "function") {
+                        throw new TypeError("func must be of type function, got " + typeof func)
+                    }
+                    // add to data somehow
+                    // replace default handler for overridden
+                },
+                configurable: false,
+                enumerable: false,
+                writable: false
+            },
+            data: {
+                value: {},
+                configurable: false,
+                enumerable: false,
+                writable: false
             }
         });
 
+        Object.defineProperties(app.data, {
+            overrides: {
+                value: {
+                    // Add overrides here
+                    close: undefined
+                },
+                configurable: false,
+                enumerable: false,
+                writable: false
+            }
+        })
+        
         Object.defineProperty(windowbody, "application", {
             value: app,
             configurable: true,
@@ -434,7 +496,6 @@ class Window {
                 break;
             case 2: // System permissions: all global objects are available. scripts are treated as modules.
                 script.innerHTML = js;
-                console.log(script.innerHTML)
                 script.type = "module"
                 break;
         }

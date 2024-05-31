@@ -244,4 +244,38 @@ function unsanitise(text) {
     return text || "";
 }
 
-export {create, getElement, clamp, getParentWindow, randomInt, randomId, sanitise, unsanitise, isNode}
+function cartesianToPolar({x, y}) {
+	const r = Math.sqrt(x*x + y*y);
+	const a = Math.atan2(y, x)
+	return {r: r, a: a}
+}
+
+function polarToCartesian({r, a}) {
+	const x = r * Math.cos(a);
+	const y = r * Math.sin(a)
+	return {x: x, y: y}
+}
+
+function radianToDegree(a) {
+	return (a / Math.PI * 180) + 180;
+}
+
+function degreeToRadian(a) {
+	return (a - 180) / 180 * Math.PI
+}
+
+
+function map(v, fromMin, fromMax, toMin, toMax) {
+	let dFrom = fromMax - fromMin;
+	let dTo = toMax - toMin;
+	let dFMinV = v - fromMin;
+	let vecFac = dFMinV / dFrom;
+	return toMin + vecFac * dTo;
+}
+
+
+function round(v, d) {
+	return Math.round(v * Math.pow(10, d)) / Math.pow(10, d);
+}
+
+export {map, round, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian, create, getElement, clamp, getParentWindow, randomInt, randomId, sanitise, unsanitise, isNode}

@@ -65,7 +65,18 @@ const appListeners = {}
  * @name Export:registerListener
  */
 function registerListener(id, func) {
+    if (appListeners[id]) {
+        throw new Error("Applications can only register one listener.")
+    };
     appListeners[id] = func;
+}
+
+function deleteListener(id) {
+    if (!appListeners[id]) {
+        throw new Error("No listener registered (Application: " + id + ")")
+        return -1;
+    }
+    delete appListeners[id]
 }
 
 /**
@@ -152,4 +163,4 @@ class App {
 }
 
 
-export { handle, maximiseWindow, registerListener }
+export { handle, maximiseWindow, registerListener, deleteListener }
