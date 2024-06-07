@@ -73,7 +73,6 @@
 import { username } from "/js/modules/Auth.mjs"
 import { getElement } from "/js/modules/Util.mjs"
 import { App } from "/js/modules/Connect.mjs"
-import { registerListener } from "/js/modules/App.mjs"
 "</import>"
 
 const terminalinput   = getElement("terminal-input");

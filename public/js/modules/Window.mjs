@@ -27,7 +27,7 @@ import { App as emit } from "./Connect.mjs"
 import { create, randomId, getElement } from "./Util.mjs";
 import { dragElement } from "./Dragging.mjs";
 import { loseFocus } from "../Handlers.mjs";
-import { registerListener, deleteListener } from "./App.mjs";
+import { registerListener } from "./App.mjs";
 document.addEventListener("mousemove", windowResize);
 document.addEventListener("mouseup", endResize)
 
@@ -237,10 +237,7 @@ class Window {
                                 closebutton
                             ]
                         }
-                    ],
-                    eventListener: {
-                        dblclick: (e) => {maximiseWindow(getParentWindow(e.target))}
-                    }
+                    ]
                 }, this.#style, this.#windowBody, {
                     tagname: "div",
                     classList: ["resize", "left"],
@@ -427,7 +424,6 @@ class Window {
                         throw new TypeError("Listener callback must be a function, got " + typeof func)
                     }
                     const id = `${appId}-${instanceId}-${windowId}`;
-                    console.log(id)
                     registerListener(id, func)
                 },
                 configurable: false,
@@ -463,18 +459,6 @@ class Window {
             }
         });
 
-        Object.defineProperties(app.data, {
-            overrides: {
-                value: {
-                    // Add overrides here
-                    close: undefined
-                },
-                configurable: false,
-                enumerable: false,
-                writable: false
-            }
-        })
-        
         Object.defineProperty(windowbody, "application", {
             value: app,
             configurable: true,

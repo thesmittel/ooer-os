@@ -1,7 +1,6 @@
 "<import>"
-import { registerListener as __regList } from "/js/modules/app.mjs";
 import { create } from "/js/modules/Util.mjs";
-import { makeColorSelector } from "/js/modules/ui.mjs"
+import { Wheel, TextboxSlider } from "/js/modules/ui.mjs"
 "</import>"
 const usersettings = {}
 const settingsTemplate = {
@@ -49,13 +48,40 @@ const settingsTemplate = {
 }
 
 const main = application.body.querySelector("div.right");
-
 const test = main.querySelector("div.test");
-makeColorSelector(test)
+// const wheel = new Wheel(test)
+// // makeColorSelector(test)
+// wheel.show()
 
+const tbSlide = new TextboxSlider({min: 0, max: 100, step: 1, val: 30})
+tbSlide.setStyle({
+    width: "300px"
+})
 const screens = { // Array of DOM trees
-    "home": [create({tagname: "toggle-switch"})],
-    "user": [],
+    "home": [
+        create({
+            tagname: "span",
+            innerText: "Home",
+            classList: ["settings-header"]
+        }),
+        create({
+            tagname: "span",
+            innerText: "divider/subheader",
+            classList: ["settings-subcategory"]
+        }),
+        create({
+            tagname: "div",
+            classList: ["settings-element", "button"],
+            innerHTML: `<span class="text">Test button</span><box-icon name='chevron-right' color="white"></box-icon>`
+        }),
+        create({
+            tagname: "div",
+            classList: ["settings-element", "regular"],
+            innerHTML: `<span class="text">Test color picker</span><color-picker id="test" data-r="0" data-g="0" data-b="0" data-a="255"></div>`
+        }),
+        tbSlide.element,
+    ],
+    "user": [create({tagname: "toggle-switch"})],
     "pckg": [],
     "appr": [],
     "lang": [],
@@ -63,12 +89,32 @@ const screens = { // Array of DOM trees
     "socl": []
 };
 
+function getParentButton(target) {
+    while(target.tagName != "DIV") target = target.parentNode;
+    return target
+}
+
+sidebarButtonHandle()
+
 function sidebarButtonHandle(e) {
+    let s = ""
+    if (!e) {
+        s = "home"
+    } else {
+        getParentButton(e.target).dataset.target;
+    }
     main.innerHTML = "";
-    main.append(...screens[e.target.dataset.target])
+    main.append(...screens[s])
+    const colorPickers = Array.from(main.querySelectorAll("color-picker"));
+    colorPickers.forEach(a => {
+        a.addEventListener("click", ({target}) => {const wheel = new Wheel(target); wheel.show()});
+        a.style.background = `rgba(${a.dataset.r},${a.dataset.g},${a.dataset.b},${a.dataset.a / 255})`
+    });
 }
 
 const sidebarButtons = Array.from(application.body.querySelector("div#settings-sidebar-bottom").childNodes).filter(a => a.tagName === "DIV");
+
+sidebarButtons[0].addEventListener("click", sidebarButtonHandle)
 
 function listener(data) {
     switch (data.operation) {
@@ -84,5 +130,4 @@ function listener(data) {
     
 }
 
-console.log(application)
 application.addListener(listener)

@@ -37,7 +37,6 @@ import { Window, addAppInstanceObjectRef, maximiseWindow } from "./Window.mjs"
 function handle(res) {
     switch (res.response) {
         case "start_app":
-            console.log(res)
             new App(res.data.id, res.data, res.data.permissions)
             break
         case "start_sysapp":

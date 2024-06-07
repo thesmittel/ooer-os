@@ -264,7 +264,15 @@ function degreeToRadian(a) {
 	return (a - 180) / 180 * Math.PI
 }
 
-
+/**
+ * 
+ * @param {Number} v Value to be mapped
+ * @param {Number} fromMin Original minimum
+ * @param {Number} fromMax Original maxi
+ * @param {Number} toMin Mapped minimum
+ * @param {Number} toMax Mapped maximum
+ * @returns 
+ */
 function map(v, fromMin, fromMax, toMin, toMax) {
 	let dFrom = fromMax - fromMin;
 	let dTo = toMax - toMin;

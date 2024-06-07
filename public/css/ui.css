@@ -1,13 +1,14 @@
 /* This file defines some reusable UI elements */
 
-*, :root {
+*,
+:root {
     --white-glass-color: #fff4;
     --glass-blur: blur(15px);
     --window-color: #0009;
     --header-color: transparent;
-    --colorPickerSliderColor: rgba(92,41,72,1);
-    --colorPickerSliderShadowColor: rgba(33,33,33,1);
-    --colorPickerSliderBackdrop: rgba(55,55,55,1);
+    --colorPickerSliderColor: rgba(92, 41, 72, 1);
+    --colorPickerSliderShadowColor: rgba(33, 33, 33, 1);
+    --colorPickerSliderBackdrop: rgba(55, 55, 55, 1);
 }
 
 /* ERROR MESSAGES */
@@ -29,9 +30,11 @@ error-button {
     font-size: 14px;
     font-weight: 300;
 }
+
 error-button:hover {
     background-color: #fff4;
 }
+
 error-button:active {
     background-color: #fff8;
 }
@@ -41,6 +44,7 @@ error-button[data-main="true"] {
     background-color: white;
     font-weight: 500;
 }
+
 error-button[data-main="true"]:hover {
     background-color: #bbb;
     border: solid 2px #bbb
@@ -71,7 +75,7 @@ error-box {
     overflow: hidden;
 }
 
-error-box > .container {
+error-box>.container {
     top: 0;
     height: fit-content;
     width: fit-content;
@@ -79,30 +83,30 @@ error-box > .container {
     grid-template-columns: 40px 1fr;
     grid-template-rows: 32px 1fr 40px;
     grid-column-gap: 6px;
-    grid-row-gap: 6px; 
+    grid-row-gap: 6px;
     position: relative;
 }
 
-error-box > .container > .error-icon {
+error-box>.container>.error-icon {
     display: flex;
     justify-content: center;
     align-items: center;
     grid-area: 2 / 1 / 3 / 2;
 }
 
-error-box > .container > .error-description {
+error-box>.container>.error-description {
     color: white;
     width: 100%;
     height: 100%;
     display: block;
-    grid-area: 2 / 2 / 3 / 3; 
+    grid-area: 2 / 2 / 3 / 3;
     font-size: 16px;
     font-weight: 300;
     padding-inline: 6px;
     box-sizing: border-box;
 }
 
-error-box > .container > .error-buttons {
+error-box>.container>.error-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -112,14 +116,15 @@ error-box > .container > .error-buttons {
     white-space: nowrap;
 }
 
-error-box > .container > .error-description > pre {
+error-box>.container>.error-description>pre {
     font-size: 12px;
     word-wrap: break-word;
     white-space: pre-wrap;
     font-weight: 300;
 }
 
-error-box::before { /* Header */
+error-box::before {
+    /* Header */
     content: attr(data-title);
     color: white;
     font-weight: 500;
@@ -133,7 +138,7 @@ error-box::before { /* Header */
     top: 0;
     left: 0;
     border-bottom: solid 1px #fff2;
-    background-color: #fff1;  
+    background-color: #fff1;
 }
 
 /* DESKTOP SYMBOLS */
@@ -145,7 +150,8 @@ desktop-symbol {
     border-radius: 3px;
     vertical-align: bottom;
     text-align: center;
-    background-color: rgba(206, 206, 255, 0);;
+    background-color: rgba(206, 206, 255, 0);
+    ;
     border: solid 1px transparent;
     cursor: pointer;
     font-weight: 300;
@@ -180,7 +186,8 @@ desktop-symbol::before {
 }
 
 desktop-symbol:hover {
-    background-color: rgba(206, 206, 255, 0.2);;
+    background-color: rgba(206, 206, 255, 0.2);
+    ;
     border: solid 1px rgba(206, 206, 255, 0.5);
     transition: all 0.1s;
 }
@@ -225,15 +232,16 @@ taskbar-button:hover {
     transition: background-color 0.2s ease-in-out;
 }
 
-taskbar-button > .preview > .cover {
+taskbar-button>.preview>.cover {
     position: absolute;
     height: 100%;
     width: 100%;
     background-color: #ff04;
     z-index: 100000;
 }
+
 /* this shit needs transform scale probably */
-taskbar-button > .preview {
+taskbar-button>.preview {
     opacity: 0;
     position: absolute;
     transition: opacity 0.2s ease-in-out;
@@ -251,7 +259,7 @@ taskbar-button > .preview {
     border-radius: 6px;
 }
 
-taskbar-button > .preview::after {
+taskbar-button>.preview::after {
     content: attr(data-title);
     position: absolute;
     top: 6px;
@@ -265,16 +273,16 @@ taskbar-button > .preview::after {
     overflow: hidden;
 }
 
-taskbar-button > div > div > .window-body {
+taskbar-button>div>div>.window-body {
     background-color: #222;
 }
 
-taskbar-button > .preview.active {
+taskbar-button>.preview.active {
     opacity: 1;
     transition: opacity 0.2s ease-in-out;
 }
 
-taskbar-button:hover > .preview.active > * {
+taskbar-button:hover>.preview.active>* {
     height: auto;
     width: auto;
     position: relative;
@@ -325,13 +333,13 @@ desktop-search {
     padding-inline: 12px;
     transition: all 0.1s ease-in;
     z-index: 10000;
-    opacity:0;
+    opacity: 0;
 }
 
 desktop-search[data-active="true"] {
     bottom: calc(3% + 60px);
     transition: all 0.1s ease-out;
-    opacity:1
+    opacity: 1
 }
 
 
@@ -370,20 +378,19 @@ toggle-switch {
     width: 54px;
     border: solid 2px white;
     border-radius: 9px;
-    
-}
-
-toggle-switch[data-value="true"] {
 
 }
+
+toggle-switch[data-value="true"] {}
 
 div.colorwheel-backdrop {
     position: fixed;
     height: 100dvh;
     width: 100dvw;
     inset: 0;
-    background-color: #0004;
-    
+    /* background-color: #0004; */
+    z-index: 100000;
+    /* backdrop-filter: blur(2px); */
 }
 
 colorpicker-container {
@@ -392,16 +399,16 @@ colorpicker-container {
     position: fixed;
     background-color: #0008;
     backdrop-filter: blur(15px);
-    -webkit-box-shadow: 0px 0px 15px 0px #000000; 
+    -webkit-box-shadow: 0px 0px 15px 0px #000000;
     box-shadow: 0px 0px 15px 0px #000000;
     z-index: 100000;
     display: grid;
-grid-template-columns: 7px 128px;
-grid-template-rows: 134px 1fr;
-grid-column-gap: 12px;
-grid-row-gap: 12px; 
-padding: 6px;
-border-radius: 6px;
+    grid-template-columns: 7px 128px;
+    grid-template-rows: 134px 1fr;
+    grid-column-gap: 12px;
+    grid-row-gap: 12px;
+    padding: 6px;
+    border-radius: 6px;
 }
 
 colorpicker-brightness {
@@ -411,48 +418,42 @@ colorpicker-brightness {
     outline: solid white 2px;
     border-radius: 100px;
     display: block;
-    background: rgb(0,0,0);
+    background: rgb(0, 0, 0);
     grid-area: 1 / 1 / 2 / 2;
-background: -moz-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,1) 100%);
-background: -webkit-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,1) 100%);
-background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#ffffff",GradientType=1);
+    background: -moz-linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000", endColorstr="#ffffff", GradientType=1);
 }
 
 colorpicker-wheel {
-    background: -moz-conic-gradient(
-        hsl(90 100% 50%),
-        hsl(135 100% 50%),
-        hsl(180 100% 50%),
-        hsl(225 100% 50%),
-        hsl(270 100% 50%),
-        hsl(315 100% 50%),
-        hsl(0 100% 50%),
-        hsl(45 100% 50%),
-        hsl(90 100% 50%)
-      );
-    background: -webkit-conic-gradient(
-        hsl(90 100% 50%),
-        hsl(135 100% 50%),
-        hsl(180 100% 50%),
-        hsl(225 100% 50%),
-        hsl(270 100% 50%),
-        hsl(315 100% 50%),
-        hsl(0 100% 50%),
-        hsl(45 100% 50%),
-        hsl(90 100% 50%)
-      );
-    background: conic-gradient(
-        hsl(90 100% 50%),
-        hsl(135 100% 50%),
-        hsl(180 100% 50%),
-        hsl(225 100% 50%),
-        hsl(270 100% 50%),
-        hsl(315 100% 50%),
-        hsl(0 100% 50%),
-        hsl(45 100% 50%),
-        hsl(90 100% 50%)
-      );
+    background: -moz-conic-gradient(hsl(90 100% 50%),
+            hsl(135 100% 50%),
+            hsl(180 100% 50%),
+            hsl(225 100% 50%),
+            hsl(270 100% 50%),
+            hsl(315 100% 50%),
+            hsl(0 100% 50%),
+            hsl(45 100% 50%),
+            hsl(90 100% 50%));
+    background: -webkit-conic-gradient(hsl(90 100% 50%),
+            hsl(135 100% 50%),
+            hsl(180 100% 50%),
+            hsl(225 100% 50%),
+            hsl(270 100% 50%),
+            hsl(315 100% 50%),
+            hsl(0 100% 50%),
+            hsl(45 100% 50%),
+            hsl(90 100% 50%));
+    background: conic-gradient(hsl(90 100% 50%),
+            hsl(135 100% 50%),
+            hsl(180 100% 50%),
+            hsl(225 100% 50%),
+            hsl(270 100% 50%),
+            hsl(315 100% 50%),
+            hsl(0 100% 50%),
+            hsl(45 100% 50%),
+            hsl(90 100% 50%));
     height: 128px;
     width: 128px;
     outline: solid 2px white;
@@ -463,24 +464,42 @@ colorpicker-wheel {
     top: 3px;
 }
 
-colorpicker-wheel > colorpicker-saturation {
-    position: relative;
+colorpicker-wheel>colorpicker-saturation {
+    position: absolute;
     inset: 0;
     height: 100%;
     display: block;
     width: 100%;
     border-radius: 100%;
     backdrop-filter: grayscale(100%) brightness(0) invert(1);
-    mask: -moz-radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 80%);
-    mask: -webkit-radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 80%);
-    mask: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 80%);
+    mask: -moz-radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    mask: -webkit-radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    mask: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+}
+
+colorpicker-wheel>colorpicker-huewheelbright {
+    height: 100%;
+    width: 100%;
+    display: block;
+    border-radius: 100%;
+    position: absolute;
+}
+
+colorpicker-wheel>colorpicker-huewheelmouse {
+    height: 100%;
+    display: block;
+    width: 100%;
+    border-radius: 100%;
+    z-index: 1;
+    position: absolute;
 }
 
 colorpicker-indicator {
     position: absolute;
     height: 0;
     width: 0;
-    outline: solid 2px black;
+    outline: solid 1px black;
+    border: solid 1px white;
     background-color: white;
     transform: translate(-50%, -50%);
     border-radius: 100%;
@@ -499,7 +518,7 @@ colorpicker-slidercontainer {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(5, 24px);
     grid-column-gap: 3px;
-    grid-row-gap: 6px; 
+    grid-row-gap: 6px;
     grid-area: 2 / 1 / 3 / 3;
 }
 
@@ -537,23 +556,59 @@ colormode-button[data-mode="HEX"] {
 }
 
 color-slidetextbox {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    grid-template-rows: 100%;
+    grid-column-gap: 12px;
+    grid-row-gap: 0px;
     height: 100%;
-    background-color: #22d;
-    color: white;
+    width: 100%;
     font-weight: 300;
+    color: white;
     border-radius: 3px;
+    background-color: #22d;
     box-sizing: border-box;
-    padding-inline: 6px;
-    padding-block: 2px;
-    display: flex;
-    align-items: right;
+    overflow: hidden;
+    cursor: ew-resize;
 }
 
-color-slidetextbox::before {
-    left: 0;
-    margin-right: 6px;
+color-slidetextbox>span.label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: ew-resize;
+}
+
+
+
+color-slidetextbox>textarea.color-slidetextbox {
+    resize: none;
+    outline: none;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    background: transparent;
+    cursor: ew-resize;
+    line-height: 22px;
+    font-weight: inherit;
+    border: none;
+}
+
+color-slidetextbox>textarea.color-slidetextbox:focus,
+color-slidetextbox>textarea.color-slidetextbox:active {
+    outline: none;
+    filter: brightness(1.3);
+    cursor: text;
+}
+
+span.color-slidetextbox {
+    left: 6px;
+    position: relative;
     content: attr(data-current);
     filter: drop-shadow(0px 0px 3px #000000);
+    line-height: 22px;
 }
 
 
@@ -563,12 +618,172 @@ color-slidetextbox::before {
 color-slidetextbox[data-index="0"] {
     grid-area: 2 / 1 / 3 / 5;
 }
+
 color-slidetextbox[data-index="1"] {
     grid-area: 3 / 1 / 4 / 5;
 }
+
 color-slidetextbox[data-index="2"] {
     grid-area: 4 / 1 / 5 / 5;
 }
+
 color-slidetextbox[data-index="3"] {
     grid-area: 5 / 1 / 6 / 5;
 }
+
+
+textbox-slider {
+    background-color: var(--colorPickerSliderBackdrop);
+    height: 24px;
+    width: 100px;
+    display: block;
+    /* overflow: hidden; */
+}
+
+textbox-slider>div.indicator {
+    position: relative;
+    left: 0;
+    top: 0;
+    background-color: var(--colorPickerSliderColor);
+    display: block;
+    height: 100%;
+}
+
+textbox-slider>input[type="number"]::-webkit-outer-spin-button,
+textbox-slider>input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+textbox-slider>input[type="number"] {
+    -moz-appearance: textfield;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: -100%;
+    background-color: transparent;
+    border: none;
+    box-sizing: border-box;
+    padding-left: 12px;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+
+textbox-slider>input[type=number]:focus, 
+textbox-slider>input[type=range]:focus {
+    outline: none;
+}
+
+
+/* textbox-slider>input[type="range"] {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: -200%;
+}
+
+
+textbox-slider>input[type=range] {
+    height: 100%;
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+    background-color: rgba(0,0,0,0.2);
+    padding:0;
+    margin: 0;
+}
+
+textbox-slider>input[type=range]:focus {
+    outline: none;
+}
+
+
+
+textbox-slider>input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: 0px;
+    border: none;
+    height: 24px;
+    width: 0;
+    border-radius: 0px;
+    background: transparent;
+    cursor: ew-resize;
+}
+
+textbox-slider>input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 24px;
+    width: 0;
+    border-radius: 0px;
+    background: transparent;
+    cursor: ew-resize;
+}
+
+
+textbox-slider>input[type=range]::-ms-thumb {
+    border: none;
+    height: 24px;
+    width: 0;
+    border-radius: 0px;
+    background: transparent;
+    cursor: ew-resize;
+    margin-top: 1px;
+}
+
+textbox-slider>input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 24px;
+    cursor: ew-resize;
+    background: transparent;
+    border-radius: 1px;
+    border: none;
+}
+
+textbox-slider>input[type=range]:focus::-webkit-slider-runnable-track {
+    background: transparent;
+}
+
+textbox-slider>input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 24px;
+    cursor: ew-resize;
+    background: transparent;
+    border-radius: 1px;
+}
+
+textbox-slider>input[type=range]::-ms-track {
+    width: 100%;
+    height: 24px;
+    cursor: ew-resize;
+    animate: 0.2s;
+    background: transparent;;
+    border: none;
+    color: transparent;
+}
+
+textbox-slider>input[type=range]::-ms-fill-lower {
+    background: #3071A9;
+    border: 0px solid #000000;
+    border-radius: 2px;
+    box-shadow: 0px 0px 0px #000000;
+}
+
+textbox-slider>input[type=range]::-ms-fill-upper {
+    background: #3071A9;
+    border: 0px solid #000000;
+    border-radius: 2px;
+    box-shadow: 0px 0px 0px #000000;
+}
+
+
+
+textbox-slider>input[type=range]:focus::-ms-fill-lower {
+    background: #3071A9;
+}
+
+textbox-slider>input[type=range]:focus::-ms-fill-upper {
+    background: #3071A9;
+} */

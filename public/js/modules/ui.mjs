@@ -1,9 +1,14 @@
 import { create, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian } from "/js/modules/Util.mjs";
 import { Color } from "/js/modules/colors.mjs";
+import { Wheel } from "/js/modules/ui/colorwheel.mjs";
 let closable = true;
 let activeSelector;
 
-
+/**
+ * only keeping this for future reference
+ * @deprecated
+ * @param {HTMLDivElement} parentElement 
+ */
 function makeColorSelector(parentElement) {
     // If provided element is not dom element, throw up in a tantrum bc what else is there to do
     if (!parentElement.tagName) {
@@ -15,23 +20,35 @@ function makeColorSelector(parentElement) {
     const {r,g,b,a} = parentElement.dataset;
     const {h,s,v} = Color.rgb.toHsv({r:r,g:g,b:b})
 
+
+
     // Initialises the sliders to the current value
     let sliderValues = [
         Math.round(r / 2.55),
         Math.round(g / 2.55),
         Math.round(b / 2.55),
-        Math.round(a / 2.55)
+        Math.round(a)
     ]
 
     // carbon copy (no ref)
     let visualSlider = [...sliderValues]
-    
     /**
-     * Shorthand to avoid duplication. Grabs a number of necessary parameters from different Objects and serves them neatly to be deconstructed later
+     * @typedef {Object} Parameters
+     * @property { Number } padding CSS Padding property of selector
+     * @property { Number } width CSS width of selector
+     * @property { Number } height CSS height of selector
+     * @property { Number } dX Mouse X position relative to origin of selector
+     * @property { Number } dY Mouse Y position relative tp origin of selector
+     */
+    /**
+     * Shorthand to avoid duplication. Grabs a number of necessary parameters from different Objects 
+     * and serves them neatly to be deconstructed later.
+     * dX, dY are mouse position relative to selector (0, 0), meaning hue wheel requires extra adjustment
      * @param { HTMLDivElement } activeSelector 
      * @param { MouseEvent } e 
      * @local
-     * @returns Object containing relevant parameters
+     * @returns 
+     * }
      */
     function valueChangeParamGrab(activeSelector, e) {
         const {x,y,width,height} = activeSelector.getBoundingClientRect();
@@ -51,14 +68,19 @@ function makeColorSelector(parentElement) {
         if (!activeSelector) return;
         e.stopPropagation(); // dont know if this is needed tbh
 
+        
         const { height, padding, dY } = valueChangeParamGrab(activeSelector, e)
 
-        const relY = clamp(7 + padding, dY, height + 1); // coordinates are top-to-bottom; relY is used as is for UI update
+        const relY = clamp(7 + padding, dY + 2 * padding, height + 2); // coordinates are top-to-bottom; relY is used as is for UI update
         
         const indicator = activeSelector.childNodes[0];
         indicator.style.top = relY + "px";
+
+        const brightnessmask = activeSelector.parentNode.querySelector("colorpicker-huewheelbright")
         // const brightness = 1 - Math.round((relY - padding - 6) / (selector.height - padding - 6) * 10000) / 10000;     // This is what "normalises" relY to 0..1
-        const brightness = map(relY, 7 + padding, height + 1, 100, 0)
+        const brightness = map(relY, 7 + padding, height + 2, 100, 0)
+        console.log(brightness, brightnessmask)
+        brightnessmask.style["backdrop-filter"] = `brightness(${brightness / 100})`
         activeSelector.parentNode.dataset.v = brightness
         changeSliders(activeSelector.parentNode);
     }
@@ -66,8 +88,9 @@ function makeColorSelector(parentElement) {
     function hueSatChange(e) {
         if (!activeSelector) return;
         e.stopPropagation(); // dont know if this is needed tbh
-
-        const { width, height, dX, dY} = valueChangeParamGrab(activeSelector, e)
+        // necessary to calculate positions and colors
+        // dX, dY are mouse positions relative to center of wheel
+        const { width, height, dX, dY} = valueChangeParamGrab(activeSelector, e) 
 
         const polar = cartesianToPolar({x: dX - width / 2, y: dY - height / 2});
         polar.r = clamp(0, polar.r, height / 2)
@@ -75,45 +98,44 @@ function makeColorSelector(parentElement) {
         const newCoords = polarToCartesian(polar)
         newCoords.x += width / 2;
         newCoords.y += height / 2;
-        const indicator = activeSelector.parentNode.childNodes[1];
+        const indicator = activeSelector.parentNode.childNodes[2];
 
         indicator.style["background-color"] = `hsl(${Math.round(radianToDegree(polar.a))} 100% ${100 - Math.round(polar.r / height * 100)}%)`
         indicator.style.top = newCoords.y + "px";
         indicator.style.left = newCoords.x + "px";
-        
+
         activeSelector.parentNode.parentNode.dataset.h = round(radianToDegree(polar.a), 2)
         activeSelector.parentNode.parentNode.dataset.s = Math.round(polar.r / height * 10000) / 50
         changeSliders(activeSelector.parentNode.parentNode);
     }
 
+
+
     function changeSliders(el) {
         const sliderContainer = el.querySelector("colorpicker-slidercontainer")
         const sliders = sliderContainer.querySelectorAll("color-slidetextbox")
         
+        
+        const hueWheelSelector = el.querySelector("colorpicker-wheel").childNodes[2]
+        const newRgb = Color.hsv.toRgb(el.dataset)
+        hueWheelSelector.style["background-color"] = `rgba(${newRgb.r},${newRgb.g},${newRgb.b},${sliderValues[3] / 100})`
+        parentElement.dataset.r = newRgb.r;
+        parentElement.dataset.g = newRgb.g;
+        parentElement.dataset.b = newRgb.b;
+        parentElement.style.background = `rgba(${newRgb.r},${newRgb.g},${newRgb.b},${sliderValues[3] / 100})`
+        parentElement.dataset.a = sliderValues[3];
+
         switch(sliderContainer.dataset.colormode) {
             case "RGB": // fallthrough
             default:
-                const newRgb = Color.hsv.toRgb(el.dataset)
-                sliderValues = [
-                    round(newRgb.r / 255, 4),
-                    round(newRgb.g / 255, 4),
-                    round(newRgb.b / 255, 4),
-                    sliderValues[3]
-                ]
+                console.log("NEW", newRgb, sliderValues[3])
+                sliderValues = [ round(newRgb.r / 255, 4), round(newRgb.g / 255, 4), round(newRgb.b / 255, 4), sliderValues[3] ]
                 visualSlider = [...sliderValues.map(a => a*100)];
                 break;
             case "HSV":
-                sliderValues = [
-                    round(el.dataset.h, 2),
-                    round(el.dataset.s, 2),
-                    round(el.dataset.v, 2),
-                    sliderValues[3]
-                ]
-                visualSlider = [
-                    map(sliderValues[0], 0, 360, 0, 100),
-                    sliderValues[1],
-                    sliderValues[2]
-                ]
+                sliderValues = [ round(el.dataset.h, 2), round(el.dataset.s, 2), round(el.dataset.v, 2), sliderValues[3] ]
+                visualSlider = [ map(sliderValues[0], 0, 360, 0, 100), sliderValues[1], sliderValues[2], sliderValues[3] ]
+                
                 break
             case "HEX":
                 const hexColor = Color.hsv.toHex(el.dataset)
@@ -209,15 +231,21 @@ function makeColorSelector(parentElement) {
         tagname: "colorpicker-wheel",
         childElements: [
             {
-                tagname: "colorpicker-saturation",
+                tagname: "colorpicker-saturation"
+            },
+            {
+                tagname: "colorpicker-huewheelbright"
+            },
+            {
+                tagname: "colorpicker-indicator"
+            },
+            {
+                tagname: "colorpicker-huewheelmouse",
                 eventListener: {
                     mousedown: (e) => {
                         pickerUpdate(e, hueSatChange, e.target.parentNode.childNodes[0])
                     }
                 }
-            },
-            {
-                tagname: "colorpicker-indicator"
             }
         ]
     })
@@ -302,17 +330,156 @@ function makeColorSelector(parentElement) {
     const brightCompStyle = window.getComputedStyle(colorpickerBright, null);
     const brightPad = parseInt(brightCompStyle.getPropertyValue("padding"))
     const brightHeight = parseInt(brightCompStyle["height"])
-    const brightTop = Math.round(brightHeight - (v / 100 * brightHeight)) + brightPad + "px";
+    const brightTop = Math.min(135, Math.round(brightHeight - (v / 100 * brightHeight)) + brightPad  + 7) + "px";
 
     const hueCompStyle = window.getComputedStyle(colorpickerWheel, null);
     const hueHeight = parseInt(hueCompStyle["height"])
     const hueSat = polarToCartesian({a: degreeToRadian(h), r: s / 200 * hueHeight});
     const hueStyle = `top: ${Math.round(hueSat.y + 64)}px; left: ${Math.round(hueSat.x + 64)}px; background-color: rgba(${r}, ${g}, ${b}, 1)`
     
+    colorpickerWheel.childNodes[1].style["backdrop-filter"] = `brightness(${v / 100})`
+
     colorpickerBright.childNodes[0].style.top = brightTop;
-    colorpickerWheel.childNodes[1].style = hueStyle;
+    colorpickerWheel.childNodes[2].style = hueStyle;
 
 }
 
 
-export {makeColorSelector}
+class TextboxSlider {
+
+    element;
+    value;
+    min; max; step;
+    #sliding = false;
+    #active = false;
+    #tbactive = false;
+    #validValue = true;
+
+    constructor({id, name, min, max, val, step}) {
+        if (min === undefined) throw new ReferenceError("'min' is not defined.")
+        if (max === undefined) throw new ReferenceError("'max' is not defined.")
+        if (val === undefined) throw new ReferenceError("'val' is not defined.")
+        let indicator, textbox, slider;
+
+        indicator = create({
+            tagname: "div",
+            classList: ["indicator"],
+            style: `width: ${round((val - min) / (max - min) * 100, 1)}%;`
+        })
+
+        textbox = create({
+            tagname: "input",
+            type: "number",
+            min: min,
+            max: max,
+            step: step || 1,
+            value: val,
+            style: "z-index: 1; padding-left: 12px",
+            eventListener: {
+                "keydown": (e) => {
+                   if (e.key == "Enter") {
+                    if(this.#validValue) {
+                        indicator.style.width = ((e.target.value - min) / (max - min) * 100) + "%"
+                        this.element.dataset.value = e.target.value
+                        e.target.value = clamp(min, e.target.value, max)
+                    } else {
+                        e.target.value = this.element.dataset.value;
+                        indicator.style.width = ((this.element.dataset.value - min) / (max - min) * 100) + "%"
+                    }
+                    window.getSelection().removeAllRanges()
+                    e.target.blur();
+                   }
+                },
+                "input": (e) => {
+                    this.#validValue = !!e.target.value
+                    this.element.style.outline = this.#validValue?"":"solid 2px red"
+
+                    if(this.#validValue) {
+                        indicator.style.width = round((e.target.value - min) / (max - min) * 100, 1) + "%"
+                        textbox.value = e.target.value
+                        this.element.dataset.value = e.target.value
+                    }
+                },
+                "focusout": (e) => {
+                    console.log("focusout")
+                    textbox.style["z-index"] = 1
+                    this.#tbactive = false;
+                }
+            }
+        })
+
+        slider = create({
+            tagname: "input",
+            type: "range",
+            id: id || "",
+            name: name || "",
+            min: min,
+            max: max,
+            step: step || 1,
+            value: val,
+            style: "z-index: 2",
+            eventListener: {
+                "input": (e) => {
+                    console.log("input")
+                    indicator.style.width = round((e.target.value - min) / (max - min) * 100, 1) + "%"
+                    textbox.value = e.target.value
+                    e.target.parentNode.dataset.value = e.target.value
+                },
+                "mousedown": (e) => {
+                    this.#active = true;
+                    window.getSelection().removeAllRanges()
+                },
+                "mousemove": (e) => {
+                    this.#sliding = this.#active
+                },
+                "mouseup": (e) => {
+                    setTimeout(() => {
+                        this.#sliding = false;
+                        this.#active = false;
+                    }, 1);
+                }
+            }
+        })
+
+        this.element = create({
+            tagname: "textbox-slider",
+            childElements: [
+                indicator,
+                textbox,
+                slider
+            ],
+            dataset: {
+                value: val
+            },
+            eventListener: {
+                "click": (e) => {
+                    if (!this.#sliding) {
+                        if (!this.#tbactive) {
+                            textbox.focus();
+                            textbox.select();
+                            textbox.style["z-index"] = 3;
+                            this.#tbactive = true;
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    setStyle(style) {
+        for (let i in style) {
+            this.element.style[i] = style[i]
+        }
+    }
+
+    show(parentElement) {
+        parentElement.append(this.element)
+    }
+
+    hide() {
+        this.element.remove()
+    }
+
+}
+
+export {Wheel, TextboxSlider}

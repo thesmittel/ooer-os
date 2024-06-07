@@ -84,3 +84,101 @@
     width: 40px;
     height: 40px;
 }
+
+input[type="text"] {
+    font-size: 16px;
+    background-color: #333;
+    outline: 0px solid #fff8;;
+    border: 1px solid #fff4;
+    border-radius: 6px;
+    color: #eee;
+    line-height: 24px;
+    height: auto;
+    padding-inline: 12px;
+    padding-block: 3px;
+    font-weight: 300;
+    transition: border 0.1s ease-in-out;
+    box-sizing: border-box;
+}
+input[type="text"]:focus,
+input[type="text"]:active {
+    outline: 2px solid #fff8;
+    transition: outline 0.1s ease-in-out;
+}
+
+@keyframes settings-button-hover {
+    
+}
+
+span.settings-header {
+    font-size: 36px;
+    margin-top: 12px;
+    margin-bottom: 24px;
+    font-weight: 100;
+    display: block;
+}
+
+span.settings-subcategory {
+    font-size: 12px;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    display: block;
+    font-weight: 300;
+}
+
+div.settings-element {
+    height: 36px;
+    display: grid;
+    grid-template-rows: 36px;
+    grid-column-gap: 12px;
+    grid-row-gap: 0px; 
+    align-items: center;
+    box-sizing: border-box;
+    padding-left: 18px;
+    color: white;
+    border-radius: 6px;
+    width: calc(100% - 12px);
+    margin-block: 6px;
+}
+
+div.settings-element.regular {
+    grid-template-columns: 60% 40%;
+    filter: drop-shadow(0px 0px 5px #0006);
+}
+
+div.settings-element.button {
+    grid-template-columns: 1fr 36px;
+    background-color: #fff2;
+    box-shadow: 0px 0px 10px #0006;
+    filter: drop-shadow(0px 0px 0px #fff0);
+    transition: filter 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+
+
+
+div.settings-element.button:hover {
+    filter: drop-shadow(0px 0px 10px #fff6);
+    transition: filter 0.2s ease-in-out;
+}
+
+div.settings-element > .text {
+    font-size: 15px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+color-picker {
+    height: 24px;
+    aspect-ratio: 1;
+    border: solid 2px white;
+    border-radius: 3px;
+    cursor: pointer;
+}

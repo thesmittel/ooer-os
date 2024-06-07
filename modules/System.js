@@ -59,7 +59,7 @@ function grabApplication(socket, {id}) {
             res = res.toString();
             let imports = (res.match(/(?<="<import>"\r?\n)[\w\W]*?(?=\r?\n+"<\/import>")/g)||"")[0];
 
-            if (imports.length > 0) {
+            if (imports) {
                 imports = imports.split(/;(\r?\n)|;|(\r?\n)/g)
                 imports = imports.filter(a => {
                     if (!a || a.trim() == "") return false;
