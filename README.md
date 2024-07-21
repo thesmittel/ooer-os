@@ -1,7 +1,7 @@
 
 
 ## Dependencies
-- Node, exact minimum compatible version unknown, i estimate at least v16, potentially v18, but v21 is advised
+- Node, exact minimum compatible version unknown, im using v21 but i dont think thats necessary
 - `express`
 - `socket.io`
 
@@ -20,9 +20,11 @@ The system worker will be the ultimate authority. It will decide what applicatio
 A switch to typescript is NOT planned. I just dont care enough.
 
 ## Current version:
-`0.1.20240713`
+`0.1.20240721`
 
 ## Information regarding documentation
+
+### Documentation has not been kept up to date for quite some time now
 Modules are divided into groups: `Server:`, `Client:`, `Sysapp:`, `App:` and `ThirdParty:`.
 They show these prefixes in the name so its clearer, which is which. 
 
@@ -102,6 +104,6 @@ Will document soon.
 - Replacing fontawesome with a non-tracking alternative
 
 ## Anything else?
-Eventually, i plan on rewriting the backend entirely using a more "professional" approach instead of a Node.JS script and a billion modules but for now, thatll do. I do not plan on using any frameworks for the front-end, this project is too different to what a website is "supposed" to be, i dont think those would be of much help, so i want to keep this as vanilla as possible. For now im sticking to EN (like M.E.A.N., but not) Express/Socket.io plus Node on the backend, JSON WILL be replaced though, probably by MongoDB, not decided yet.
-Depending on how i feel i may even go serverless somewhere down the line, but i doubt it.
+
+At some point in the future, the back end will be rewritten using a better approach using a normal language. Probably rust, tbh, but im not quite sure yet. For now, Node will do. User data will be stored in proper databases, sensitive data will be encrypted (i kinda wanna use the encryption algoritm i made a few years ago, but first i need to figure out how to have it accept keys, but maybe ill just do a hybrid with my own and something more common like RSA)
 
