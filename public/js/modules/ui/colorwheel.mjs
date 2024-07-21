@@ -1,5 +1,8 @@
-import { create, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian } from "/js/modules/Util.mjs";
+
+import { SliderGroup } from "./textslider.mjs";
+import { create, nthParent, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian } from "/js/modules/Util.mjs";
 import { Color } from "/js/modules/colors.mjs";
+import { TextboxSlider } from "/js/modules/ui/textslider.mjs";
 
 
 class Wheel {
@@ -13,188 +16,124 @@ class Wheel {
     mode;
     target;
 
+    element;
+
+    #slideGroupArr;
+    #slideGroup;
+    #alphaSlider
+    #brightnessBar;
+    #hueSatWheel;
+    #sliderContainer;
+    #sliderGroupDomArr
+    backdrop;
+    #hexbox;
+
     constructor(parentElement) {
-        this.parentElement = parentElement;
-    }
-
-
-    brightnessChange(e, wheel) {
-        if (!wheel.activeSelector || !wheel.mousedown) return;
-        e.stopPropagation(); // dont know if this is needed tbh
-
-        const { height, padding, dY } = valueChangeParamGrab(wheel.activeSelector, e)
-
-        const relY = clamp(7 + padding, dY + 2 * padding, height + 2); // coordinates are top-to-bottom; relY is used as is for UI update
-
-        const indicator = wheel.activeSelector.childNodes[0];
-        indicator.style.top = relY + "px";
-
-        const brightnessmask = wheel.activeSelector.parentNode.querySelector("colorpicker-huewheelbright")
-        // const brightness = 1 - Math.round((relY - padding - 6) / (selector.height - padding - 6) * 10000) / 10000;     // This is what "normalises" relY to 0..1
-        const brightness = map(relY, 7 + padding, height + 2, 100, 0)
-        brightnessmask.style["backdrop-filter"] = `brightness(${brightness / 100})`
-        wheel.activeSelector.parentNode.dataset.v = brightness
-        wheel.changeSliders(wheel.activeSelector.parentNode);
-    }
-
-    hueSatChange(e, wheel) {
-        if (!wheel.activeSelector || !wheel.mousedown) return;
-        //e.stopPropagation(); // dont know if this is needed tbh
-        // necessary to calculate positions and colors
-        // dX, dY are mouse positions relative to center of wheel
-        const { width, height, dX, dY } = valueChangeParamGrab(wheel.activeSelector, e)
-        const polar = cartesianToPolar({ x: dX - width / 2, y: dY - height / 2 });
-        polar.r = clamp(0, polar.r, height / 2)
-
-        const newCoords = polarToCartesian(polar)
-        newCoords.x += width / 2;
-        newCoords.y += height / 2;
-        const indicator = wheel.activeSelector.parentNode.childNodes[2];
-        indicator.style["background-color"] = `hsl(${Math.round(radianToDegree(polar.a))} 100% ${100 - Math.round(polar.r / height * 100)}%)`
-        indicator.style.top = newCoords.y + "px";
-        indicator.style.left = newCoords.x + "px";
-
-        wheel.activeSelector.parentNode.parentNode.dataset.h = round(radianToDegree(polar.a), 2)
-        wheel.activeSelector.parentNode.parentNode.dataset.s = Math.round(polar.r / height * 10000) / 50
-        wheel.changeSliders(wheel.activeSelector.parentNode.parentNode);
-    }
-
-    changeSliders(el) {
-        const sliderContainer = el.querySelector("colorpicker-slidercontainer")
-        const sliders = sliderContainer.querySelectorAll("color-slidetextbox")
-
-        const hueWheelSelector = el.querySelector("colorpicker-wheel").childNodes[2]
-        const newRgb = Color.hsv.toRgb(el.dataset)
-        hueWheelSelector.style["background-color"] = `rgba(${newRgb.r},${newRgb.g},${newRgb.b},${this.sliderValues[3] / 100})`
-        this.parentElement.dataset.r = newRgb.r;
-        this.parentElement.dataset.g = newRgb.g;
-        this.parentElement.dataset.b = newRgb.b;
-        this.parentElement.style.background = `rgba(${newRgb.r},${newRgb.g},${newRgb.b},${this.sliderValues[3] / 100})`
-        this.parentElement.dataset.a = this.sliderValues[3];
-
-        switch (sliderContainer.dataset.colormode) {
-            case "RGB": // fallthrough
-            default:
-                this.sliderValues = [round(newRgb.r / 255, 4), round(newRgb.g / 255, 4), round(newRgb.b / 255, 4), this.sliderValues[3]]
-                this.visualSlider = [...this.sliderValues.map(a => a * 100)];
-                break;
-            case "HSV":
-                this.sliderValues = [round(el.dataset.h, 2), round(el.dataset.s, 2), round(el.dataset.v, 2), this.sliderValues[3]]
-                this.visualSlider = [map(this.sliderValues[0], 0, 360, 0, 100), this.sliderValues[1], this.sliderValues[2], this.sliderValues[3]]
-
-                break
-            case "HEX":
-                const hexColor = Color.hsv.toHex(el.dataset)
-                sliders[0].dataset.value = hexColor;
-                sliders[0].childNodes[1].value = hexColor;
-                return;
-        }
-
-        for (let i = 0; i < 3; i++) {
-            this.#updateSlider(sliders[i], this.sliderValues[i], this.visualSlider[i])
-        }
-    }
-
-    #updateSlider(slider, value, visual) {
-        slider.dataset.value = value;
-        slider.childNodes[1].value = value;
-        slider.style = `background: var(--colorPickerSliderColor);
-        background: -moz-linear-gradient(90deg, var(--colorPickerSliderColor) ${visual}%, var(--colorPickerSliderShadowColor) ${visual}%, var(--colorPickerSliderBackdrop) ${visual + 1}%);
-        background: -webkit-gradient(90deg, var(--colorPickerSliderColor) ${visual}%, var(--colorPickerSliderShadowColor) ${visual}%, var(--colorPickerSliderBackdrop) ${visual + 1}%);
-        background: linear-gradient(90deg, var(--colorPickerSliderColor) ${visual}%, var(--colorPickerSliderShadowColor) ${visual}%, var(--colorPickerSliderBackdrop) ${visual + 1}%);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#8b0000",endColorstr="#6d6d6d",GradientType=1);`
-    }
-
-    switchColorMode({ target }) {
-        const buttons = Array.from(target.parentNode.querySelectorAll("colormode-button"))
-        const sliders = Array.from(target.parentNode.querySelectorAll("color-slidetextbox"))
-        const newColorMode = target.dataset.mode;
-        target.parentNode.dataset.colormode = target.dataset.mode;
-        if (newColorMode == "HEX") {
-            for (let i = 1; i < 4; i++) {
-                sliders[i].style.visibility = "hidden"
-            }
-            sliders[0].dataset.current = "HEX #";
-            sliders[0].style.background = "none"
-            sliders[0].style["background-color"] = "var(--colorPickerSliderBackdrop)";
-            sliders[0].style["padding-left"] = "52px"
-            const { h, s, v } = target.parentNode.parentNode.dataset;
-            const newHex = Color.hsv.toHex({ h: h, s: s, v: v });
-            sliders[0].innerText = newHex;
-            // Change active
-        } else if (newColorMode == "RGB" || newColorMode == "HSV") {
-            sliders[0].style["padding-left"] = ""
-            for (let i = 0; i < 3; i++) {
-                sliders[i].dataset.current = newColorMode.charAt(i); // i dont like this 
-                sliders[i].style.visibility = "visible"
-            }
-            sliders[3].style.visibility = "visible";
-
-            this.changeSliders(target.parentNode.parentNode)
-        }
-        buttons.forEach(a => a.dataset.selected = false);
-        target.dataset.selected = true;
-        target.parentNode.dataset.colormode = target.dataset.mode;
-    }
-
-    mousemove(e) {
-        if (this.mode && this.mousedown) {
-            this.hueSatChange(e, this)
-        } else {
-            this.brightnessChange(e, this)
-        }
-    }
-
-    pickerUpdate(e, func, el) {
-        // this.closable = false;
-        // this.activeSelector = e.target;
-        // if (this.activeSelector.tagName == "COLORPICKER-INDICATOR") this.activeSelector = el;
-        // this.mousedown = true;
-
-        // const handle = [
-        //     this.brightnessChange, this.hueSatChange
-        // ]
-
-        // handle[func](e, this);
-
-
-    }
-
-    resetClosable() {
-        setTimeout(() => {
-            this.closable = true;
-            document.removeEventListener("mouseup", this.resetClosable)
-        }, 1)
-    }
-
-
-    show() {
         // If provided element is not dom element, throw up in a tantrum bc what else is there to do
-        if (!this.parentElement.tagName) {
+        if (!parentElement.tagName) {
             throw new TypeError("this.parentElement must be DOM Element, got " + typeof this.parentElement)
         }
-
-        // just grabbing a bunch of parameters
-        const { x, y, width, height } = this.parentElement.getBoundingClientRect();
-        const { r, g, b, a } = this.parentElement.dataset;
+        const { r, g, b, a } = parentElement.dataset;
         const { h, s, v } = Color.rgb.toHsv({ r: r, g: g, b: b })
+        this.parentElement = parentElement;
+        this.#brightnessSlider();
+        this.#makeWheel();
+
+        this.#slideGroup = new SliderGroup([
+            { min: 0, max: 255, step: 1, val: parentElement.dataset.r, label: "R" },
+            { min: 0, max: 255, step: 1, val: parentElement.dataset.g, label: "G" },
+            { min: 0, max: 255, step: 1, val: parentElement.dataset.b, label: "B" },
+        ])
+        this.#slideGroup.setStyle("grid-area: 2 / 1 / 3 / 4;")
+        // this.#slideGroup.getElements()[0].setParameters({min: 10, max: 16, step: 2, val: 12})
+        this.#slideGroup.element.addEventListener("update", (e) => {
+            this.#updateFromSlider(e)
+        })
+        this.#alphaSlider = new TextboxSlider({ min: 0, max: 1, step: 0.001, val: parentElement.dataset.a, label: "A" })
+        this.#alphaSlider.setStyle("grid-area: 3 / 1 / 4 / 4;")
+        this.#hexbox = create({
+            tagname: "hex-box",
+            style: "grid-area: 2 / 1 / 3 / 4; visibility: hidden;",
+            dataset: { value: "0A0A0A" },
+            innerHTML: `<span>HEX #</span><input type="text" maxlength="6" value="${Color.rgb.toHex(parentElement.dataset)}"/>`,
+        })
+
+        function hexboxout(e) {
+            if (e.target.value.match(/^([0-9a-fA-F]{3})$/g)) {
+                console.log(3)
+                let chars = [e.target.value.charAt(0), e.target.value.charAt(1), e.target.value.charAt(2)];
+                e.target.parentNode.dataset.value = `${chars[0]}${chars[0]}${chars[1]}${chars[1]}${chars[2]}${chars[2]}`
+                e.target.value = e.target.parentNode.dataset.value;
+            } else if (/^[0-9a-fA-F]{6}$/g) {
+                console.log(6)
+                e.target.parentNode.dataset.value = e.target.value;
+            } else {
+                e.target.value = e.target.parentNode.dataset.value;
+                e.target.blur()
+                return;
+            }
+            const { r, g, b } = Color.hex.toRgb(e.target.parentNode.dataset.value)
+            const { h, s, v } = Color.hex.toHsv(e.target.parentNode.dataset.value)
+            const mainParent = nthParent(e.target, 3)
+
+            mainParent.dataset.r = r
+            mainParent.dataset.g = g
+            mainParent.dataset.b = b
+            mainParent.dataset.h = h
+            mainParent.dataset.s = s
+            mainParent.dataset.v = v
+
+            e.target.blur()
+        }
+
+        this.#hexbox.querySelector("input").addEventListener("keydown", (e) => {
+            if (e.key == "Enter") {
+                hexboxout(e);
+            }
+        })
+        this.#hexbox.querySelector("input").addEventListener("focusout", hexboxout)
+        this.#hexbox.setAttribute('maxLength', 6);
+        this.#sliderContainer = create({
+            tagname: "colorpicker-slidercontainer",
+            dataset: {
+                colormode: "RGB"
+            },
+            childElements: [
+                ...this.makeColorModeButtonObjects(),
+                this.#slideGroup.element,
+                this.#hexbox,
+                this.#alphaSlider.element
+            ]
+        })
+        const { x, y, height, width } = parentElement.getBoundingClientRect()
+
+
+        this.element = create({
+            tagname: "colorpicker-container",
+            eventListener: {
+                click: (e) => { e.stopPropagation() },
+                mousedown: () => {
+                    this.closable = false;
+                    document.addEventListener("mouseup", this.resetClosable)
+                }
+            },
+            style: `top: ${y + height / 2}px; left: ${x + width}px; transform: translateY(-50%);`,
+            childElements: [
+                this.#brightnessBar,
+                this.#hueSatWheel,
+                this.#sliderContainer
+            ],
+            dataset: { r: r, g: g, b: b, a: a, h: h, s: s, v: v, colormode: "RGB" }
+        });
+        
+
+    }
 
 
 
-        // Initialises the sliders to the current value
-        this.sliderValues = [
-            Math.round(r / 2.55),
-            Math.round(g / 2.55),
-            Math.round(b / 2.55),
-            Math.round(a)
-        ]
 
-        // carbon copy (no ref)
-        this.visualSlider = [...this.sliderValues]
-        this.#slidertext = [...this.sliderValues]
-        // console.log("SHOW", this)
-
-        const colorpickerBright = create({
+    #brightnessSlider() {
+        this.#brightnessBar = create({
             tagname: "colorpicker-brightness",
             eventListener: {
                 mousedown: (e) => {
@@ -208,8 +147,10 @@ class Wheel {
                 }
             ]
         })
+    }
 
-        const colorpickerWheel = create({
+    #makeWheel() {
+        this.#hueSatWheel = create({
             tagname: "colorpicker-wheel",
             childElements: [
                 {
@@ -236,39 +177,245 @@ class Wheel {
                 }
             ]
         })
+    }
 
-        const colorpickerSlideCont = create({
-            tagname: "colorpicker-slidercontainer",
-            dataset: {
-                colormode: "RGB"
-            },
-            childElements: [
-                ...this.makeColorModeButtonObjects(),
-                ...this.#makeColorTextBoxSliders([r, g, b, a], ["R", "G", "B", "A"], this.sliderValues)
-            ]
-        })
 
-        const colorpicker = create({
-            tagname: "colorpicker-container",
-            eventListener: {
-                click: (e) => { e.stopPropagation() }
-            },
-            style: `top: ${y + height / 2}px; left: ${x + width}px; transform: translateY(-50%);`,
-            eventListener: {
-                mousedown: () => {
-                    this.closable = false;
-                    document.addEventListener("mouseup", this.resetClosable)
-                }
-            },
-            childElements: [
-                colorpickerBright,
-                colorpickerWheel,
-                colorpickerSlideCont
-            ],
-            dataset: { r: r, g: g, b: b, a: a, h: h, s: s, v: v }
-        })
+    brightnessChange(e, picker) {
+        if (!picker.activeSelector || !picker.mousedown) return;
 
-        const backdrop = create({
+        const { height, padding, dY } = valueChangeParamGrab(picker.activeSelector, e)
+
+        const relY = clamp(7 + padding, dY + 2 * padding, height + 2); // coordinates are top-to-bottom; relY is used as is for UI update
+
+        const indicator = picker.activeSelector.childNodes[0];
+        indicator.style.top = relY + "px";
+
+        const brightnessmask = picker.activeSelector.parentNode.querySelector("colorpicker-huewheelbright")
+        // const brightness = 1 - Math.round((relY - padding - 6) / (selector.height - padding - 6) * 10000) / 10000;     // This is what "normalises" relY to 0..1
+        const brightness = map(relY, 7 + padding, height + 2, 100, 0)
+        brightnessmask.style["backdrop-filter"] = `brightness(${brightness / 100})`
+        picker.element.dataset.v = brightness
+
+        // Calculate color according to colormode
+        let colormode = picker.element.dataset.colormode;
+        let color = picker.element.dataset;
+        
+        // Update RGB dataset in wheel
+        const {r,g,b} = Color.hsv.toRgb(picker.element.dataset)
+        picker.element.dataset.r = r
+        picker.element.dataset.g = g
+        picker.element.dataset.b = b
+
+        picker.changeSliders(true);
+    }
+
+    hueSatChange(e, wheel) {
+        if (!wheel.activeSelector || !wheel.mousedown) return;
+        // necessary to calculate positions and colors
+        // dX, dY are mouse positions relative to center of wheel
+        const { width, height, dX, dY } = valueChangeParamGrab(wheel.activeSelector, e)
+        const polar = cartesianToPolar({ x: dX - width / 2, y: dY - height / 2 });
+        polar.r = clamp(0, polar.r, height / 2)
+
+        const newCoords = polarToCartesian(polar)
+        newCoords.x += width / 2;
+        newCoords.y += height / 2;
+        const indicator = wheel.activeSelector.parentNode.childNodes[2];
+        indicator.style["background-color"] = `hsl(${Math.round(radianToDegree(polar.a))} 100% ${100 - Math.round(polar.r / height * 100)}%)`
+        indicator.style.top = newCoords.y + "px";
+        indicator.style.left = newCoords.x + "px";
+
+        wheel.element.dataset.h = round(radianToDegree(polar.a), 2)
+        wheel.element.dataset.s = Math.round(polar.r / height * 10000) / 50
+        // console.log(wheel.element, wheel.activeSelector.parentNode.parentNode)
+
+        // Calculate color according to colormode
+        let colormode = wheel.element.dataset.colormode;
+        let color = wheel.element.dataset;
+        // Update RGB dataset in wheel
+        const {r,g,b} = Color.hsv.toRgb(wheel.element.dataset)
+        wheel.element.dataset.r = r
+        wheel.element.dataset.g = g
+        wheel.element.dataset.b = b
+        
+        wheel.changeSliders(true);
+    }
+
+    switchColorMode({ target }) {
+        const buttons = Array.from(target.parentNode.querySelectorAll("colormode-button"))
+        const newColorMode = target.dataset.mode;
+        this.element.dataset.colormode = target.dataset.mode;
+
+        if (newColorMode == "HEX") {
+            this.#slideGroup.setStyle({ "visibility": "hidden" })
+            this.#hexbox.style.visibility = "visible"
+        } else if (newColorMode == "RGB" || newColorMode == "HSV") {
+            this.#slideGroup.setStyle({ "visibility": "visible" })
+            this.#hexbox.style.visibility = "hidden"
+            const individualGroupElements = this.#slideGroup.getElements()
+            for (let i = 0; i < newColorMode.length; i++) {
+                individualGroupElements[i].setLabel(newColorMode.charAt(i))
+            }
+            // this.changeSliders(target.parentNode.parentNode)
+        }
+        buttons.forEach(a => a.dataset.selected = false);
+        target.dataset.selected = true;
+        target.parentNode.dataset.colormode = target.dataset.mode;
+        this.changeSliders()
+    }
+
+    mousemove(e) {
+        if (this.mode && this.mousedown) {
+            this.hueSatChange(e, this)
+        } else {
+            this.brightnessChange(e, this)
+        }
+    }
+
+    #updateDataset({r,g,b,h,s,v,a}) {
+        
+        if (r!==undefined) {
+            this.element.dataset.r = r;
+            this.parentElement.dataset.r = r;
+        }
+        if (g!==undefined) {
+            this.element.dataset.b = b;
+            this.parentElement.dataset.g = g;
+        }
+        if (b!==undefined) {
+            this.element.dataset.g = g;
+            this.parentElement.dataset.b = b;
+        }
+        if (a!==undefined) {
+            this.element.dataset.a = a;
+            this.parentElement.dataset.a = a;
+        }
+        if (h!==undefined) this.element.dataset.h = h;
+        if (s!==undefined) this.element.dataset.s = s;
+        if (v!==undefined) this.element.dataset.v = v;
+
+    }
+    
+    // NO HEX HERE
+    #updateFromSlider(e) {
+        // detect color mode
+        let {colormode} = this.element.dataset
+        let values = e.detail.values();
+        
+        // calculate hsv if needed
+        switch(colormode) {
+            case "RGB":{
+                var {h,s,v} = Color.rgb.toHsv({r: values[0], g: values[1], b: values[2]})
+                var {r,g,b} = {r: values[0], g: values[1], b: values[2]}
+                break
+            }
+            case "HSV":{
+                var {h,s,v} = {h: values[0], s: values[1], v: values[2]}
+                var {r,g,b} = Color.hsv.toRgb({h: values[0], s: values[1], v: values[2]})
+                break
+            }    
+        }
+        h = round(h, 2); s = round(s, 1); v = round(v, 1);
+        // update dataset
+        this.#updateDataset({r:r,g:g,b:b,h:h,s:s,v:v})
+        // new positions:
+        // hs->polar
+        // v=>Math.round(map(v, 0, 100, 136, 10)))
+        const brightIndicator =this.#brightnessBar.querySelector("colorpicker-indicator");
+        brightIndicator.style.top = Math.round(map(v, 0, 100, 136, 10)) + "px"
+        
+        const hueIndicator = this.#hueSatWheel.querySelector("colorpicker-indicator");
+        const angle = degreeToRadian(h);
+        const radius = s;
+        let {x,y} = polarToCartesian({r: radius, a: angle})
+        x = map(x, -100, 100, 0, this.#hueSatWheel.getBoundingClientRect().width)
+        y = map(y, -100, 100, 0, this.#hueSatWheel.getBoundingClientRect().height)
+        hueIndicator.style.top = y + "px"
+        hueIndicator.style.left = x + "px"
+        hueIndicator.style["background-color"] = `rgb(${r},${g},${b})`
+        
+        this.parentElement.style["background-color"] = `rgb(${r},${g},${b})`
+
+        const huewheelbright = this.#hueSatWheel.querySelector("colorpicker-huewheelbright")
+        huewheelbright.style = `backdrop-filter: brightness(${v/100})`
+            // console.log("ACTUAL", )
+            // console.log("NEW", Math.round(map(v, 0, 100, 136, 10)))
+            // console.log("UPDATE", e.target.values, h,s,v)
+    }
+
+    changeSliders(fireevent) {
+        const { r, g, b, h, s, v, a, colormode} = this.element.dataset;
+        // console.log(colormode, r,g,b,h,s,v,a)
+        switch(colormode) {
+            case "RGB": {
+                this.#slideGroup.setParameters({
+                    0: {min: 0, max: 255, step: 1, val: parseInt(r)},
+                    1: {min: 0, max: 255, step: 1, val: parseInt(g)},
+                    2: {min: 0, max: 255, step: 1, val: parseInt(b)}
+                })
+            }
+            break;
+            case "HSV": {
+                this.#slideGroup.setParameters({
+                    0: {min: 0, max: 360, step: .01, val: round((h), 2)},
+                    1: {min: 0, max: 100, step: .1, val: round((s), 2)},
+                    2: {min: 0, max: 100, step: .1, val: round((v), 2)}
+                })
+            } // todo: see textslider.mjs:244
+            break;
+            case "HEX": {
+                let newcol = Color.rgb.toHex(this.element.dataset)
+                this.#hexbox.childNodes[1].value = newcol;
+            }
+        }
+        this.parentElement.style = `background-color: rgba(${r},${g},${b},${a})`
+        this.#updateDataset({r:r,g:g,b:b,h:h,s:s,v:v})
+        this.#hueSatWheel.querySelector("colorpicker-indicator").style["background-color"] = `rgba(${r},${g},${b},${a})`
+    
+    }
+
+    
+
+    resetClosable() {
+        setTimeout(() => {
+            this.closable = true;
+            document.removeEventListener("mouseup", this.resetClosable)
+        }, 1)
+    }
+
+
+    show() {
+
+        // just grabbing a bunch of parameters
+        const { x, y, width, height } = this.parentElement.getBoundingClientRect();
+        const { r, g, b, a } = this.parentElement.dataset;
+        const { h, s, v } = Color.rgb.toHsv({ r: r, g: g, b: b })
+
+
+
+        // Initialises the sliders to the current value
+        this.sliderValues = [
+            Math.round(r / 2.55),
+            Math.round(g / 2.55),
+            Math.round(b / 2.55),
+            Math.round(a)
+        ]
+
+        // carbon copy (no ref)
+        this.visualSlider = [...this.sliderValues]
+        this.#slidertext = [...this.sliderValues]
+        // console.log("SHOW", this)
+
+
+
+
+
+
+
+
+
+
+        this.backdrop = create({
             tagname: "div",
             classList: ["colorwheel-backdrop"],
             eventListener: {
@@ -279,151 +426,80 @@ class Wheel {
                     if (this.closable && e.target.tagName == "DIV") e.target.remove()
                 }
             },
-            childElements: [colorpicker]
+            childElements: [this.element]
         })
 
 
 
-        backdrop.addEventListener("mousedown", (e) => {
-            if (e.target == backdrop) {
-                backdrop.remove()
+        this.backdrop.addEventListener("mousedown", (e) => {
+            if (e.target == this.backdrop) {
+                this.backdrop.remove()
                 return;
             }
             document.activeElement.blur();
             e.stopPropagation();
-            e.preventDefault();
+            // e.preventDefault();
             // console.log(this.target)
             this.mousedown = true;
             this.closable = false;
             // if (!this.target || this.target.tagName == "DIV") return;
             this.updateTarget(e)
         })
-        backdrop.addEventListener("mousemove", (e) => {
+        this.backdrop.addEventListener("mousemove", (e) => {
             this.updateTarget(e)
         })
-        backdrop.addEventListener("mouseup", (e) => {
+        this.backdrop.addEventListener("mouseup", (e) => {
             this.resetClosable(e);
             this.mousedown = false;
             this.activeSelector = null
             this.target = null;
         })
 
-        document.body.append(backdrop)
+        document.body.append(this.backdrop)
 
-        const brightCompStyle = window.getComputedStyle(colorpickerBright, null);
+        const brightCompStyle = window.getComputedStyle(this.#brightnessBar, null);
         const brightPad = parseInt(brightCompStyle.getPropertyValue("padding"))
         const brightHeight = parseInt(brightCompStyle["height"])
         const brightTop = Math.min(135, Math.round(brightHeight - (v / 100 * brightHeight)) + brightPad + 7) + "px";
 
-        const hueCompStyle = window.getComputedStyle(colorpickerWheel, null);
+        const hueCompStyle = window.getComputedStyle(this.#hueSatWheel, null);
         const hueHeight = parseInt(hueCompStyle["height"])
         const hueSat = polarToCartesian({ a: degreeToRadian(h), r: s / 200 * hueHeight });
         const hueStyle = `top: ${Math.round(hueSat.y + 64)}px; left: ${Math.round(hueSat.x + 64)}px; background-color: rgba(${r}, ${g}, ${b}, 1)`
 
-        colorpickerWheel.childNodes[1].style["backdrop-filter"] = `brightness(${v / 100})`
+        this.#hueSatWheel.childNodes[1].style["backdrop-filter"] = `brightness(${v / 100})`
 
-        colorpickerBright.childNodes[0].style.top = brightTop;
-        colorpickerWheel.childNodes[2].style = hueStyle;
+        this.#brightnessBar.childNodes[0].style.top = brightTop;
+        this.#hueSatWheel.childNodes[2].style = hueStyle;
 
     }
 
-    #makeColorTextBoxSliders(c, cn, sliderValues) {
-        // const c = [r, g, b, a];
-        // const cn = ["R", "G", "B", "A"]
-        const ret = []
-        for (let i in c) {
-            ret.push({
-                tagname: "color-slidetextbox",
-                dataset: { value: c[i], index: i, current: cn[i], mode: "text", active: false },
-                contentEditable: "true",
-                childElements: [
-                    {
-                        tagname: "span",
-                        classList: ["color-slidetextbox"],
-                        innerText: cn[i]
-                    },
-                    {
-                        tagname: "textarea",
-                        classList: ["color-slidetextbox"],
-                        rows: 1,
-                        value: round(c[i] / 255, 4)
-                    }
-                ],
-                style: `background: var(--colorPickerSliderColor);
-                background: -moz-linear-gradient(90deg, var(--colorPickerSliderColor) ${sliderValues[i]}%, var(--colorPickerSliderShadowColor) ${sliderValues[i]}%, var(--colorPickerSliderBackdrop) ${sliderValues[i] + 1}%);
-                background: -webkit-gradient(90deg, var(--colorPickerSliderColor) ${sliderValues[i]}%, var(--colorPickerSliderShadowColor) ${sliderValues[i]}%, var(--colorPickerSliderBackdrop) ${sliderValues[i] + 1}%);
-                background: linear-gradient(90deg, var(--colorPickerSliderColor) ${sliderValues[i]}%, var(--colorPickerSliderShadowColor) ${sliderValues[i]}%, var(--colorPickerSliderBackdrop) ${sliderValues[i] + 1}%);
-                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#8b0000",endColorstr="#6d6d6d",GradientType=1);`,
-                eventListener: {
-                    mousedown: (e) => {
 
-                        this.target = e.target;
-                        if (e.target.tagName !== "COLOR-SLIDETEXTBOX") {
-                            this.target = e.target.parentNode
-                        }
-                        this.target.dataset.active = "true"
-                    },
-                    mousemove: (e) => {
-                        if (e.target.dataset.active == "true") {
-                            e.target.dataset.mode = "slide"
-                        }
-                    },
-                    mouseup: (e) => {
-                        if (e.target.dataset.active == "true" && e.target.dataset.mode == "text") {
-                            console.log("reached")
-                            e.target.focus();
-                            document.execCommand('selectAll', false, null)
-                        }
-                        this.target.dataset.active = "false";
-                        this.target.dataset.mode = "text"
-                    },
-                    input: (e) => { this.#updateColorFromTextbox(e) }
-                }
-            })
-        }
-        return ret
-    }
 
-    #updateColorFromTextbox(e) {
-        const type = e.inputType;
-        const index = e.target.dataset.index;
-        const data = e.data;
-        const text = e.target.innerText;
-        const colormode = e.target.parentNode.dataset.colormode
-    }
 
-    #updateColorFromSlider(e) {
-        const colormode = this.target.parentNode.dataset.colormode;
-        if (this.target.dataset.active == "true") {
-            const { dX, width } = valueChangeParamGrab(this.target, e)
-            let slider, visual;
-            // console.log(dX, width, dX / width)
-            let color;
-            switch (colormode) {
-                case "RGB":
-                default:
-                    visual = clamp(0, round(dX / width * 100, 2), 100);
-                    slider = clamp(0, round(dX / width, 4), 1);
-                    this.#updateDataset(this.target, "RGB");
-                    break;
-                case "HSV":
-                    visual = clamp(0, round(dX / width * 100, 2), 100);
-                    if (this.target.dataset.index == "0") { slider = clamp(0, map(visual, 0, 100, 0, 360), 360) }
-                    else {
-                        slider = clamp(0, round(dX / width * 100, 2), 100);
-                    }
-                    break;
-            }
-
-            this.#updateSlider(this.target, slider, visual)
-        }
-    }
-
-    #updateDataset(target, mode) {
+    #updateDataset_old(target, mode) {
         console.log(target, mode)
         let sliders = Array.from(target.parentNode.querySelectorAll("textarea.color-slidetextbox")).map(a => Math.round(parseFloat(a.value) * 255));
-        console.log(sliders[0], sliders[1], sliders[2], sliders[3])
         const finalParent = target.parentNode.parentNode;
+
+
+        const wheel = finalParent.querySelector("colorpicker-wheel");
+        const wind = wheel.childNodes[2];
+        const wBrightMask = wheel.querySelector("colorpicker-huewheelbright")
+        const bright = finalParent.querySelector("colorpicker-brightness")
+        const bind = bright.childNodes[0];
+
+        const newHSV = Color.rgb.toHsv({ r: sliders[0], g: sliders[1], b: sliders[2], a: sliders[3] })
+        const coords = polarToCartesian({ a: degreeToRadian(newHSV.h), r: newHSV.s })
+        let { padding, height, width } = valueChangeParamGrab(wheel, { clientX: 0, clientY: 0 })
+        console.log(coords)
+        console.log(newHSV)
+        console.log(
+            finalParent.dataset.r = sliders[0],
+            finalParent.dataset.g = sliders[1],
+            finalParent.dataset.b = sliders[2],
+        )
+
         switch (mode) {
             case "RGB":
                 finalParent.dataset.r = sliders[0]
@@ -447,9 +523,6 @@ class Wheel {
                 break
             case "COLORMODE-BUTTON":
                 this.switchColorMode(this)
-                break
-            case "COLOR-SLIDETEXTBOX":
-                this.#updateColorFromSlider(e)
                 break
         }
     }

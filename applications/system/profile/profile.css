@@ -14,7 +14,7 @@
     height: 100%;
     overflow: hidden;
     display: grid;
-    grid-template-rows: 230px 1fr;
+    grid-template-rows: 240px 1fr;
 }
 
 .right {
@@ -32,7 +32,7 @@
     padding: 12px;
     display: grid;
     grid-template-columns: 100px 1fr;
-    grid-template-rows: 40px 2fr 40px;
+    grid-template-rows: 40px 2fr 1fr;
     grid-column-gap: 6px;
     grid-row-gap: 6px;
     -webkit-box-shadow: 0px 0px 28px 0px rgba(0, 0, 0, 0.75);
@@ -250,133 +250,17 @@ div.header>div>i {
 }
 
 div.right-top>div.profile-picture {
-    /* width: 100%;
+    width: 100%;
     aspect-ratio: 1;
     border-radius: 100%;
     display: block;
     background-color: #fff5;
     overflow: hidden;
-    border: solid 2px #fff;
-    box-sizing: border-box; */
-    width: calc(100% - 8px);
-    aspect-ratio: 1;
-    border-radius: 100%;
-    display: block;
-    background-color: #fff5;
-    overflow: hidden;
-    border: solid 2px #fff;
-    box-sizing: border-box;
-    margin: 4px;
 }
-
-div.right-top>div.profile-picture[data-status="Online"] {
-    border: solid 4px #cfc;
-    -webkit-box-shadow: 0px 0px 12px 3px #4c4;
-    box-shadow: 0px 0px 12px 3px #4c4;
-}
-
-div.right-top>div.profile-picture[data-status="Offline"] {
-    border: solid 4px #ccc;
-    -webkit-box-shadow: 0px 0px 12px 3px #444;
-    box-shadow: 0px 0px 12px 3px #444;
-}
-
-div.right-top>div.profile-picture[data-status="Do Not Disturb"] {
-    border: solid 4px #fcc;
-    -webkit-box-shadow: 0px 0px 12px 3px #c44;
-    box-shadow: 0px 0px 12px 3px #c44;
-}
-
-div.right-top>div.profile-picture[data-status="Busy"] {
-    border: solid 4px #ffc;
-    -webkit-box-shadow: 0px 0px 12px 3px #cc4;
-    box-shadow: 0px 0px 12px 3px #cc4;
-}
-
-/* :has(img:hover) */
-
-div.indicator>div.tooltip::before {
-    height: 17px;
-    width: 17px;
-    position: relative;
-    background-color: #555;
-    content: "";
-    display: block;
-    position: absolute;
-    transform: rotate(45deg);
-    border-radius: 0 0 0 3px;
-    left: -4px;
-    top: 4px;
-    z-index: -1;
-}
-
-div.indicator>div.tooltip::after {
-    content: attr(data-status);
-    position: relative;
-    white-space: nowrap;
-}
-
-div.indicator>div.tooltip {
-    opacity: 0;
-    display: block;
-    height: 24px;
-    width: fit-content;
-    background-color: #555;
-    left: calc(100% + 12px);
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    align-content: center;
-    padding-inline: 6px;
-    transition: opacity 200ms ease-in-out, visibility 0.001s 0.2s;
-    border-radius: 4px;
-    -webkit-box-shadow: 0px 0px 12px 0px #0008;
-    box-shadow: 0px 0px 12px 0px #0008;
-    visibility: hidden;
-}
-
-div.profile-picture:hover>div.indicator>div.tooltip,
-div.indicator:hover>div.tooltip {
-    animation: showtooltip 0.2s;
-    opacity: 1;
-    transition: opacity 200ms ease-in-out;
-    min-width: 4px;
-    visibility: visible;
-}
-
 
 div.profile-picture>img {
     height: 100%;
     width: 100%;
-}
-
-div.indicator {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    content: "";
-    display: block;
-    top: 126px;
-    left: 78px;
-    border-radius: 100%;
-    border: solid 3px #999;
-    cursor: pointer;
-}
-
-div.indicator[data-status="Offline"] {
-    background-color: #444;
-}
-
-div.indicator[data-status="Do Not Disturb"] {
-    background-color: #c44;
-}
-
-div.indicator[data-status="Online"] {
-    background-color: #4c4;
-}
-
-div.indicator[data-status="Busy"] {
-    background-color: #cc4;
 }
 
 div.profile-info {
@@ -458,20 +342,18 @@ div.profile-buttons>div.button[data-amount]:not([data-amount="0"]):not([data-amo
 }
 
 div.profile-buttons>div.button[data-amount]:not([data-amount="0"]):not([data-amount=""])::after {
-    content: attr(data-amount-clean);
+    content: attr(data-amount);
     background-color: #d44334;
-    height: 20px;
+    height: 18px;
     min-width: 18px;
     width: auto;
     bottom: 26px;
     position: absolute;
     margin-left: 107px;
-    padding: 4px;
+    padding: 2px;
     box-sizing: border-box;
     justify-content: center;
     display: flex;
     border-radius: 100px;
     font-size: 12px;
-    align-content: center;
-    max-width: 36px;
 }

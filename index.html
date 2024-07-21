@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="/css/desktop.css">
 	<link rel="stylesheet" href="/css/window.css">
 	<link rel="stylesheet" href="/css/ui.css">
+	<link rel="stylesheet" href="/boxicons-2.1.4/css/boxicons.min.css" type="text/css">
 	<script src="/socket.io/socket.io.js"></script>
     <script type="text/Javascript">
         const globalGetElementById = (str) => {
@@ -26,7 +27,7 @@
             return document.createElement(str)
         }
     </script>
-	<script src="https://kit.fontawesome.com/99a9767404.js" crossorigin="anonymous"></script>
+	<!-- <script src="https://kit.fontawesome.com/99a9767404.js" crossorigin="anonymous"></script> -->
 	<script src="/js/main.js" type="module" defer></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
   </head>
@@ -68,6 +69,18 @@
         </div>
     </start-menu>
     <desktop-search data-active="false" data-closeonfocus="true" data-ignore="search"><input type="text" data-type="desktopsearch" data-ignore="search"></desktop-search>
+    <desktop-hub>
+        <div class="hub-title">
+            <div class="settings-button" id="desktop-hub-settings"><i class='bx bxs-cog bx-lg' ></i></div>
+            <div class="title"><span>Hub</span></div>
+        </div>
+        <div class="topright">
+            <div id="desktop-hub-close" class="closebtn"><i class='bx bx-x bx-md' ></i></div>
+        </div>
+        <div class="window-group"></div>
+        <div class="message-widget"></div>
+        <div class="weather-widget"></div>
+    </desktop-hub data-open="false">
     <noscript>
         <div class="no-script" id="noscripterror">
             <div class="noscript-background">
@@ -80,3 +93,4 @@
     </noscript>
   </body>
 </html>
+

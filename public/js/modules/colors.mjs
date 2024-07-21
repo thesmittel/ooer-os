@@ -119,20 +119,20 @@ Object.defineProperties(rgb, {
 const hex = {};
 Object.defineProperties(hex, {
     toHsl: {
-        value: c => {Color.rgb.toHsl(Color.hex.toRgb(c))},
+        value: c => {return Color.rgb.toHsl(Color.hex.toRgb(c))},
         enumerable: false,
         configurable: false,
         writable: false
     },
     toHsv: {
-        value: c => {Color.rgb.toHsv(Color.hex.toRgb(c))},
+        value: c => {const t = Color.rgb.toHsv(Color.hex.toRgb(c)); return t},
         enumerable: false,
         configurable: false,
         writable: false
     },
     toRgb: {
         value: c => {
-            if (!c.match(/[0-9a-fA-F]{6}/g)) throw new Error("Hex color must be a 6 digit hexadecimal number. No '#', '0x' or other prefixes.")
+            if (!c.match(/^[0-9a-fA-F]{6}$/g)) throw new Error("Hex color must be a 6 digit hexadecimal number. No '#', '0x' or other prefixes.")
             return {
                 r: parseInt(c.slice(0,2), 16),
                 g: parseInt(c.slice(2,4), 16),

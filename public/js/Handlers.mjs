@@ -26,12 +26,83 @@ import * as Util from "./modules/Util.mjs";
 import * as Server from "./modules/Connect.mjs"
 import {handlers} from "./Error.mjs"
 
+const hub = document.querySelector("desktop-hub")
+
 document.querySelector("taskbar-button#home").addEventListener("click", openStartmenu)
 document.querySelector("taskbar-button#search").addEventListener("click", openSearch)
+document.querySelector("div#desktop-hub-close").addEventListener("click", closeHub)
+document.querySelector("div#desktop-hub-settings").addEventListener("click", (e) => {
+    closeHub()
+    openSettings(e)
+})
 
+let toHubClose;
+function closeHub() {
+    hub.dataset.open = false;
+    toHubClose = setTimeout(() => {
+        hub.remove();
+        toHubClose = undefined;
+    }, 100);
+}
+
+const pressedFKeys = {
+    "Shift": false,
+    "Control": false,
+    "Alt": false,
+    "Escape": false,
+    "Tab": false,
+    "CapsLock": false,
+    "AltGraph": false
+}
+function documentKeyDown(e) {
+    if (pressedFKeys[e.key] != undefined) {
+        pressedFKeys[e.key] = true
+        return
+    }
+    if (pressedFKeys.Alt && e.key.toLowerCase() == "t") {
+        if (hub.dataset.open == "true") {closeHub();return};
+        if (toHubClose) clearTimeout(toHubClose);
+        document.body.append(hub)
+        setTimeout(() => {
+            hub.dataset.open = "true"
+        }, 0);
+    }
+}
+function documentKeyUp(e) {
+    if (pressedFKeys[e.key] != undefined) {
+        pressedFKeys[e.key] = false
+        return
+    }
+}
 
 
 document.addEventListener("mousedown", loseFocus);
+document.addEventListener("mousedown", (e) => {
+    origin = [e.clientX, e.clientY]
+    const dragSelector = Util.create({
+        tagname: "selector-box"
+    })
+
+    function dragSelect(e) {
+        console.log("drag", origin, e.clientX, e.clientY)
+        document.body.append(dragSelector)
+        dragSelector.style.top = Math.min(origin[1], e.clientY) + "px";
+        dragSelector.style.left = Math.min(origin[0], e.clientX) + "px";
+        dragSelector.style.height = (Math.max(origin[1], e.clientY) - Math.min(origin[1], e.clientY)) + "px";
+        dragSelector.style.width = (Math.max(origin[0], e.clientX) - Math.min(origin[0], e.clientX)) + "px";
+    }
+
+    function endDrag(e) {
+        dragSelector.remove();
+        document.removeEventListener("mousemove", dragSelect)
+        document.removeEventListener("mouseup", endDrag)
+    }
+
+    document.addEventListener("mousemove", dragSelect)
+    document.addEventListener("mouseup", endDrag) 
+})
+document.addEventListener("keydown", documentKeyDown)
+document.addEventListener("keyup", documentKeyUp)
 
 /**
  * Creates the login screen when the login button is clicked. Sends requests to the Connect module and handles events within the login screen
@@ -92,7 +163,7 @@ function openLogin(event) {
                                 childElements: [
                                     {
                                         tagname: "i",
-                                        classList: ["fa-solid", "fa-xmark", "fa-xl"]
+                                        classList: ["bx", "bx-x", "bx-md"]
                                     }
                                 ],
                                 eventListener: {click: closeLogin}
@@ -107,7 +178,7 @@ function openLogin(event) {
                                 childElements: [
                                     {
                                         tagname: "i",
-                                        classList: ["fa-solid", "fa-arrow-right", "fa-xl"]
+                                        classList: ["bx", "bx-right-arrow-alt", "bx-md"]
                                     }
                                 ],
                                 eventListener: {
@@ -352,7 +423,7 @@ function openSignup(event) {
                                 childElements: [
                                     {
                                         tagname: "i",
-                                        classList: ["fa-solid", "fa-xmark", "fa-xl"]
+                                        classList: ["bx", "bx-x", "bx-md"]
                                     }
                                 ],
                                 eventListener: {click: closeSignup}
@@ -367,7 +438,7 @@ function openSignup(event) {
                                 childElements: [
                                     {
                                         tagname: "i",
-                                        classList: ["fa-solid", "fa-arrow-right", "fa-xl"]
+                                        classList: ["bx", "bx-right-arrow-alt", "bx-md"]
                                     }
                                 ],
                                 eventListener: {
@@ -446,7 +517,13 @@ function openSettings(e) {
     e.stopPropagation();
 }
 
+function openProfile(e) {
+    console.log("OPEN PROFILE")
+    Server.System( {req: "fetch_app", data: { id: "profile" }})
+    document.querySelector("start-menu").dataset.active = "false"
+    e.stopPropagation();
+}
 
 
 
-export {openLogin, openSignup, openSettings, loseFocus}
+export {openLogin, openSignup, openSettings, openProfile, loseFocus}

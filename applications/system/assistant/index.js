@@ -1,5 +1,5 @@
 "<import>"
-import { create, clamp } from "./js/modules/Util.mjs";
+import { create, clamp, sanitise, formattingParser } from "./js/modules/Util.mjs";
 import { System } from "./js/modules/Connect.mjs";
 "</import>"
 
@@ -120,20 +120,26 @@ const data = {
         {from: "ai", content: "1============================"},
         {from: "human", content: "2"},
         {from: "ai", content: "3"},
-        {from: "human", content: " 4"},
-        {from: "human", content: "5"},
-        {from: "ai", content: "The following is inside a tag: <b>test</b>"},
+        {from: "human", content: " 4<script type='text/javascript>console.log('oman')</script>"},
+        {from: "human", content: "# 5"},
+        {from: "ai", content: "The *fol**low*ing** is inside a tag: <b>test</b>"},
         {from: "ai", content: "7"},
-        {from: "human", content: "8=========dshgiusd gdsiugsdiug uszguzag regfzua gd ag uzdsgfu gafougfuz egu zagfuzfgzu sebgvc fvzu ewsda vbgfuzv================="},
+        {from: "human", content: "8=========dshgiusd gdsiugsdiug u**test**szguzag regfzua gd ag uzdsgfu gafougfuz egu zagfuzfgzu sebgvc fvzu ewsda vbgfuzv================="},
         {from: "ai", content: "9"},
         {from: "human", content: " 10"},
-        {from: "human", content: "11"},
+        {from: "human", content: `*italic* **bold** ***bolditalic*** ^super^ °sub° ^°supersub°^ _underline_ ~strikethrough~
+        ~strike**bold**~ *itali**bold*** ~stri_under~line_ ~a_b*c^d**e_f*g~h**i^`},
         {from: "ai", content: " 12"},
         {from: "ai", content: "13"},
         {from: "human", content: "14"},
         {from: "ai", content: " 15"},
         {from: "ai", content: "16"},
-        {from: "human", content: "17"}
+        {from: "human", content: `# # Big header
+## ## header 2
+### ### header 3
+#### #### header 4
+normal text
+(the visible # signs are only for visualisation, they are removed by the parser)`}
     ]
 }
 initialise(data)
@@ -160,9 +166,9 @@ const intvl = setInterval(() => {
 }, 100);
 
 
-function sanitise(text) {
-    return text.replaceAll(/</g, "&lt;");
-}
+// function sanitise(text) {
+//     return text.replaceAll(/</g, "&lt;");
+// }
 
 function makeBubble({from, content}) {
     const bubble = create({
@@ -172,7 +178,7 @@ function makeBubble({from, content}) {
             {
                 tagname: "pre",
                 classList: ["message", from],
-                innerHTML: content//sanitise(content)
+                innerHTML: formattingParser(sanitise(content))
             }
         ]
     })

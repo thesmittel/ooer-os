@@ -1,4 +1,5 @@
-:root, * {
+:root,
+* {
     margin: 0;
     padding: 0;
     font-family: "Roboto", sans-serif;
@@ -6,7 +7,10 @@
     user-select: none;
 }
 
-b, i, em, strong {
+b,
+i,
+em,
+strong {
     color: inherit;
 }
 
@@ -23,6 +27,7 @@ body {
     display: block;
     position: fixed;
     top: 1%;
+    z-index: -2;
 }
 
 .desktop-symbols-container {
@@ -32,7 +37,8 @@ body {
     left: 0;
     display: grid;
     grid-template-columns: repeat(auto-fill, 5%);
-    grid-template-rows: repeat(auto-fill, 72px);;
+    grid-template-rows: repeat(auto-fill, 72px);
+    ;
 }
 
 .error-bg {
@@ -56,7 +62,7 @@ div.sm-topbar[data-login="false"] {
     column-gap: 6px;
 }
 
-div.sm-topbar[data-login="true"]  {
+div.sm-topbar[data-login="true"] {
     display: grid;
     grid-template-columns: 48px 1fr 2fr 48px;
     column-gap: 6px;
@@ -94,11 +100,11 @@ input#login {
 }
 
 input#login:hover {
-    background-color: #fff2;   
+    background-color: #fff2;
 }
 
 input#login:active {
-    background-color: #fff4; 
+    background-color: #fff4;
 }
 
 input#signup {
@@ -115,11 +121,11 @@ input#signup {
 }
 
 input#signup:hover {
-    background-color: #fff2;   
+    background-color: #fff2;
 }
 
 input#signup:active {
-    background-color: #fff4; 
+    background-color: #fff4;
 }
 
 
@@ -133,7 +139,7 @@ a.settingsbutton {
     cursor: pointer;
 }
 
-div.sm-topbar > div.centerelement {
+div.sm-topbar>div.centerelement {
     display: grid;
     grid-template-columns: 1fr 45px;
     width: 100%;
@@ -143,7 +149,7 @@ div.sm-topbar > div.centerelement {
     column-gap: 12px;
 }
 
-div.sm-topbar > div.centerelement > div.user-container {
+div.sm-topbar>div.centerelement>div.user-container {
     display: grid;
     width: 100%;
     position: relative;
@@ -153,7 +159,7 @@ div.sm-topbar > div.centerelement > div.user-container {
     height: 100%;
 }
 
-div.sm-topbar > div.centerelement > div.user-container > div.nickname {
+div.sm-topbar>div.centerelement>div.user-container>div.nickname {
     color: white;
     font-size: large;
     font-family: "Roboto", sans-serif;
@@ -164,7 +170,7 @@ div.sm-topbar > div.centerelement > div.user-container > div.nickname {
     margin-right: 12px;
 }
 
-div.sm-topbar > div.centerelement > div.user-container > div.username {
+div.sm-topbar>div.centerelement>div.user-container>div.username {
     color: white;
     font-size: small;
     font-family: "Roboto", sans-serif;
@@ -176,7 +182,7 @@ div.sm-topbar > div.centerelement > div.user-container > div.username {
     font-weight: 300;
 }
 
-div.sm-topbar > div.centerelement > div.userpfp {
+div.sm-topbar>div.centerelement>div.userpfp {
     height: 100%;
     position: relative;
     aspect-ratio: 1;
@@ -185,14 +191,14 @@ div.sm-topbar > div.centerelement > div.userpfp {
 }
 
 div.snap-preview {
-    
+
     position: fixed;
     z-index: 9990;
     backdrop-filter: blur(14px);
     border-radius: 6px;
     background-color: #fff2;
     opacity: 1;
-    
+
 }
 
 div.snap-preview[data-visible="true"] {
@@ -217,7 +223,7 @@ div.snap-preview[data-visible="false"] {
     border-radius: 3px;
 }
 
-.notification-icon > img {
+.notification-icon>img {
     height: 100%;
     width: 100%;
 }
@@ -242,8 +248,9 @@ div.snap-preview[data-visible="false"] {
     font-weight: 300;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* number of lines to show */
-            line-clamp: 3; 
+    -webkit-line-clamp: 3;
+    /* number of lines to show */
+    line-clamp: 3;
     -webkit-box-orient: vertical;
 }
 
@@ -282,4 +289,140 @@ div.snap-preview[data-visible="false"] {
     text-align: center;
     font-weight: 300;
     filter: drop-shadow(0 0 5px #0008)
+}
+
+desktop-hub {
+    position: fixed;
+    inset: 0;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: #0006;
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    box-sizing: border-box;
+    padding: 48px;
+    display: grid;
+    grid-template-columns: 70% 1fr;
+    grid-template-rows: 64px 1fr 20%;
+    grid-column-gap: 36px;
+    grid-row-gap: 18px;
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(1.2);
+    transform-origin: center center;
+    transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out, visibility 0.1s steps(1, end);
+}
+
+desktop-hub[data-open="true"] {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+    transform: scale(1);
+    transform-origin: center center;
+}
+
+desktop-hub>.hub-title {
+    grid-area: 1 / 1 / 2 / 2;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    display: grid;
+    grid-template-columns: 54px 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 24px;
+    grid-row-gap: 0px;
+    box-sizing: border-box;
+    padding: 4px;
+}
+
+desktop-hub>.hub-title>.settings-button {
+    height: 100%;
+    width: 100%;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+desktop-hub>.hub-title>.settings-button:hover {
+    color: #ddd;
+}
+desktop-hub>.hub-title>.settings-button:active {
+    color: #aaa;
+}
+
+
+
+desktop-hub>.hub-title>.title {
+    height: 100%;
+    width: auto;
+    display: flex;
+    align-items: center;
+}
+desktop-hub>.hub-title>.title>span {
+    font-size: 48px;
+    color: white;
+    font-weight: 100;
+}
+
+desktop-hub>.topright{
+    grid-area: 1 / 2 / 2 / 3;
+    border-radius: 16px;
+    box-sizing: border-box;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+desktop-hub>.topright>.closebtn{
+    height: 36px;
+    aspect-ratio: 1;
+    border-radius: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline: 2px solid white;
+    transition: background-color 0.1s ease-in-out;
+}
+
+desktop-hub>.topright>.closebtn:hover{
+    background-color: #f444;
+    transition: background-color 0.1s ease-in-out;
+}
+
+
+desktop-hub>.window-group {
+    outline: solid 1px white;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    grid-area: 2 / 1 / 4 / 2;
+    backdrop-filter: blur(15px);
+    background-color: #0006;
+    border-radius: 16px;
+}
+
+desktop-hub>.message-widget {
+    outline: solid 1px white;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    grid-area: 2 / 2 / 3 / 3;
+    backdrop-filter: blur(15px);
+    background-color: #0006;
+    border-radius: 16px;
+}
+
+desktop-hub>.weather-widget {
+    outline: solid 1px white;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    grid-area: 3 / 2 / 4 / 3;
+    backdrop-filter: blur(15px);
+    background-color: #0006;
+    border-radius: 16px;
 }

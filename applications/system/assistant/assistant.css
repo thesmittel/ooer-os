@@ -330,6 +330,11 @@ a.send:active > i  {
     justify-content: right;
 }
 
+.message * {
+    user-select: text;
+    color: inherit;
+}
+
 .message {
     user-select: text;
     min-width: 64px;

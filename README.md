@@ -1,7 +1,4 @@
-# OoerOS
 
-A website designed to emulate your typical graphical consumer OS that supports third party applications.
-It is more a proof of concept, a bit of fun, rather than anything useful.
 
 ## Dependencies
 - Node, exact minimum compatible version unknown, i estimate at least v16, potentially v18, but v21 is advised
@@ -9,12 +6,21 @@ It is more a proof of concept, a bit of fun, rather than anything useful.
 - `socket.io`
 
 ## THIS IS NOT READY TO USE. DO NOT ATTEMPT TO DO SO! 
-Apart from the glaring security holes - MD5 hashing for password storage, with salt-hashed passwords being stored together with their salts - which are an immediate disqualification already, both backend and front end are far from finished. While some stuff works, and works well, im only so confident in my containment of non-system applications. I think I covered my bases but that assumption isnt worth the paper its written on. 
-Apart from that, most of the functionality is missing anyways, even apart from apps, so theres that. 
-I also plan on replacing the backend with rust, once i find the time for it, since i will be using this project to learn it. The advantages are clear, it'll be faster, cheaper and probably safer. 
+Some work needs to be done on the backend to properly implement login and signup, as of now, user login info is saved in a JSON using MD5, while the salt is fairly big, i still wouldnt advise using it.
+
+## Contributing
+A fairly large restructuring of the repo is planned and will happen sometime in the next few weeks. It will more clearly separate the front end and back end code. i will the module structure will also be reworked, some will disappear entirely, for example: the client side utility functions will probably be added to built in JS objects. This will also mean that proper documentation will be added.
+
+"Applications" will soon switch to a webworker based approach to prevent the whole thing from being locked by a simple loop, for that, a standardised communication interface between the workers and the main thread will be provided, making heavy use of callbacks in a more indirect way. Promises would probably be better but oh well. The switch to webworkers will also mean that windowed applications, background tasks and widgets will use a unified approach. Until now, the idea was to have widgets be their separate thing to windowed application while background tasks were outright banned. The exact nature of this is still unknown. I will probably have a separate permanent webworker that handles communication, spawning and destruction of all other web workers, while the main thread will only respond to UI events and requests. The exact performance impact of such an approach in terms of potential latency has not been assessed yet. 
+
+Web workers will get access to different calls depending on app permission level similar to what is already the case. They will be created using the same back end call as right now, the difference is that the JS returned by the server will be turned into a blob. The old ID structure will become the new "process" ID structure, with some changes: `<app id> <instance id> <call id>` where `<call id>` is used for callbacks inside the webworker.
+
+The system worker will be the ultimate authority. It will decide what application can request what kind of data both clientside and serverside.
+
+A switch to typescript is NOT planned. I just dont care enough.
 
 ## Current version:
-`0.1.240424`
+`0.1.20240713`
 
 ## Information regarding documentation
 Modules are divided into groups: `Server:`, `Client:`, `Sysapp:`, `App:` and `ThirdParty:`.
@@ -31,16 +37,6 @@ Functions and Properties within modules can have one of two prefixes:
 - `Export:` by extention needs no explanation
 
 Documentation is implemented via JSDoc. Works well in VSCode/Codium with JSDoc installed, you know how it works. A minifier will be provided, a simple script that removes all comments to reduce the filesize for eventual deployment. It will save into a separate directory, keeping the development copy intact.
-
-## Features
-
-- Login and signup somewhat functional
-- UI largely functional
-- Still lacking actual functionality
-- Push notifications (Have to go through server)
-    - Must be said: this does not use the notification feature that some websites insist you allow them to use. Push notifications are entirely within the DOM, showing up briefly on the top center of the screen
-- Customisable desktop symbols to launch apps (only customisable via back end)
-
 
 ### Windows
 Can be moved, closed, minimised, support snapping (so far only for maximising). Taskbar is present and functional, though not yet finished, window previews as well as app instance groups will soon be added.
@@ -88,9 +84,9 @@ Will document soon.
 - Moving desktop symbols
 - Dialog boxes for things like Error Messages
 - Several system apps that are missing from this version:
-    - Settings
-    - Terminal
-    - Notepad
+    - Settings (only exists visually)
+    - Terminal (only exists visually)
+    - Notepad (only exists visually)
     - Planner
     - Package manager for "installing" applications, themes etc
     - Messenger

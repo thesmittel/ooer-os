@@ -88,7 +88,7 @@ class Window {
             tagname: "a",
             id: "windowcontrolbutton",
             dataset: { action: "cls" },
-            innerHTML: '<i id="windowcontrollbuttonicon" class="fa-solid fa-xmark"></i>',
+            innerHTML: '<i id="windowcontrollbuttonicon" class="bx bx-x bx-sm"></i>',
             eventListener: {
                 click: this.close,
                 mousedown: (e) => { e.stopPropagation() }
@@ -99,7 +99,7 @@ class Window {
             tagname: "a",
             id: "windowcontrolbutton",
             dataset: { action: "min" },
-            innerHTML: '<i class="fa-solid fa-window-minimize fa-xs"></i>',
+            innerHTML: '<i class="bx bx-chevron-down bx-sm"></i>',
             eventListener: {
                 click: (e) => {
                     getParentWindow(e.target).dataset.minimised = "true"
@@ -134,7 +134,7 @@ class Window {
                 },
                 mousedown: (e) => { e.stopPropagation() }
             },
-            innerHTML: '<i class="fa-regular fa-window-restore"></i>'
+            innerHTML: '<i class="bx bx-windows bx-xs"></i>'
         })
 
         const maximiseButton = create({
@@ -163,7 +163,7 @@ class Window {
                 },
                 mousedown: (e) => { e.stopPropagation() }
             },
-            innerHTML: '<i class="fa-regular fa-window-maximize fa-xs"></i>'
+            innerHTML: '<i class="bx bx-window bx-xs"></i>'
         })
 
         this.#style = create({
@@ -545,7 +545,7 @@ function maximiseWindow(t) {
 
     target.dataset.maximised = target.dataset.maximised == "false"
 
-    document.getElementById("snapping-prev")
+    document.getElementById("snapping-prev") // ???
 }
 
 
@@ -586,7 +586,7 @@ function startResize(event) {
  * @name Internal:windowResize
  */
 function windowResize(event) {
-    event.preventDefault()
+    //event.preventDefault()
     if (!mouseDown) return;
 
     if (targetWindow == null) return;
@@ -734,7 +734,7 @@ function taskbarSymbolAddWindowPreview({ target }) {
     clone.style.position = "relative"
     clone.style.height = height;
     clone.style.width = width;
-
+    Array.from(clone.querySelectorAll("[data-open='true']")).forEach(a => a.dataset.open = "false")
     height = parseInt(height);
     width = parseInt(width)
     const xScale = 200 / width; // this should probably not be hardcoded

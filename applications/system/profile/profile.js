@@ -1,23 +1,9 @@
 "<import>"
 import { create } from "/js/modules/Util.mjs";
 import { Wheel, TextboxSlider, SliderGroup, DropDownMenu, TextDropDown } from "/js/modules/ui.mjs"
-import { System } from "/js/modules/connect.mjs";
-import { addMessageListener } from "/js/modules/System.mjs"
-import * as Client from "/js/modules/Client.mjs"
+import { App } from "/js/modules/connect.mjs"
 "</import>"
-"<application>"
-
-function handleMessages(data) {
-    console.log(data)
-}
-
-addMessageListener(application.windowid, handleMessages)
-
-
-application.body.querySelector("div.edit").addEventListener("click", () => {
-    System( {req: "fetch_app", data: { id: "profile" }})
-})
-
+console.log("app", App)
 const usersettings = {}
 const settingsTemplate = {
     home: {
@@ -188,38 +174,12 @@ const screens = { // Array of DOM trees
         create({
             tagname: "div",
             classList: ["settings-element", "button"],
-            childElements: [
-                {
-                    tagname: "span",
-                    classList: ["text"],
-                    innerText: "Test button"
-                },
-                {
-                    tagname: "i",
-                    classList: ["bx", "bx-chevron-right", "bx-sm"]
-                }
-            ]
+            innerHTML: `<span class="text">Test button</span><i class="bx bx-chevron-right bx-sm"></i>`
         }),
         create({
             tagname: "div",
             classList: ["settings-element", "regular"],
-            childElements: [
-                {
-                    tagname: "span",
-                    classList: ["text"],
-                    innerText: "Test color picker with alpha (to do: alpha slider)"
-                },
-                {
-                    tagname: "color-picker",
-                    id: "test",
-                    dataset: {
-                        r: 0, g: 0, b: 0, a: 1
-                    },
-                    eventListener: {
-                        click: ({target}) => {const wheel = new Wheel(target); wheel.show()}
-                    }
-                }
-            ]
+            innerHTML: `<span class="text">Test color picker with Alpha (to do: alpha slider)</span><color-picker id="test" data-r="0" data-g="0" data-b="0" data-a="1"></div>`
         }),
         create({
             tagname: "div",
@@ -256,89 +216,17 @@ const screens = { // Array of DOM trees
                 },
                 testDropdown1.element
             ]
-        }),
-        create({
-            tagname: "div",
-            classList: ["settings-element", "regular"],
-            childElements: [
-                {
-                    tagname: "span",
-                    classList: ["text"],
-                    innerText: "Test toggle"
-                },
-                {
-                    tagname: "toggle-switch",
-                    dataset: {value: "true"},
-                    eventListener: {
-                        click: (e) => {e.target.dataset.value = e.target.dataset.value=="false"}
-                    }
-                }
-            ]
-        }),
-        create({
-            tagname: "div",
-            classList: ["settings-element", "regular"],
-            childElements: [
-                {
-                    tagname: "span",
-                    classList: ["text"],
-                    innerText: "Test toggle2"
-                },
-                {
-                    tagname: "toggle-switch",
-                    dataset: {value: "false"},
-                    eventListener: {
-                        click: (e) => {e.target.dataset.value = e.target.dataset.value=="false"}
-                    }
-                }
-            ]
-        }),
+        })
         // slidegroup,
         // tbSlide4.element,
         // newSlideGroup.element
     ],
-    "user": [
-        create({
-            tagname: "span",
-            innerText: "User",
-            classList: ["settings-header"]
-        })
-    ],
-    "pckg": [
-        create({
-            tagname: "span",
-            innerText: "Applications",
-            classList: ["settings-header"]
-        })
-    ],
-    "appr": [
-        create({
-            tagname: "span",
-            innerText: "Appearance",
-            classList: ["settings-header"]
-        })
-    ],
-    "lang": [
-        create({
-            tagname: "span",
-            innerText: "Language and Time",
-            classList: ["settings-header"]
-        })
-    ],
-    "prvc": [
-        create({
-            tagname: "span",
-            innerText: "Privacy",
-            classList: ["settings-header"]
-        })
-    ],
-    "socl": [
-        create({
-            tagname: "span",
-            innerText: "Social",
-            classList: ["settings-header"]
-        })
-    ]
+    "user": [create({tagname: "toggle-switch"})],
+    "pckg": [],
+    "appr": [],
+    "lang": [],
+    "prvc": [],
+    "socl": []
 };
 
 
@@ -349,39 +237,26 @@ function getParentButton(target) {
 
 sidebarButtonHandle()
 
-const messagesButton = window.querySelector("div#messages.button");
-const requestButton = window.querySelector("div#requests.button");
-
-
-
-setInterval(() => {
-    let messages = +messagesButton.dataset.amount
-    if (messages > 99) {
-        messagesButton.dataset.amountClean = "99+";
-    } else {
-        messagesButton.dataset.amountClean = messages
-    }
-}, 40);
-
 function sidebarButtonHandle(e) {
     let s = ""
     if (!e) {
         s = "home"
     } else {
-        s = getParentButton(e.target).dataset.target;
+        getParentButton(e.target).dataset.target;
     }
-    main.innerText = "";
-    console.log(s)
+    main.innerHTML = "";
     main.append(...screens[s])
     const colorPickers = Array.from(main.querySelectorAll("color-picker"));
     colorPickers.forEach(a => {
+        a.addEventListener("click", ({target}) => {const wheel = new Wheel(target); wheel.show()});
         a.style.background = `rgba(${a.dataset.r},${a.dataset.g},${a.dataset.b},${a.dataset.a })`
     });
 }
 
 const sidebarButtons = Array.from(application.body.querySelector("div#settings-sidebar-bottom").childNodes).filter(a => a.tagName === "DIV");
 
-sidebarButtons.forEach(a => a.addEventListener("click", sidebarButtonHandle))
+sidebarButtons[0].addEventListener("click", sidebarButtonHandle)
+
 function listener(data) {
     switch (data.operation) {
         case "update":

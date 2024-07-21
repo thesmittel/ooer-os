@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "author": "Smittel",
-    "name": "AI Assistant",
+    "name": "llama maybe",
     "type": "windowed",
     "windows": [{
         "defaultWidth": 600,
@@ -9,12 +9,12 @@
         "minWidth": 600,
         "minHeight": 200,
         "resizable": true,
-        "title": "AI Assistants",
+        "title": "maybe llama soon",
         "html": "index.html",
         "js": "index.js",
-        "css": "aichat.css",
+        "css": "assistant.css",
         "draggable": true
     }],
-    "icon": "settings.png",
+    "icon": "icon.png",
     "about": "An example application"
 }

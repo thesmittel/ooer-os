@@ -1,11 +1,61 @@
 
 ## Version
-0.1.240531
+0.1.20240721
+- new UI elements:
+    - Textbox with sliders
+    - Textbox with filtering dropdown
+    - Dropdown menu
+- pre-work for webworkers done
+    - all windowed applications, widgets and background tasks will be put into webworkers
+    - Main thread will only do UI tasks, worker and server communication
+    - webworkers will get non-DOM related util functions attached to the built in objects like `Math`, `String.prototype` etc.
+- A slightly non-standard version of markdown:
+    - `°text°` marks subscript
+    - `^text^` marks superscript
+    - `_text_` marks underlined text
+    - `~text~` marks strikethrough
+    - `*text*` marks italic
+    - `**text**` marks bold
+    - 4 different header variants, marked by one to four `#` signs followed by a space, corresponding to `<h2>`, `<h3>`, `<h4>`, `<h5>` respectively
+    - All markers can be escaped
+    - Formatting can overlap, aside from headers.
+    - Superscript and subscript can be combined.
+    - for visual representations, check the `llama probably` app 
+- Added a separate "Profile" app, where the profile can be changed. For now it just uses an older version of the settings app as a place holder so it at least has something showing up. It can be accessed
+- Added click-and-drag selection (visual only so far, only implemented on desktop)
 
 ## Why such a weird version numbering?
 It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
 
 ## Changes
+
+### 0.1.240625
+- Fixed bug where login errors arent displayed
+- added api premade complex UI elements:
+    - Dropdown menus
+    - Color wheels, see below
+- added "The hub"
+    - accessible with Alt+T
+    - will contain currently opened windows grouped and sorted accordingly
+    - unread messages (coming soon)
+    - weather widget (coming soon)
+    - last two are subject to change
+- Color wheels:
+    - live updates
+    - 3 color modes for sliders: RGB, HSV, Hex
+    - brightness slider and hue-saturation wheel
+    - fires events
+    - documentation follows
+- bundled [Boxicons v2.1.4](https://boxicons.com/)
+    - not fit for deployment in current stage, payload too big to be practical
+    - will make switch away from fontawesome
+- changes to Util module
+    - now split into smaller files
+    - upcoming change: where applicable, functions from the util module will be attached to either the corresponding prototype or built in model, for example:
+        - Util.math.clamp(min, v, max) will be attached to the built-in Math object
+        - Util.math.round(v, d) will be renamed to roundTo(v, d) and attached
+        - I am aware this isnt "good practice", but since all third party applets will have to be written relative to and within the bounds of the website, just see it as a superset of js providing additional functionality built in
+        - eventually these util functions MIGHT be rewritten in WASM, though whether its worth it or not is debatable
 
 ### 0.1.240521
 - Maximising windows by double clicking the header

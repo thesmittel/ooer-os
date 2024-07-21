@@ -24,8 +24,8 @@
                 },
                 
                 {
-                    "appid": "aichat",
-                    "text": "AI Assistant",
+                    "appid": "assistant",
+                    "text": "llama probably",
                     "icon": null,
                     "position": [2,4]
                 },
@@ -56,6 +56,13 @@
                     "text": "Settings2",
                     "icon": null,
                     "position": [1,6]
+                },
+                
+                {
+                    "appid": "profile",
+                    "text": "Profile",
+                    "icon": null,
+                    "position": [2,6]
                 }
             ]
         },

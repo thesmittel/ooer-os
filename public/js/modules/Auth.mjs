@@ -23,7 +23,7 @@
  * @author Smittel
  */
 import { Auth as emit, System } from "./Connect.mjs"
-import { openSignup, openLogin, openSettings } from "../Handlers.mjs"
+import { openSignup, openLogin, openSettings, openProfile } from "../Handlers.mjs"
 import { create } from "./Util.mjs"
 import {handlers} from "../Error.mjs"
 
@@ -55,8 +55,10 @@ function cookieLogin() {
  * @name Export:handle
  */
 function handle(data) {
+    console.log("in auth", data)
     if (data.error) {
-        handlers[data.error.code](data);
+        console.log(data.error)
+        handlers[data.error.code](data.error);
         return;
     }
     if (data.response == "confirm-login") {
@@ -174,7 +176,7 @@ function loggedin(data) {
             childElements: [
                 {
                     tagname: "i",
-                    classList: ["fa-solid","fa-gear", "fa-lg"],
+                    classList: ["bx","bxs-cog", "bx-sm"],
                     dataset: {ignore: "startmenu"}
                 }
             ]
@@ -185,6 +187,9 @@ function loggedin(data) {
             tagname:"div",
             classList: ["centerelement"],
             dataset: {ignore: "startmenu"},
+            eventListener: {
+                click: openProfile
+            },
             childElements: [
                 {
                     tagname: "div",
@@ -205,8 +210,10 @@ function loggedin(data) {
                 {
                     tagname: "div",
                     classList: ["userpfp"],
-                    style: `background-image: url("${userpfp}");`
-                        
+                    style: `background-image: url("${userpfp}");`,
+                    eventListener: {
+                        click: openProfile
+                    },
                     
                 }
             ]
@@ -219,7 +226,7 @@ function loggedin(data) {
             childElements: [{
                 tagname: "i", 
                 dataset: {ignore: "startmenu"},
-                classList: ["fa-solid", "fa-arrow-right-from-bracket", "fa-lg"]
+                classList: ["bx", "bx-log-out", "bx-sm", "bx-flip-horizontal"]
             }]
         })
     )

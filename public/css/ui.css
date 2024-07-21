@@ -6,7 +6,7 @@
     --glass-blur: blur(15px);
     --window-color: #0009;
     --header-color: transparent;
-    --colorPickerSliderColor: rgba(92, 41, 72, 1);
+    --colorPickerSliderColor: rgb(129, 53, 99);
     --colorPickerSliderShadowColor: rgba(33, 33, 33, 1);
     --colorPickerSliderBackdrop: rgba(55, 55, 55, 1);
 }
@@ -70,7 +70,7 @@ error-box {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1000000;
+    z-index: 100000000;
     padding: 4px 4px 2px 4px;
     overflow: hidden;
 }
@@ -375,13 +375,60 @@ notification-box[data-visible="true"] {
 
 toggle-switch {
     height: 18px;
-    width: 54px;
+    width: 40px;
     border: solid 2px white;
-    border-radius: 9px;
-
+    border-radius: 29px;
+    cursor: pointer;
+    overflow: hidden;
 }
 
 toggle-switch[data-value="true"] {}
+
+toggle-switch::before {
+    content: "|◯";
+    letter-spacing: 27px;
+    padding-left: 12px;
+    box-sizing: border-box;
+    font-weight: 700;
+    width: 60px;
+    height: 100%;
+    background: rgb(3, 0, 56);
+    background: linear-gradient(90deg, rgba(0, 223, 0, 0.3) 50%, rgba(223, 0, 0, 0.3) 50% );
+    display: block;
+    left: -20px;
+    transition: left 0.1s ease-in-out;
+    position: relative;
+    line-height: 18px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+toggle-switch[data-value="true"]::before {
+    left: 0px;
+    transition: left 0.1s ease-in-out;
+}
+
+toggle-switch::after {
+    align-self: center;
+    content: "";
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    background-color: white;
+    display: block;
+    left: 0px;
+    box-sizing: border-box;
+    border: solid 2px transparent;
+    position: relative;
+    transition: left 0.1s ease-in-out;
+    outline: solid 1px white;
+    top:-100%;
+}
+
+toggle-switch[data-value="true"]::after {
+    left: 22px;
+    transition: left 0.1s ease-in-out;
+}
 
 div.colorwheel-backdrop {
     position: fixed;
@@ -514,13 +561,13 @@ colorpicker-slidercontainer {
     position: absolute;
     inset: 0;
     display: grid;
-    display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(5, 24px);
+    grid-template-rows: 1fr 3fr 1fr;
     grid-column-gap: 3px;
     grid-row-gap: 6px;
     grid-area: 2 / 1 / 3 / 3;
 }
+
 
 colormode-button {
     cursor: pointer;
@@ -555,89 +602,103 @@ colormode-button[data-mode="HEX"] {
     grid-area: 1 / 3 / 2 / 4;
 }
 
-color-slidetextbox {
-    display: grid;
-    grid-template-columns: 24px 1fr;
-    grid-template-rows: 100%;
-    grid-column-gap: 12px;
-    grid-row-gap: 0px;
-    height: 100%;
+slider-group {
+    display: block;
+    overflow: hidden;
     width: 100%;
+    height: auto
+}
+
+slider-group>textbox-slider:nth-last-of-type(1) {
+    border-radius: 0 0 3px 3px !important;
+}
+
+slider-group>textbox-slider:nth-of-type(1) {
+    border-radius: 3px 3px 0 0 !important;
+}
+
+slider-group>textbox-slider:not(:nth-of-type(1)):not(:nth-last-of-type(1)) {
+    border-radius: 0px;
+}
+
+slider-group>textbox-slider:not(:nth-of-type(1)) {
+    border-top: solid 1px rgba(255, 255, 255, 0.1) !important
+}
+
+slider-group>span {
+    font-size: 12px;
     font-weight: 300;
-    color: white;
-    border-radius: 3px;
-    background-color: #22d;
-    box-sizing: border-box;
-    overflow: hidden;
-    cursor: ew-resize;
+    margin-left: 6px;
+    position: relative;
 }
 
-color-slidetextbox>span.label {
-    display: block;
+
+colorpicker-slidergrid {
     width: 100%;
     height: 100%;
-    cursor: ew-resize;
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 24px 72px 24px;
+    grid-column-gap: 3px;
+    grid-row-gap: 6px;
 }
 
 
 
-color-slidetextbox>textarea.color-slidetextbox {
-    resize: none;
-    outline: none;
-    height: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: block;
-    background: transparent;
-    cursor: ew-resize;
-    line-height: 22px;
-    font-weight: inherit;
-    border: none;
+hex-box {
+    height: 24px;
+    width: 100%;
+    inset: 0;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 3px;
+    grid-row-gap: 0px;
+    background-color: #2c2c2c;
+    padding-inline: 6px;
+    border-radius: 3px;
 }
 
-color-slidetextbox>textarea.color-slidetextbox:focus,
-color-slidetextbox>textarea.color-slidetextbox:active {
-    outline: none;
-    filter: brightness(1.3);
-    cursor: text;
+hex-box>span {
+    line-height: 24px;
+    font-size: 15px;
+    font-weight: 300;
 }
 
-span.color-slidetextbox {
-    left: 6px;
+hex-box>input[type=text] {
+    width: 100%;
     position: relative;
-    content: attr(data-current);
-    filter: drop-shadow(0px 0px 3px #000000);
-    line-height: 22px;
+    padding: 0;
+    line-height: 24px;
+    font-size: 15px;
+    background: transparent;
+    outline: none;
+    border: none;
+    padding-inline: 6px;
+    box-sizing: border-box;
+    font-weight: 300;
+}
+
+hex-box>input[type=text]:focus {
+    border: none;
+    outline: none;
 }
 
 
-
-
-
-color-slidetextbox[data-index="0"] {
-    grid-area: 2 / 1 / 3 / 5;
-}
-
-color-slidetextbox[data-index="1"] {
-    grid-area: 3 / 1 / 4 / 5;
-}
-
-color-slidetextbox[data-index="2"] {
-    grid-area: 4 / 1 / 5 / 5;
-}
-
-color-slidetextbox[data-index="3"] {
-    grid-area: 5 / 1 / 6 / 5;
-}
 
 
 textbox-slider {
     background-color: var(--colorPickerSliderBackdrop);
     height: 24px;
-    width: 100px;
+    width: 100%;
     display: block;
-    /* overflow: hidden; */
+    overflow: hidden;
+    border-radius: 3px;
+    box-sizing: border-box;
+    pointer-events: relative;
 }
 
 textbox-slider>div.indicator {
@@ -649,13 +710,26 @@ textbox-slider>div.indicator {
     height: 100%;
 }
 
-textbox-slider>input[type="number"]::-webkit-outer-spin-button,
-textbox-slider>input[type="number"]::-webkit-inner-spin-button {
+textbox-slider>div.grid {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    grid-template-rows: 100%;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    position: relative;
+    top: 0;
+    height: 100%;
+    width: 100%;
+
+}
+
+textbox-slider>div.grid>input[type="number"]::-webkit-outer-spin-button,
+textbox-slider>div.grid>input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-textbox-slider>input[type="number"] {
+textbox-slider>div.grid>input[type="number"] {
     -moz-appearance: textfield;
     position: relative;
     width: 100%;
@@ -671,13 +745,25 @@ textbox-slider>input[type="number"] {
 }
 
 
-textbox-slider>input[type=number]:focus, 
+textbox-slider>div.grid>input[type=number]:focus,
 textbox-slider>input[type=range]:focus {
     outline: none;
 }
 
+textbox-slider>div.grid>span {
+    height: 100%;
+    display: block;
+    font-size: 15px;
+    top: -100%;
+    position: relative;
+    line-height: 24px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-inline: 6px;
+    font-weight: 300;
+}
 
-/* textbox-slider>input[type="range"] {
+textbox-slider>input[type="range"] {
     position: relative;
     width: 100%;
     height: 100%;
@@ -691,8 +777,8 @@ textbox-slider>input[type=range] {
     -webkit-appearance: none;
     margin: 10px 0;
     width: 100%;
-    background-color: rgba(0,0,0,0.2);
-    padding:0;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0;
     margin: 0;
 }
 
@@ -759,7 +845,8 @@ textbox-slider>input[type=range]::-ms-track {
     height: 24px;
     cursor: ew-resize;
     animate: 0.2s;
-    background: transparent;;
+    background: transparent;
+    ;
     border: none;
     color: transparent;
 }
@@ -786,4 +873,169 @@ textbox-slider>input[type=range]:focus::-ms-fill-lower {
 
 textbox-slider>input[type=range]:focus::-ms-fill-upper {
     background: #3071A9;
-} */
+}
+
+dropdown-menu {
+    height: 36px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 36px;
+    grid-template-rows: 24px;
+    grid-column-gap: 6px;
+    grid-row-gap: 0px;
+    background: #333;
+    align-self: start;
+    position: relative;
+    transition: box-shadow 0.1s ease-in-out;
+    border-radius: 6px;
+    box-shadow: 0 0 4px #0008;
+    cursor: pointer;
+}
+
+dropdown-menu:hover {
+    box-shadow: 0 0 6px #fff4;
+}
+
+dropdown-menu[data-open="true"] {
+    box-shadow: 0 0 4px #0000;
+    transition: box-shadow 0.1s ease-in-out;
+}
+
+dropdown-menu[data-open="true"]>dropdown-list {
+    height: fit-content;
+}
+
+dropdown-menu::before {
+    position: relative;
+    content: attr(data-value);
+    font-weight: 300;
+    left: 12px;
+    line-height: 36px;
+    display: block;
+    width: 100%;
+    z-index: 0;
+    height: 36px;
+}
+
+dropdown-menu::after {
+    content: "▼";
+    transform-origin: center center;
+    display: flex;
+    align-items: center;
+    height: 36px;
+    width: 36px;
+    justify-content: center;
+    text-align: center;
+    transform: rotate(0deg);
+    transition: transform 0.2s ease-in-out;
+    font-size: 12px;
+}
+
+dropdown-menu[data-open="true"]::after {
+    transform: rotate(180deg);
+    transition: transform 0.2s ease-in-out;
+}
+
+dropdown-list {
+    max-height: 120px;
+    width: calc(100% - 36px);
+    transition: height 0.2s ease-in-out;
+    overflow-x: hidden;
+    overflow-y: visible;
+    position: absolute;
+    background-color: #222;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 36px);
+    grid-column-gap: 0px;
+    grid-row-gap: 3px;
+    border-radius: 6px 0 6px 6px;
+    box-shadow: 0 0 4px #0008;
+    cursor: default;
+}
+
+
+
+*:has(dropdown-menu[data-open="true"]) {
+    z-index: 100000;
+    position: relative;
+}
+
+dropdown-list>dropdown-element {
+    font-weight: 100;
+    font-size: 14px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding-inline: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out;
+}
+
+dropdown-list>dropdown-element:hover {
+    background-color: #fff2;
+    transition: background-color 0.1s ease-in-out;
+}
+
+dropdown-list>dropdown-element[data-selected="true"] {
+    background-color: #fff4;
+    font-weight: 500;
+}
+
+dropdown-list>dropdown-element[data-selected="true"]:hover {
+    background-color: #fff6;
+}
+
+textdropdown-main {
+    width: 100%;
+    height: 36px;
+    display: flex;
+}
+
+textdropdown-main>input {
+    width: 100%;
+}
+
+textdropdown-list {
+    position: absolute;
+    display: block;
+    top: 22px;
+    padding-top: 18px;
+    z-index: -1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: #222;
+}
+
+textdropdown-element {
+    width: 100%;
+    height: 36px;
+    display: block;
+    align-content: center;
+    padding-inline: 12px;
+    font-weight: 300;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    box-sizing: border-box;
+}
+
+textdropdown-element:hover {
+    background-color: #fff2;
+}
+
+selector-box {
+    border: solid 1px #88a;
+    background-color: #88a4;
+    border-radius: 3px;
+    position: fixed;
+    z-index: -1;
+    width: 100px;
+    height: 100px;
+}

@@ -67,8 +67,19 @@ function handle(data) {
             setupDesktopSymbols(data)
             break
         case "sysapp":
-
+            break
+        case "usermessage": // messages and requests
+            for (let i in messageListeners) {
+                messageListeners[i](data)
+            }
+            break;
     }
+}
+
+const messageListeners = {};
+
+function addMessageListener(app, func) {
+    messageListeners[app] = func;
 }
 
 /**
@@ -182,4 +193,4 @@ function makeNotification({ icon, title, text, app }) {
 //     if (Date.now() - lastheartbeat > 10) handlers["S-0001"]({code: "S-0001", message: "Connection to server timed out"})
 // }, 1000)
 
-export { handle, registerSysApp }
+export { handle, registerSysApp, addMessageListener }

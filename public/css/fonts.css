@@ -105,3 +105,12 @@
     font-style: italic;
     font-display: swap;
 } */
+
+@font-face {
+    font-family: 'boxicons';
+    src: url('/boxicons-2.1.4/fonts/boxicons.woff2') format('woff2'),
+         url('/boxicons-2.1.4/fonts/boxicons.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

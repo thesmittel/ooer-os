@@ -202,6 +202,7 @@
     background-color: #222;
     width: 100%;
     border-radius: 4px;
+    overflow: scroll;
 }
 
 .window > .resize {

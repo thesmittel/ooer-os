@@ -1,6 +1,9 @@
 import { create, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian } from "/js/modules/Util.mjs";
 import { Color } from "/js/modules/colors.mjs";
 import { Wheel } from "/js/modules/ui/colorwheel.mjs";
+import { TextboxSlider, SliderGroup } from "/js/modules/ui/textslider.mjs";
+import { DropDownMenu } from "/js/modules/ui/dropdown.mjs";
+import { TextDropDown } from "/js/modules/ui/textdropdown.mjs";
 let closable = true;
 let activeSelector;
 
@@ -345,141 +348,6 @@ function makeColorSelector(parentElement) {
 }
 
 
-class TextboxSlider {
 
-    element;
-    value;
-    min; max; step;
-    #sliding = false;
-    #active = false;
-    #tbactive = false;
-    #validValue = true;
 
-    constructor({id, name, min, max, val, step}) {
-        if (min === undefined) throw new ReferenceError("'min' is not defined.")
-        if (max === undefined) throw new ReferenceError("'max' is not defined.")
-        if (val === undefined) throw new ReferenceError("'val' is not defined.")
-        let indicator, textbox, slider;
-
-        indicator = create({
-            tagname: "div",
-            classList: ["indicator"],
-            style: `width: ${round((val - min) / (max - min) * 100, 1)}%;`
-        })
-
-        textbox = create({
-            tagname: "input",
-            type: "number",
-            min: min,
-            max: max,
-            step: step || 1,
-            value: val,
-            style: "z-index: 1; padding-left: 12px",
-            eventListener: {
-                "keydown": (e) => {
-                   if (e.key == "Enter") {
-                    if(this.#validValue) {
-                        indicator.style.width = ((e.target.value - min) / (max - min) * 100) + "%"
-                        this.element.dataset.value = e.target.value
-                        e.target.value = clamp(min, e.target.value, max)
-                    } else {
-                        e.target.value = this.element.dataset.value;
-                        indicator.style.width = ((this.element.dataset.value - min) / (max - min) * 100) + "%"
-                    }
-                    window.getSelection().removeAllRanges()
-                    e.target.blur();
-                   }
-                },
-                "input": (e) => {
-                    this.#validValue = !!e.target.value
-                    this.element.style.outline = this.#validValue?"":"solid 2px red"
-
-                    if(this.#validValue) {
-                        indicator.style.width = round((e.target.value - min) / (max - min) * 100, 1) + "%"
-                        textbox.value = e.target.value
-                        this.element.dataset.value = e.target.value
-                    }
-                },
-                "focusout": (e) => {
-                    console.log("focusout")
-                    textbox.style["z-index"] = 1
-                    this.#tbactive = false;
-                }
-            }
-        })
-
-        slider = create({
-            tagname: "input",
-            type: "range",
-            id: id || "",
-            name: name || "",
-            min: min,
-            max: max,
-            step: step || 1,
-            value: val,
-            style: "z-index: 2",
-            eventListener: {
-                "input": (e) => {
-                    console.log("input")
-                    indicator.style.width = round((e.target.value - min) / (max - min) * 100, 1) + "%"
-                    textbox.value = e.target.value
-                    e.target.parentNode.dataset.value = e.target.value
-                },
-                "mousedown": (e) => {
-                    this.#active = true;
-                    window.getSelection().removeAllRanges()
-                },
-                "mousemove": (e) => {
-                    this.#sliding = this.#active
-                },
-                "mouseup": (e) => {
-                    setTimeout(() => {
-                        this.#sliding = false;
-                        this.#active = false;
-                    }, 1);
-                }
-            }
-        })
-
-        this.element = create({
-            tagname: "textbox-slider",
-            childElements: [
-                indicator,
-                textbox,
-                slider
-            ],
-            dataset: {
-                value: val
-            },
-            eventListener: {
-                "click": (e) => {
-                    if (!this.#sliding) {
-                        if (!this.#tbactive) {
-                            textbox.focus();
-                            textbox.select();
-                            textbox.style["z-index"] = 3;
-                            this.#tbactive = true;
-                        }
-                    }
-                }
-            }
-        })
-    }
-
-    setStyle(style) {
-        for (let i in style) {
-            this.element.style[i] = style[i]
-        }
-    }
-
-    show(parentElement) {
-        parentElement.append(this.element)
-    }
-
-    hide() {
-        this.element.remove()
-    }
-
-}
-
-export {Wheel, TextboxSlider}
+export {Wheel, TextboxSlider, SliderGroup, DropDownMenu, TextDropDown}

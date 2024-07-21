@@ -27,7 +27,7 @@ import { create } from "./modules/Util.mjs";
 
 function invalidCredentials(message) {
     let cont = document.querySelector("div#login-container")
-    console.log(cont)
+    console.log(message.message)
     if (!cont) return;
     cont.dataset.error = message.message;
 }
