@@ -36,7 +36,7 @@ import * as url from 'url';
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL('..', import.meta.url));
 
-let appDB = JSON.parse(fs.readFileSync("./applications/custom/db.json"))
+let appDB = JSON.parse(fs.readFileSync("./server/applications/custom/db.json"))
 
 function grabApplication(socket, data) {
     console.log("grabApp")

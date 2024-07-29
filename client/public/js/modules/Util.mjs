@@ -23,10 +23,10 @@
  * @author Smittel
  */
 
-import {sanitise, unsanitise, formattingParser} from "/js/modules/util/text.mjs"
-import {deleteElement} from "/js/modules/util/array.mjs"
-import {create, isElement, getElement, getParentWindow, nthParent} from "/js/modules/util/dom.mjs"
-import {randomInt, randomId, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian, map, round, snap} from "/js/modules/util/math.mjs"
+import {sanitise, unsanitise, formattingParser} from "./util/text.mjs"
+import {deleteElement} from "./util/array.mjs"
+import {create, isElement, getElement, getParentWindow, nthParent} from "./util/dom.mjs"
+import {randomInt, randomId, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian, map, round, snap} from "./util/math.mjs"
 
 /*
 impending structure change to:

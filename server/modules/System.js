@@ -37,7 +37,7 @@ import * as url from 'url';
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL('..', import.meta.url));
 
-let appDB = JSON.parse(fs.readFileSync("./applications/custom/db.json"))
+let appDB = JSON.parse(fs.readFileSync("./server/applications/custom/db.json"))
 
 /**
  * Takes the id of a system application, grabs the files and sends them

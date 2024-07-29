@@ -48,40 +48,42 @@ import * as http from "http"
 import * as fs from "fs"
 import {Server, Socket} from "socket.io"
 import * as url from 'url';
-import * as Auth from "./modules/Auth.js"
-import * as System from "./modules/System.js"
-import * as App from "./modules/App.js"
+import * as Auth from "./server/modules/Auth.js"
+import * as System from "./server/modules/System.js"
+import * as App from "./server/modules/App.js"
 
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
+console.log(__dirname)
+
 const app = express.default();
 const server = http.createServer(app);
 const io = new Server(server);
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/client/public'));
 
-let users = JSON.parse(fs.readFileSync("./users/userdata.json").toString()).users
+let users = JSON.parse(fs.readFileSync("./server/users/userdata.json").toString()).users
 
 
 app.get('/', (req, res) => {
-	res.sendFile(__dirname + '/index.html');
+	res.sendFile(__dirname + '/client/index.html');
 });
 
 app.get('/media/images', (req, res) => {
-    res.sendFile(__dirname + "/media/images/" + req.query.i)
+    res.sendFile(__dirname + "/server/media/images/" + req.query.i)
 })
 
 app.get('/media/icons', (req, res) => {
-    res.sendFile(__dirname + "/media/icons/" + req.query.i)
+    res.sendFile(__dirname + "/server/media/icons/" + req.query.i)
 })
 
 app.get('/media/desktopicons', (req, res) => {
     if (req.query.i.match(/^\d{12}$/g)) {
-        res.sendFile(__dirname + "/applications/custom/" + req.query.i + "/icon.png")
+        res.sendFile(__dirname + "/server/applications/custom/" + req.query.i + "/icon.png")
         return
     }
-    res.sendFile(__dirname + "/applications/system/" + req.query.i + "/icon.png")
+    res.sendFile(__dirname + "/server/applications/system/" + req.query.i + "/icon.png")
 })
 
 /**

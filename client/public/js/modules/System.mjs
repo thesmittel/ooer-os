@@ -127,7 +127,7 @@ function setupDesktopSymbols({ data }) {
  */
 function dragSymbol (e) {
     const timer = setTimeout(() => {
-        alert("dragging")
+        console.log("dragged", e.target)
     }, 100);
     
     e.target.addEventListener("mouseup", () => {clearTimeout(timer)})

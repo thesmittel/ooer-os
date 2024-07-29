@@ -78,13 +78,13 @@ function documentKeyUp(e) {
 
 document.addEventListener("mousedown", loseFocus);
 document.addEventListener("mousedown", (e) => {
+    if (e.target.tagname != "DIV" && e.target.id != "sysdscontainer" && e.target.tagName != "HTML" && e.target.dataset.type != "widget") return
     origin = [e.clientX, e.clientY]
     const dragSelector = Util.create({
         tagname: "selector-box"
     })
 
     function dragSelect(e) {
-        console.log("drag", origin, e.clientX, e.clientY)
         document.body.append(dragSelector)
         dragSelector.style.top = Math.min(origin[1], e.clientY) + "px";
         dragSelector.style.left = Math.min(origin[0], e.clientX) + "px";

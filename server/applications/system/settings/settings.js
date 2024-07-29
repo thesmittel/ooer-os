@@ -1,7 +1,7 @@
 "<import>"
 import { create } from "/js/modules/Util.mjs";
 import { Wheel, TextboxSlider, SliderGroup, DropDownMenu, TextDropDown } from "/js/modules/ui.mjs"
-import { System } from "/js/modules/connect.mjs";
+import { System } from "/js/modules/Connect.mjs";
 import { addMessageListener } from "/js/modules/System.mjs"
 import * as Client from "/js/modules/Client.mjs"
 "</import>"

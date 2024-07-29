@@ -1,6 +1,17 @@
 
 ## Version
-0.1.20240721
+0.1.240729
+- Restructured files
+- Replaced absolute paths with relative paths where applicable
+- minor changes to drag selection on desktop, fixing a bug where the selection is started in color wheels
+- changed the current debug behavior for desktop symbols such that it doesnt throw an alert, instead logging the dragged symbol to the console
+
+## Why such a weird version numbering?
+It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
+
+## Changes
+
+### 0.1.240721
 - new UI elements:
     - Textbox with sliders
     - Textbox with filtering dropdown
@@ -23,11 +34,6 @@
     - for visual representations, check the `llama probably` app 
 - Added a separate "Profile" app, where the profile can be changed. For now it just uses an older version of the settings app as a place holder so it at least has something showing up. It can be accessed
 - Added click-and-drag selection (visual only so far, only implemented on desktop)
-
-## Why such a weird version numbering?
-It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
-
-## Changes
 
 ### 0.1.240625
 - Fixed bug where login errors arent displayed

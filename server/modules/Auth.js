@@ -37,8 +37,9 @@
 
 import * as Crypto from 'crypto'
 import * as fs from "fs"
-import { addUser } from '../server.js';
+import { addUser } from '../../server.js';
 import { Socket } from 'socket.io';
+
 
 // this WILL be replaced 
 /**
@@ -48,7 +49,8 @@ import { Socket } from 'socket.io';
  * @name Internal:password
  * @type {{String: {"password": String, "salt": String}}}
  */
-let passwords = JSON.parse(fs.readFileSync("./passworddb/passwords.json").toString()).passwords
+
+let passwords = JSON.parse(fs.readFileSync("./server/passworddb/passwords.json").toString()).passwords
 
 /**
  * Contains all sessions, both ones that are assigned to a user, and those that arent.

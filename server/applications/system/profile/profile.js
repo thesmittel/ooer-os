@@ -1,7 +1,7 @@
 "<import>"
 import { create } from "/js/modules/Util.mjs";
 import { Wheel, TextboxSlider, SliderGroup, DropDownMenu, TextDropDown } from "/js/modules/ui.mjs"
-import { App } from "/js/modules/connect.mjs"
+import { App } from "/js/modules/Connect.mjs"
 "</import>"
 console.log("app", App)
 const usersettings = {}

@@ -1,9 +1,9 @@
-import { create, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian } from "/js/modules/Util.mjs";
-import { Color } from "/js/modules/colors.mjs";
-import { Wheel } from "/js/modules/ui/colorwheel.mjs";
-import { TextboxSlider, SliderGroup } from "/js/modules/ui/textslider.mjs";
-import { DropDownMenu } from "/js/modules/ui/dropdown.mjs";
-import { TextDropDown } from "/js/modules/ui/textdropdown.mjs";
+import { create, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian } from "./Util.mjs";
+import { Color } from "./colors.mjs";
+import { Wheel } from "./ui/colorwheel.mjs";
+import { TextboxSlider, SliderGroup } from "./ui/textslider.mjs";
+import { DropDownMenu } from "./ui/dropdown.mjs";
+import { TextDropDown } from "./ui/textdropdown.mjs";
 let closable = true;
 let activeSelector;
 
