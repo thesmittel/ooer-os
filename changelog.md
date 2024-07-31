@@ -1,15 +1,24 @@
 
 ## Version
-0.1.240729
-- Restructured files
-- Replaced absolute paths with relative paths where applicable
-- minor changes to drag selection on desktop, fixing a bug where the selection is started in color wheels
-- changed the current debug behavior for desktop symbols such that it doesnt throw an alert, instead logging the dragged symbol to the console
+0.1.240731
+
+- No functional changes have been made
+- preparation for change to taskbar
+    - Taskbar in its current form will be removed in favor of an approach inspired by Cinnamon
+    - "Panels" will be introduced, an arbitrary number of panels can be added and populated with customisable functionality
+    - styling and behavior will be customisable within reason, some restrictions will apply.
+    - Documentation will follow as soon as the planning phase is finished
 
 ## Why such a weird version numbering?
 It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
 
 ## Changes
+
+### 0.1.240729
+- Restructured files
+- Replaced absolute paths with relative paths where applicable
+- minor changes to drag selection on desktop, fixing a bug where the selection is started in color wheels
+- changed the current debug behavior for desktop symbols such that it doesnt throw an alert, instead logging the dragged symbol to the console
 
 ### 0.1.240721
 - new UI elements:

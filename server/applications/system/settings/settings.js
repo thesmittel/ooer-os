@@ -316,7 +316,34 @@ const screens = { // Array of DOM trees
             tagname: "span",
             innerText: "Appearance",
             classList: ["settings-header"]
-        })
+        }),
+        create({
+            tagname: "span",
+            innerText: "Taskbar",
+            classList: ["settings-subcategory"]
+        }),
+        create({
+            tagname: "div",
+            classList: ["settings-element", "regular"],
+            childElements: [
+                {
+                    tagname: "span",
+                    classList: ["text"],
+                    innerText: "Floating"
+                },
+                {
+                    tagname: "toggle-switch",
+                    dataset: {value: "true"},
+                    eventListener: {
+                        click: (e) => {
+                            e.target.dataset.value = e.target.dataset.value=="false";
+                            document.querySelector("task-bar").style = e.target.dataset.value=="false"?"bottom: 0; border-radius: 6px 6px 0 0":"";
+                        }
+                    }
+                }
+            ]
+        }),
+
     ],
     "lang": [
         create({
