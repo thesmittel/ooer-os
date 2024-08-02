@@ -6,8 +6,11 @@
 
 import * as Connect from "./modules/Connect.mjs"
 import * as Handler from "./Handlers.mjs"
+import { create } from "./modules/Util.mjs"
 
 
+// for some reason this works, but will be changed anyways
+Handler.openLogin({stopPropagation: ()=>{}})
 
 // document.getElementById("login").addEventListener("click", Auth.login)
 
@@ -71,3 +74,4 @@ function clocktick() {
 }
 clocktick();
 setInterval(clocktick, 1000)
+

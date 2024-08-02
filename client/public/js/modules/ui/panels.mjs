@@ -1,3 +1,4 @@
+import { create } from "../Util.mjs"
 /*
 WIP:
 Panels are taskbar-like, similar to cinnamon panels.
@@ -8,7 +9,7 @@ They can be individually styled positioned and their behavior defined in the set
 Panels are drawn on top of everything else with position: fixed;
 
 Panel behavior includes:
-always visible: does not move
+always visible: does not moves
 unfloat: attaches itself to edge of screen if active window is maximised
 hide: panel is hidden when active window is maximised
 
@@ -41,4 +42,16 @@ class Panel {
     #applets; // list of applets (Objects). For simplicity, the taskbar is also an applet 
     #style; // Object, contains additional styling such as offset if floating, background color, corner rounding etc
     #behavior; // additional behavior such as "unfloating" when a window is maximised
+    element;
+
+    constructor({position, style, behavior}) {
+        this.element = create({
+            tagname: "desktop-panel",
+            classList: [],
+            style: {},
+            childElements: [
+                
+            ]
+        })
+    }
 }
