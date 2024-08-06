@@ -8,6 +8,11 @@
 ## THIS IS NOT READY TO USE. DO NOT ATTEMPT TO DO SO! 
 Some work needs to be done on the backend to properly implement login and signup, as of now, user login info is saved in a JSON using MD5, while the salt is fairly big, i still wouldnt advise using it.
 
+## What is this and what is the goal
+The goal is to not only imitate a desktop environment in a website, but also to provide functionality that the streamed nature of the entire thing offers, like sharing files more easily, collaboration (like google drive for example), easy communication etc.
+While its usefulness is up for debate, one usecase would be for use within intranets. 
+One piece of functionality for example would be, that in order to view files, you do not need to locally "install" (or rather, register) an app, only for creating files yourself from scratch. If a file is sent for which you do not have the appropriate "App", it is simply "included" with the file, you will be prompted if you want to register the app for your local account after which you can add a shortcut to your desktop or whatever else. 
+
 ## Contributing
 The module structure will be reworked soon, some of them will disappear entirely, for example: the client side utility functions will probably be added to built in JS objects. This will also mean that proper documentation will be added.
 
@@ -20,7 +25,7 @@ The system worker will be the ultimate authority. It will decide what applicatio
 A switch to typescript is NOT planned. I just dont care enough.
 
 ## Current version:
-`0.1.20240729`
+`0.1.240806`
 
 ## Information regarding documentation
 
@@ -106,4 +111,9 @@ Will document soon.
 ## Anything else?
 
 At some point in the future, the back end will be rewritten using a better approach using a normal language. Probably rust, tbh, but im not quite sure yet. For now, Node will do. User data will be stored in proper databases, sensitive data will be encrypted (i kinda wanna use the encryption algoritm i made a few years ago, but first i need to figure out how to have it accept keys, but maybe ill just do a hybrid with my own and something more common like RSA)
+
+Maybe i will also make it into a desktop app using NW.js
+This will mean that there is no need for a server, but the option to connect to one will be there after which it will function like the website, with locally saved login information if theres multiple servers. Once thats working maybe it can be turned into a desktop environment for linux too using the same functionality, but thats far far into the future, v3.0 kinda far. 
+
+The website will NOT get any of the features that the desktop app/environment will receive, it doesnt really make sense considering you need to connect to a specific server anyways
 

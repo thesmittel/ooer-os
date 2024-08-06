@@ -50,7 +50,7 @@ class TextDropDown {
                             this.#list.append(...this.#listElements)
                         },
                         input: (e) => {
-                            const copy = ([...this.#listElements].filter(a => a.innerText.toLowerCase().match(e.target.value)));
+                            const copy = ([...this.#listElements].filter(a => a.innerText.toLowerCase().match(e.target.value.toLowerCase())));
                             this.#list.innerText = ""
                             this.#list.append(...copy)
                         }

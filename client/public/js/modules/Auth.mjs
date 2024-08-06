@@ -62,11 +62,19 @@ function handle(data) {
         return;
     }
     if (data.response == "confirm-login") {
-        if (document.querySelector("login-main"))
-            document.querySelector("login-main").remove()
+        if (document.querySelector("login-main")) {
+            console.log("confirmed login")
+            const element = document.querySelector("login-main");
+            element.dataset.hide = "true"
+            setTimeout(() => {
+                element.remove()
+            }, 200);
+            
+        }
         loggedin(data.data);
     }
     if (data.response == "confirm-cookielogin") {
+        console.log("cookielogin")
         loggedin(data.data);
     }
     if (data.response == "confirm-usernameAvailable") {
@@ -144,7 +152,8 @@ function userLogOut(event) {
 	
     loggedout();
 	login = {}
-	
+	// openLogin({stopPropagation: ()=>{}})
+    
 }
 
 /**
@@ -240,6 +249,7 @@ function loggedin(data) {
  * @name Internal:loggedout
  */
 function loggedout() {
+    openLogin({stopPropagation: ()=>{}})
     const smtopbar =  document.querySelector("div#sm-topbar")
     smtopbar.dataset.login = "false";
     smtopbar.dataset.ignore = "startmenu"

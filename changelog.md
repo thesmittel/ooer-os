@@ -1,6 +1,38 @@
 
 ## Version
-0.1.240731
+0.1.240806
+- Settings app:
+    - made a few changes to how the settings DOM tree is generated, code is now structured slightly better
+    - Settings app is a prime candidate for being put into a webworker, but nothing happened on that front
+    - Packages
+        - overview of "installed" apps
+        - Shows name of app, id, date when it was last "installed", time it was last used, the author and the type (i.e. App, Widget etc)
+        - Packages of type "App" can be started from here
+        - Selection and sorting works
+        - Its all WIP still, data is all made up, in the future this will be requested from the server
+        - removing packages will be possible in the future
+        - a button to add packages will be added too
+        - the end goal is to have it update live
+    - User
+        - Temporarily put some user settings here as a layout draft
+        - will be put in a separate app that prompts the user for the password before granting access
+    - Appearance
+        - started adding buttons to call the new windows
+        - These wont be separate apps
+        - changes will be made to how windows are handled to allow apps calling in secondary windows
+        - necessary because theres a ton of options planned for each of these
+- Login screen
+    - idk why it worked before but i fixed it anyways, slight restructure, a nice animation, auto login if a session token is present
+    - made a default wallpaper to avoid copyright issues, the mountains however will stay for now, im willing to risk it 
+- Fixed textbox with filtering dropdown, filter was slightly broken
+- ignore "App (new).mjs"
+
+## Why such a weird version numbering?
+It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
+
+## Changes
+
+### 0.1.240731
 
 - No functional changes have been made
 - preparation for change to taskbar
@@ -8,11 +40,6 @@
     - "Panels" will be introduced, an arbitrary number of panels can be added and populated with customisable functionality
     - styling and behavior will be customisable within reason, some restrictions will apply.
     - Documentation will follow as soon as the planning phase is finished
-
-## Why such a weird version numbering?
-It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
-
-## Changes
 
 ### 0.1.240729
 - Restructured files

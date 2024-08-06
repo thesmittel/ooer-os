@@ -182,7 +182,7 @@ function login(socket, data, user) {
         })
         return
     }
-    loginconfirm(socket, data, user)
+    loginconfirm(socket, data, user, false)
 }
 
 /**
@@ -198,7 +198,7 @@ function loginwithcookie(socket, data, user) {
     let check = tokens.filter(a => (a.id == data.userid && a.token == data.oldToken))
     if (check == null) return;
     tokens = tokens.filter(a => a.id != data.userid)
-    loginconfirm(socket, data, user)
+    loginconfirm(socket, data, user, true)
 }
 
 /**
@@ -210,7 +210,7 @@ function loginwithcookie(socket, data, user) {
  * @method loginconfirm
  * @name Internal:loginconfirm
  */
-function loginconfirm(socket, data, user) {
+function loginconfirm(socket, data, user, withcookie) {
     let currTime = Date.now();
 	let expiretime = currTime + (30 * 60 * 1000); // Cookies expire after 30 minutes.
     const token = tokenGen();
@@ -228,7 +228,7 @@ function loginconfirm(socket, data, user) {
         expires: expiretime
     })
     socket.emit("Auth", {
-        response: "confirm-login",
+        response: withcookie?"confirm-cookielogin":"confirm-login",
         data: {
             "user-id": user.id,
             "token": token,

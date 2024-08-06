@@ -4,12 +4,25 @@ login-main {
     display: flex;
     height: 100%;
     width: 100%;
-    background-color: #0003;
-    backdrop-filter: blur(20px);
+    /* background-color: #0003;
+    backdrop-filter: blur(20px); */
+    background-image: url("/media/images?i=login wallpaper.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     position: fixed;
     align-items: center;
     justify-content: center;
     z-index: 10001;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    opacity: 1;
+    transform: scale(1);
+}
+
+login-main[data-hide="true"] {
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    opacity: 0;
+    transform: scale(1.25);
 }
 
 .login-main[data-visible="false"] {

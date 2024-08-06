@@ -112,6 +112,9 @@ document.addEventListener("keyup", documentKeyUp)
  * @name Export:openLogin
  */
 function openLogin(event) {
+    closeHub()
+    const startmenu = document.querySelector("start-menu")
+    startmenu.dataset.active = "false"
     event.stopPropagation();
     function loginTbKeydown(event) {
         if (event.key == "Enter") {
