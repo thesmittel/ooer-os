@@ -25,7 +25,7 @@ The system worker will be the ultimate authority. It will decide what applicatio
 A switch to typescript is NOT planned. I just dont care enough.
 
 ## Current version:
-`0.1.240806`
+`0.1.240806_b`
 
 ## Information regarding documentation
 

@@ -27,6 +27,10 @@
 - Fixed textbox with filtering dropdown, filter was slightly broken
 - ignore "App (new).mjs"
 
+0.1.240806_b
+- Profile
+        - Changed some styling around so that only one data attribute needs to be updated for the online status display
+
 ## Why such a weird version numbering?
 It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
 

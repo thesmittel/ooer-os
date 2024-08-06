@@ -311,10 +311,22 @@ div.indicator>div.tooltip::before {
     z-index: -1;
 }
 
-div.indicator>div.tooltip::after {
-    content: attr(data-status);
+div.profile-picture>div.indicator>div.tooltip::after {
     position: relative;
     white-space: nowrap;
+}
+
+div.profile-picture[data-status="Do Not Disturb"]>div.indicator>div.tooltip::after {
+    content: "Do Not Disturb"
+}
+div.profile-picture[data-status="Online"]>div.indicator>div.tooltip::after {
+    content: "Online"
+}
+div.profile-picture[data-status="Offline"]>div.indicator>div.tooltip::after {
+    content: "Offline"
+}
+div.profile-picture[data-status="Busy"]>div.indicator>div.tooltip::after {
+    content: "Busy"
 }
 
 div.indicator>div.tooltip {
@@ -364,21 +376,19 @@ div.indicator {
     cursor: pointer;
 }
 
-div.indicator[data-status="Offline"] {
-    background-color: #444;
-}
-
-div.indicator[data-status="Do Not Disturb"] {
+div.profile-picture[data-status="Do Not Disturb"] > div.indicator {
     background-color: #c44;
 }
-
-div.indicator[data-status="Online"] {
+div.profile-picture[data-status="Offline"] > div.indicator {
+    background-color: #444;
+}
+div.profile-picture[data-status="Online"] > div.indicator {
     background-color: #4c4;
 }
-
-div.indicator[data-status="Busy"] {
+div.profile-picture[data-status="Busy"] > div.indicator {
     background-color: #cc4;
 }
+
 
 div.profile-info {
     width: 100%;
