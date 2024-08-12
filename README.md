@@ -117,3 +117,4 @@ This will mean that there is no need for a server, but the option to connect to 
 
 The website will NOT get any of the features that the desktop app/environment will receive, it doesnt really make sense considering you need to connect to a specific server anyways
 
+(test commit)
