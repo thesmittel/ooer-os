@@ -58,6 +58,7 @@ Object.defineProperty(HTMLElement.prototype, "value", {
 })
 
 const clockobject = document.getElementById("clock-main");
+document.addEventListener("contextmenu", Handler.contextMenu)
 // Clock
 function clocktick() {
     let now = new Date(Date.now());

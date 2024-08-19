@@ -1,6 +1,15 @@
 
 ## Version
-0.1.240806
+0.1.240819
+
+- Minor commit: prepwork for context menu
+
+## Why such a weird version numbering?
+It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
+
+## Changes
+
+### 0.1.240806
 - Settings app:
     - made a few changes to how the settings DOM tree is generated, code is now structured slightly better
     - Settings app is a prime candidate for being put into a webworker, but nothing happened on that front
@@ -29,12 +38,8 @@
 
 0.1.240806_b
 - Profile
-        - Changed some styling around so that only one data attribute needs to be updated for the online status display
+    - Changed some styling around so that only one data attribute needs to be updated for the online status display
 
-## Why such a weird version numbering?
-It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
-
-## Changes
 
 ### 0.1.240731
 

@@ -15,7 +15,8 @@ strong {
 }
 
 body {
-    background-image: url("/media/images?i=mountain.jpg");
+    /* background-image: url("/media/images?i=mountain.jpg"); */
+    background-image: url("/media/images?i=wallpaper abstract 2.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

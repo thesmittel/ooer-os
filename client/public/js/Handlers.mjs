@@ -78,6 +78,7 @@ function documentKeyUp(e) {
 
 document.addEventListener("mousedown", loseFocus);
 document.addEventListener("mousedown", (e) => {
+    if(e.buttons == 2) return;
     if (e.target.tagname != "DIV" && e.target.id != "sysdscontainer" && e.target.tagName != "HTML" && e.target.dataset.type != "widget") return
     origin = [e.clientX, e.clientY]
     const dragSelector = Util.create({
@@ -528,5 +529,10 @@ function openProfile(e) {
 }
 
 
+function contextMenu(e) {
+    // e.preventDefault()
+    console.log("context menu", e.target)
+}
 
-export {openLogin, openSignup, openSettings, openProfile, loseFocus}
+
+export {openLogin, openSignup, openSettings, openProfile, loseFocus, contextMenu}
