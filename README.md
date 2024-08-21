@@ -1,12 +1,13 @@
 
 
 ## Dependencies
-- Node, exact minimum compatible version unknown, im using v21 but i dont think thats necessary
+- Node, exact minimum compatible version unknown, im using v21 but i dont think thats necessary.
+- Node v12.x is confirmed incompatible
 - `express`
 - `socket.io`
 
 ## THIS IS NOT READY TO USE. DO NOT ATTEMPT TO DO SO! 
-Some work needs to be done on the backend to properly implement login and signup, as of now, user login info is saved in a JSON using MD5, while the salt is fairly big, i still wouldnt advise using it.
+Some work needs to be done on the backend to properly implement login and signup, as of now, user login info is saved in a JSON using MD5, while the salt is fairly big, i still wouldnt advise using it, though youre free to do so. You can also change the backend, not much going on there so far, but then, theres still the issue of it still being single threaded.
 
 ## What is this and what is the goal
 The goal is to not only imitate a desktop environment in a website, but also to provide functionality that the streamed nature of the entire thing offers, like sharing files more easily, collaboration (like google drive for example), easy communication etc.
@@ -22,10 +23,11 @@ Web workers will get access to different calls depending on app permission level
 
 The system worker will be the ultimate authority. It will decide what application can request what kind of data both clientside and serverside.
 
-A switch to typescript is NOT planned. I just dont care enough.
+A switch to typescript is NOT planned. I just dont care enough. JSDoc provides the necessary info while writing the code.
+A backend rewrite in Rust is on the table, but for that i have to learn it first
 
 ## Current version:
-`0.1.240806_b`
+`0.1.240821`
 
 ## Information regarding documentation
 
@@ -107,6 +109,7 @@ Will document soon.
     - Messaging
     - Event sharing
 - Replacing fontawesome with a non-tracking alternative
+- Webworker based multithreading 
 
 ## Anything else?
 

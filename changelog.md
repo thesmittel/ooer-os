@@ -1,8 +1,24 @@
 
 ## Version
-0.1.240819
+`0.1.240821`
+- Context menus now functional
+- Desktop symbols now come with their own semi-customisable context menus
+    - Some default options are always present, like title, description, open button, lock option
+    - Bottom grid still has some placeholders
+    - Middle section can be customised to your liking, though right now only through the apps config file, meaning handlers dont yet work since functions cannot be serialised, a solution is coming soon
+- Applications (also files, folders, shortcuts, when they arrive) can now have a description (For apps, this is defined in the config.json)
+- Locking sorta works, it prevents the app from being opened. 
+    - The aim is to have locked elements require a password to open or unlock them
+    - Password query for locking elements is also a good idea i think
+    - The lock state of anything is stored in the user data where it makes sense.
+    - For desktop symbols, its in the same object the position, text etc is stored in.
+- Minor improvements to Util.create(), empty strings are now filtered out for classList
+- Fixed clock desktop widget formatting issue where it shows a large AM or PM below the date, it is removed entirely.
+    - This fix potentially only works for the english language.
+- Removed a lot of clutter by restructuring, turning desktop symbols into a system of inheriting classes (Only App symbols for now, folders, files and shortcuts are coming At Some Point (TM))
+- Desktop symbols can now have a different name to their app
+    - The name of the app as defined by the server is still visible in the context menu, but the label can differ now, in preparation for the ability to rename desktop shortcuts
 
-- Minor commit: prepwork for context menu
 
 ## Why such a weird version numbering?
 It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
@@ -40,6 +56,31 @@ It's in early development. I took a long break from the project, when i came bac
 - Profile
     - Changed some styling around so that only one data attribute needs to be updated for the online status display
 
+
+### 0.1.240819
+
+- Minor commit: prepwork for context menu
+
+0.1.240819_b 
+- Context menu class
+- takes array of objects with specific structure, docs coming soon (promise)
+- styling
+- an example context menu can be looked at just by right clicking a desktop symbol
+- clicking anywhere except the context menu itself closes it
+    - elements of the context menu also close it
+- eventually the goal is to attach an object to DOM elements.
+    - there could be an issue with security, if the handler functions are just exposed, but since apps cant access any dom element outside of their own scope (in theory) that shouldnt be an issue
+    - The advantage is that its easier to create and keep track of what element requires what context menu
+- so far, buttons can be arranged in lists and grids and there are horizontal divider lines, titles and text.
+    - grid layout is 5 icons in however many rows it takes
+    - list layout is like the classic context menu
+    - dividers divide 
+    - title is 14pt text, white color, fairly heavy, restricted to one line and gets ellipsis'd
+    - text is 12pt, grey, can wrap and isnt limited in size by software, only by practicality.
+    - icons are optional for list items
+    - The design guideline specifies that grid elements must have an icon. It is designed to fail in a controlled manner, however. It provides a trace, but it triggers failsaves strategically.
+    - If a grid element does need to not have an icon for whatever reason, just provide a dummy class. maybe start keymashing, idk, something that doesnt get interpreted into anything. Doing so does not trigger the failsaves.
+    
 
 ### 0.1.240731
 

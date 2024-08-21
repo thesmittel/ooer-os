@@ -41,7 +41,7 @@ function create(args) {
                     }
                     break
                 case "classList":
-                    e.classList.add(...args.classList);
+                    e.classList.add(...args.classList.filter(a=>a && a.length != 0));
                     break;
                 case "eventListener":
                     for (let d in args.eventListener) {

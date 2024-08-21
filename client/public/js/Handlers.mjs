@@ -25,6 +25,7 @@
 import * as Util from "./modules/Util.mjs";
 import * as Server from "./modules/Connect.mjs"
 import {handlers} from "./Error.mjs"
+import { ContextMenu } from "./modules/ui.mjs";
 
 const hub = document.querySelector("desktop-hub")
 
@@ -529,9 +530,33 @@ function openProfile(e) {
 }
 
 
+let activeContextMenu;
+document.addEventListener("click", removeContextMenus)
+
+// closes context menu if anything except childnodes of a context menu are clicked
+function removeContextMenus(e) {
+    if (!activeContextMenu) return
+    if (e.target.tagName == "CONTEXT-MENU") return
+    activeContextMenu.hide()
+}
+
+
+    
+
 function contextMenu(e) {
-    // e.preventDefault()
+    e.preventDefault()
+    if(activeContextMenu) {
+        activeContextMenu.hide()
+        activeContextMenu = undefined;
+    }
     console.log("context menu", e.target)
+    let t = e.target.contextMenu
+    if (!t) return
+    activeContextMenu = t;
+
+    let spawnX = e.clientX;
+    let spawnY = e.clientY;
+    t.show(spawnX, spawnY)
 }
 
 

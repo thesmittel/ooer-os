@@ -65,7 +65,7 @@ function clocktick() {
     clockobject.dataset.time = now.toLocaleTimeString(undefined, {
         hour: "2-digit",
         minute: "2-digit"
-    })
+    }).replace(/[ap]m/gi, "")
     clockobject.dataset.date = now.toLocaleDateString(undefined, {
         weekday: "long",
         year: "numeric",

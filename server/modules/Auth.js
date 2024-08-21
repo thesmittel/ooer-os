@@ -236,6 +236,22 @@ function loginconfirm(socket, data, user, withcookie) {
             "expires": expiretime
         }
     })
+
+
+    for (let s in user["desktop_symbols"]) {
+        const curr = user["desktop_symbols"][s];
+        let appconfig;
+        if (curr.appid.match(/^\d{12}$/g)) {
+            appconfig = JSON.parse(fs.readFileSync(`./server/applications/custom/${curr.appid}/config.json`))
+            user["desktop_symbols"][s].description = appconfig.about;
+            user["desktop_symbols"][s].contextmenu = appconfig.contextmenu
+        } else {
+            appconfig = JSON.parse(fs.readFileSync(`./server/applications/system/${curr.appid}/config.json`))
+            user["desktop_symbols"][s].description = appconfig.about;
+            user["desktop_symbols"][s].contextmenu = appconfig.contextmenu
+        }
+    }
+
     socket.emit("System", {res: "desktop-symbols", data: user["desktop_symbols"]})
     socket.emit("System", {res: "notification", data: {icon: "logo.png", title: "congratulations.", text: "Ya managed to log in. proud of ya, bozo"}})
 

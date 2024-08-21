@@ -26,6 +26,8 @@
 import { System as emit, App } from "./Connect.mjs"
 import { handlers } from "../Error.mjs";
 import * as Util from "./Util.mjs";
+import { ContextMenu } from "./ui.mjs";
+import { DesktopSymbolApp } from "./ui/desktopsymbol.mjs";
 
 let lastheartbeat = Date.now();
 
@@ -44,7 +46,7 @@ const registeredSysApps = []
  * @todo Implement actual communications
  */
 function registerSysApp(fullId, func) {
-    registeredSysApps.push({id: fullId, handle: func})
+    registeredSysApps.push({ id: fullId, handle: func })
 }
 
 /**
@@ -90,31 +92,10 @@ function addMessageListener(app, func) {
  */
 function setupDesktopSymbols({ data }) {
     const container = document.getElementById("sysdsouter");
-
+    console.log(data)
     for (let i = 0; i < data.length; i++) {
-        const curr = Util.create({
-            tagname: "desktop-symbol",
-            style: `background-image: url(/media/desktopicons?i=${data[i].appid});
-                filter: drop-shadow(0px 0px 5px #2228);
-                top: ${data[i].position[1] * 72}px;
-                left: ${data[i].position[0] * 96}px`,
-            dataset: {
-                appid: data[i].appid,
-                name: data[i].text
-            },
-            eventListener: {
-                click: () => {
-                    if (data[i].appid.match(/^\d{12}$/g)) {
-                        App({req: "fetch_app", data: { id: data[i].appid } })
-                    } else {
-                        emit({req: "fetch_app", data: { id: data[i].appid } })
-                    }
-                },
-                mousedown: dragSymbol
-            }
-        })
-
-        container.append(curr)
+        const curr = new DesktopSymbolApp(data[i])
+        container.append(curr.element)
     }
 }
 
@@ -125,12 +106,12 @@ function setupDesktopSymbols({ data }) {
  * @name Internal:dragSymbol
  * @todo Actually implement something
  */
-function dragSymbol (e) {
+function dragSymbol(e) {
     const timer = setTimeout(() => {
         console.log("dragged", e.target)
     }, 100);
-    
-    e.target.addEventListener("mouseup", () => {clearTimeout(timer)})
+
+    e.target.addEventListener("mouseup", () => { clearTimeout(timer) })
 }
 
 /**

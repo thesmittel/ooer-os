@@ -16,5 +16,5 @@
         "draggable": true
     }],
     "icon": "settings.png",
-    "about": "An example application"
+    "about": "Access to console commands"
 }
