@@ -5,6 +5,7 @@
 - Changes to error box
 - No longer called error box, instead its now a class DialogBox
 - Locked desktop elements now throw an error message on the screen telling the user why clicking does nothing
+- accordingly changed all existing error dialogs
 
 ## Why such a weird version numbering?
 It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
