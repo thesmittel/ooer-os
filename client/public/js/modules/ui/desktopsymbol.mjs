@@ -1,7 +1,18 @@
 import { App, System } from "../Connect.mjs";
+import { dragElement } from "../Dragging.mjs";
 import { create } from "../Util.mjs";
-import { ContextMenu } from "./contextmenu.mjs";
+import { ContextMenu, DialogBox } from "../ui.mjs";
 
+function isLockedError(text) {
+    const error = new DialogBox(text, 
+        "Application locked, please unlock first",
+        3, 
+        [{text: "OK", call:()=>{error.close()}}],
+        document.body,
+        false
+    )
+    return error;
+}
 
 class DesktopSymbol {
     element;
@@ -18,11 +29,11 @@ class DesktopSymbol {
         } else {
             contextmenu.push({type: "divider"})
         }
-        
+        this.locked = locked;
         // Errors
         if (!(contextmenu instanceof Array)) throw new ReferenceError("class DesktopSymbol: optional argument contextMenu must be an array.")
         if (!text) throw new ReferenceError("class DesktopSymbol: argument text must be non-empty string. Got: '" + text + "' (" + typeof label + ")");
-        
+
         this.contextmenu = contextmenu
         this.icon = icon;
         if (!icon) this.icon = appid; // If user didnt customise icon, use assigned apps icon
@@ -41,7 +52,10 @@ class DesktopSymbol {
             },
             eventListener: {
                 click: () => {
-                    if (this.locked) return
+                    if (this.locked) {
+                        isLockedError(text) 
+                        return
+                    }
                     if (this.appid.match(/^\d{12}$/g)) {
                         App({ req: "fetch_app", data: { id: this.appid } })
                     } else {
@@ -59,8 +73,6 @@ class DesktopSymbolApp extends DesktopSymbol {
     constructor({ position, appid, text, icon, description, contextmenu, locked, label }) {
         super({ position, appid, text, icon, description, contextmenu, locked, label });
 
-
-
         this.contextmenu = new ContextMenu(this.element, [{
             type: "title", label: text
         }, {
@@ -75,7 +87,10 @@ class DesktopSymbolApp extends DesktopSymbol {
                     "label": "Open",
                     "symbol": "bx-window-open",
                     handler: (event) => {
-                        if (this.locked) return
+                        if (this.locked) {
+                            isLockedError(text) 
+                            return
+                        }
                         if (this.appid.match(/^\d{12}$/g)) {
                             App({ req: "fetch_app", data: { id: this.appid } })
                         } else {
@@ -90,7 +105,7 @@ class DesktopSymbolApp extends DesktopSymbol {
                         if (target.tagname != "CONTEXT-MENU-ELEMENT") target = target.parentNode;
                         this.locked = !this.locked
                         System({ req: "lock_app", data: {id: this.appid, state: this.locked}})
-                        console.log(target.childNodes)
+                        // console.log(target.childNodes)
                         target.childNodes[0].classList.toggle("bx-lock-alt")
                         target.childNodes[0].classList.toggle("bx-lock-open-alt")
                         target.childNodes[1].innerText = this.locked?"Unlock":"Lock"
@@ -101,7 +116,7 @@ class DesktopSymbolApp extends DesktopSymbol {
                     symbol: "bx-rename",
                     handler: (event) => {
                         // Call a dialog box or ideally put a textbox in the desktop symbol, something like this
-                        console.log(this.element)
+                        // console.log(this.element)
                     }
                 }
             ]

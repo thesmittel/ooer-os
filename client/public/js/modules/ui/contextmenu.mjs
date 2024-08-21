@@ -132,7 +132,6 @@ class ContextMenuList {
     element;
     #structure = []
     constructor(elements) {
-        console.log(elements)
         this.#structure = elements
         this.element = create({
             tagname: "context-menu-list",
@@ -180,7 +179,6 @@ class ContextMenuElement {
 class ContextMenuListElement extends ContextMenuElement {
     constructor(label, symbol, handler) {
         super(label, handler, symbol);
-        console.log(handler, this.handler)
         this.element = create({
             tagname: "context-menu-element",
             childElements: [

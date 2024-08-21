@@ -90,6 +90,7 @@ const symbols = [
 ]
 
 function errorDialog({ title, description, type, buttons, blocked, parent }) {
+    console.log(type, symbols[type])
     /*
     {
         title: String,

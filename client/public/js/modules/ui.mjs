@@ -5,6 +5,7 @@ import { TextboxSlider, SliderGroup } from "./ui/textslider.mjs";
 import { DropDownMenu } from "./ui/dropdown.mjs";
 import { TextDropDown } from "./ui/textdropdown.mjs";
 import { ContextMenu } from "./ui/contextmenu.mjs";
+import { DialogBox } from "./ui/dialogbox.mjs";
 let closable = true;
 let activeSelector;
 
@@ -351,4 +352,4 @@ function makeColorSelector(parentElement) {
 
 
 
-export {Wheel, TextboxSlider, SliderGroup, DropDownMenu, TextDropDown, ContextMenu}
+export {Wheel, TextboxSlider, SliderGroup, DropDownMenu, TextDropDown, ContextMenu, DialogBox}

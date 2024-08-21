@@ -31,7 +31,7 @@ import {handle as auth, cookieLogin as cookie} from "./Auth.mjs"
 import {handle as client} from "./Client.mjs"
 import {handle as system} from "./System.mjs"
 import {handle as app} from "./App.mjs"
-import { errorDialog } from "../Error.mjs"
+import { DialogBox } from "./ui/dialogbox.mjs"
 
 /**
  * @constant socket Socket.io instance
@@ -137,25 +137,22 @@ socket.on("App",    app)
  * @callback Error:errorDialog
  */
 socket.on("disconnect", () => {
-    errorDialog({
-        parent: document.querySelector("body"),
-        title: "Connection lost",
-        description: "Connection to the server has been lost.\nTry again?",
-        type: 4,
-        blocked: true,
-        parent: document.body,
-        buttons: [
-            {
+    const error = new DialogBox(
+        "Connection lost.",
+        "Connection to the server has been lost.\nTry again?",
+        4, 
+        [{
                 text: "Retry",
                 call: () => {console.log("retry")},
                 main: true
-            },
-            {
+        }, {
                 text: "Abort",
                 call: () => {console.log("abort")},
                 main: false
-            }
-        ]
-    });
+        }],
+        document.body,
+        false
+
+    )
 })
 export {System, App, Auth, Client}

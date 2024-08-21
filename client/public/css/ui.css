@@ -965,7 +965,7 @@ dropdown-list {
 }
 
 dropdown-list>dropdown-element {
-    font-weight: 100;
+    font-weight: 300;
     font-size: 14px;
     height: 100%;
     display: flex;
