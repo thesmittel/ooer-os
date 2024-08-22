@@ -2,7 +2,7 @@
  * 
  * @param {Array} arr 
  * @param {Number} index 
- * @returns 
+ * @returns Array
  */
 function deleteElement(arr, index) {
 	if (typeof e != "number") throw new TypeError("Util:deleteElement(arr, e): argument e must be a number")

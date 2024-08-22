@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: applications/system/terminal/terminal.js</title>
+    <title>JSDoc: Source: server/applications/system/terminal/terminal.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: applications/system/terminal/terminal.js</h1>
+    <h1 class="page-title">Source: server/applications/system/terminal/terminal.js</h1>
 
     
 
@@ -101,7 +101,6 @@
 import { username } from "/js/modules/Auth.mjs"
 import { getElement } from "/js/modules/Util.mjs"
 import { App } from "/js/modules/Connect.mjs"
-import { registerListener } from "/js/modules/App.mjs"
 "&lt;/import>"
 
 const terminalinput   = getElement("terminal-input");
@@ -302,13 +301,13 @@ terminalMain();</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="Client_main.html">Client:main</a></li><li><a href="client.Client_App.html">Client:App</a></li><li><a href="client.Client_Auth.html">Client:Auth</a></li><li><a href="client.Client_Client.html">Client:Client</a></li><li><a href="client.Client_Connect.html">Client:Connect</a></li><li><a href="client.Client_Error.html">Client:Error</a></li><li><a href="client.Client_System.html">Client:System</a></li><li><a href="client.Client_Util.html">Client:Util</a></li><li><a href="client.Client_Window.html">Client:Window</a></li><li><a href="client.UI_Dragging.html">UI:Dragging</a></li><li><a href="client.UI_Handlers.html">UI:Handlers</a></li><li><a href="server.Server_App.html">Server:App</a></li><li><a href="server.Server_Auth.html">Server:Auth</a></li><li><a href="server.Server_System.html">Server:System</a></li><li><a href="server.Server_main.html">Server:main</a></li><li><a href="sysapp.Sysapp_Terminal.html">Sysapp:Terminal</a></li></ul><h3>Namespaces</h3><ul><li><a href="ClientCode.html">ClientCode</a></li><li><a href="ServerCode.html">ServerCode</a></li><li><a href="SystemApplications.html">SystemApplications</a></li></ul><h3>Classes</h3><ul><li><a href="client.Client_App-App.html">App</a></li><li><a href="client.Client_Window-Window.html">Window</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="Client.Client_UIElements.html">Client:UIElements</a></li><li><a href="Client_UIElements.Client_UIElements%2520_%2520ColorWheel.html">Client:UIElements > ColorWheel</a></li><li><a href="Client_UIElements.Client_UIElements%2520_%2520ContextMenu.html">Client:UIElements > ContextMenu</a></li><li><a href="Client_UIElements.Client_UIElements%2520_%2520DesktopSymbol.html">Client:UIElements > DesktopSymbol</a></li><li><a href="Client_UIElements.Client_UIElements%2520_%2520DialogBox.html">Client:UIElements > DialogBox</a></li><li><a href="Client_main.html">Client:main</a></li><li><a href="client.Client_App.html">Client:App</a></li><li><a href="client.Client_Auth.html">Client:Auth</a></li><li><a href="client.Client_Client.html">Client:Client</a></li><li><a href="client.Client_Connect.html">Client:Connect</a></li><li><a href="client.Client_Error.html">Client:Error</a></li><li><a href="client.Client_System.html">Client:System</a></li><li><a href="client.Client_Util.html">Client:Util</a></li><li><a href="client.Client_Window.html">Client:Window</a></li><li><a href="client.UI_Dragging.html">UI:Dragging</a></li><li><a href="client.UI_Handlers.html">UI:Handlers</a></li><li><a href="server.Server_App.html">Server:App</a></li><li><a href="server.Server_Auth.html">Server:Auth</a></li><li><a href="server.Server_System.html">Server:System</a></li><li><a href="server.Server_main.html">Server:main</a></li><li><a href="sysapp.Sysapp_Terminal.html">Sysapp:Terminal</a></li></ul><h3>Namespaces</h3><ul><li><a href="ClientCode.html">ClientCode</a></li><li><a href="ClientCode.UIElements.html">ClientCode.UIElements</a></li><li><a href="ServerCode.html">ServerCode</a></li><li><a href="SystemApplications.html">SystemApplications</a></li></ul><h3>Classes</h3><ul><li><a href="Client_UIElements.Client_UIElements%2520_%2520ColorWheel-Wheel.html">Wheel</a></li><li><a href="Client_UIElements.Client_UIElements%2520_%2520ContextMenu-ContextMenu.html">ContextMenu</a></li><li><a href="Client_UIElements.Client_UIElements%2520_%2520DialogBox-DialogBox.html">DialogBox</a></li><li><a href="global.html#TextDropDown">TextDropDown</a></li><li><a href="client.Client_App-App.html">App</a></li><li><a href="client.Client_Window-Window.html">Window</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Export:clamp">Export:clamp</a></li><li><a href="global.html#Export:create">Export:create</a></li><li><a href="global.html#Export:getElement">Export:getElement</a></li><li><a href="global.html#Export:getParentWindow">Export:getParentWindow</a></li><li><a href="global.html#Export:isElement">Export:isElement</a></li><li><a href="global.html#Export:randomId">Export:randomId</a></li><li><a href="global.html#Export:randomInt">Export:randomInt</a></li><li><a href="global.html#Export:sanitise">Export:sanitise</a></li><li><a href="global.html#Export:unsanitise">Export:unsanitise</a></li><li><a href="global.html#Internal:sanitationMap">Internal:sanitationMap</a></li><li><a href="global.html#deleteElement">deleteElement</a></li><li><a href="global.html#makeButton">makeButton</a></li><li><a href="global.html#makeColorPicker">makeColorPicker</a></li><li><a href="global.html#makeDropDownMenu">makeDropDownMenu</a></li><li><a href="global.html#makeTextDropDown">makeTextDropDown</a></li><li><a href="global.html#makeToggle">makeToggle</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#snap">snap</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Apr 24 2024 17:18:26 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Aug 22 2024 14:06:11 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

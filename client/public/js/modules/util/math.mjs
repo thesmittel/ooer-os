@@ -66,7 +66,7 @@ function degreeToRadian(a) {
  * @param {Number} fromMax Original maxi
  * @param {Number} toMin Mapped minimum
  * @param {Number} toMax Mapped maximum
- * @returns 
+ * @returns Number
  */
 function map(v, fromMin, fromMax, toMin, toMax) {
 	let dFrom = fromMax - fromMin;
@@ -86,7 +86,7 @@ function round(v, d) {
  * @param {Number} val 
  * @param {Number} min 
  * @param {Number} step 
- * @returns 
+ * @returns Number
  */
 function snap(val, min, step) {
 	if (step == 0) return val;

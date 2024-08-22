@@ -1,3 +1,27 @@
+/**
+ * Creates and manages an elements context menu
+ * @file contextmenu.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:UIElements > ContextMenu
+ * @see <a href="./client.Client_UIElements%2520_%2520ContextMenu.html">Module</a>
+ */
+/**
+ * Creates and manages an elements context menu
+ * @file contextmenu.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:UIElements > ContextMenu
+ * @see <a href="./client.Client_UIElements%2520_%2520ContextMenu.html">Module</a>
+ * @namespace ClientCode.UIElements
+ */
+/**
+ * @module ContextMenu
+ * @memberof Client:UIElements
+ * @description Creates and manages an elements context menu
+ * @name Client:UIElements > ContextMenu
+ * @author Smittel
+ */
 import { create } from "../Util.mjs";
 /*
 
@@ -21,11 +45,29 @@ import { create } from "../Util.mjs";
 ]
 
 */
+/**
+ * Creates a contextmenu accessible by right clicking elements that have a defined one. 
+ * The Context menu appears to the bottom left of the mouse position, unless the space is insufficient. 
+ * Horizontally, it gets added to the bottom right of the mouse position, vertically, it gets placed flush with the bottom of the screen.<br>
+ * Contextmenus support clickable elements arranged in either a list or grid, unclickable elements include a title, a description and dividers. 
+ * All elements can be placed anywhere.
+ */
 class ContextMenu {
     #element;
     #timeout;
     #structure = [];
     parent;
+    /**
+     * 
+     * @param {HTMLElement} parentElement The DOM node that "owns" the context menu. Context menus get attached to the HTML Element as a property.
+     * @param {Object[]} elements 
+     * @param {("list"|"grid"|"divider"|"title"|"text")} elements[].type Defines the type of an element
+     * @param {String} elements[].label Defines the text used by Title and Text type elements
+     * @param {Object[]} elements[].items Defines the elements within the list or grid. 
+     * @param {String} elements[].items[].label The label is directly displayed for list elements, displayed on hover for grid elements
+     * @param {String} elements[].items[].symbol The symbol is optional for list elements, but semi-mandatory for grid elements, defines a symbol that is displayed on the element
+     * @param {Function} elements[].items[].handler Defines whats executed when a list or grid element is clicked.
+     */
     constructor(parentElement, elements) {
         this.parent = parentElement;
         if (!(elements instanceof Array)) throw new TypeError("class ContextMenu: constructor requires Array.")
@@ -39,14 +81,14 @@ class ContextMenu {
             switch (elements[i].type) {
                 case "grid":
                     e = new ContextMenuGrid(
-                        elements[i].elements.map(a => new ContextMenuGridElement(a.label, a.symbol, a.handler))
+                        elements[i].items.map(a => new ContextMenuGridElement(a.label, a.symbol, a.handler))
                     )
                     this.#structure.push(e)
                     e = e.element;
                     break;
                 case "list":
                     e = new ContextMenuList(
-                        elements[i].elements.map(a => new ContextMenuListElement(a.label, a.symbol, a.handler))
+                        elements[i].items.map(a => new ContextMenuListElement(a.label, a.symbol, a.handler))
                     )
                     this.#structure.push(e);
                     e = e.element;

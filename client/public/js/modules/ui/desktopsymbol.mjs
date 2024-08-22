@@ -1,3 +1,28 @@
+/**
+ * Creates a desktop symbol
+ * @file desktopsymbol.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:UIElements > DesktopSymbol
+ * @see <a href="./client.Client_UIElements%2520_%2520ContextMenu.html">Module</a>
+ */
+/**
+ * Creates a desktop symbol
+ * @file desktopsymbol.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:UIElements > DesktopSymbol
+ * @see <a href="./Client_UIElements.Client_UIElements%2520_%2520DesktopSymbol.html">Module</a>
+ * @namespace ClientCode.UIElements
+ */
+/**
+ * @module DesktopSymbol
+ * @memberof Client:UIElements
+ * @description Creates and manages an elements context menu
+ * @name Client:UIElements > DesktopSymbol
+ * @author Smittel
+ */
+
 import { App, System } from "../Connect.mjs";
 import { dragElement } from "../Dragging.mjs";
 import { create } from "../Util.mjs";
@@ -82,7 +107,7 @@ class DesktopSymbolApp extends DesktopSymbol {
             type: "divider"
         }, {
             "type": "list",
-            "elements": [
+            "items": [
                 {
                     "label": "Open",
                     "symbol": "bx-window-open",
@@ -126,7 +151,7 @@ class DesktopSymbolApp extends DesktopSymbol {
         ...this.contextmenu,
         {
             type: "grid",
-            elements: [
+            items: [
                 {
                     label: "Delete",
                     symbol: "bx-trash-alt"

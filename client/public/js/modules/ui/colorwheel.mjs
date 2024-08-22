@@ -1,10 +1,34 @@
+/**
+ * Color wheel UI element
+ * @file colorwheel.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:UIElements > ColorWheel
+ */
+/**
+ * Color wheel UI element
+ * @file colorwheel.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:UIElements > ColorWheel
+ * @namespace ClientCode.UIElements
+ */
+/**
+ * @module ColorWheel
+ * @memberof Client:UIElements
+ * @description Color wheel UI element
+ * @name Client:UIElements > ColorWheel
+ * @author Smittel
+ */
 
 import { SliderGroup } from "./textslider.mjs";
 import { create, nthParent, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian } from "/js/modules/Util.mjs";
 import { Color } from "/js/modules/colors.mjs";
 import { TextboxSlider } from "/js/modules/ui/textslider.mjs";
 
-
+/**
+ * Color wheel class
+ */
 class Wheel {
     closable = true;
     activeSelector;
@@ -27,13 +51,25 @@ class Wheel {
     #sliderGroupDomArr
     backdrop;
     #hexbox;
-
+    /**
+     * Creates a color wheel and attaches it to the parent element, hidden by default.
+     * Color wheels close when they lose focus. <br>
+     * If present, the color wheel uses the color data attached to the parentElement, use data-r, data-g, data-b, data-a attributes for the corresponding color channels, RGB is integers from 0 to 255, alpha is floats from 0 to 1<br>
+     * If these are not present, the class will initialise RGB to black with 100% alpha and attach the attributes to the parent element. <br>
+     * CAREFUL! If they are present but are not a number, they will be replaced!<br>
+     * It is also recommended to not have anything of value in the parent element, ideally you want to make it something that merely displays the color, because the background color gets updated automatically. It does NOT however automatically add the eventListener to the parent element, reason being that there might be different ways you might want to let the user open it.
+     * @param {HTMLElement} parentElement 
+     */
     constructor(parentElement) {
         // If provided element is not dom element, throw up in a tantrum bc what else is there to do
         if (!parentElement.tagName) {
-            throw new TypeError("this.parentElement must be DOM Element, got " + typeof this.parentElement)
+            throw new TypeError("class Wheel: argument parentElement must be DOM Element, got " + typeof this.parentElement)
         }
-        const { r, g, b, a } = parentElement.dataset;
+        let { r, g, b, a } = parentElement.dataset;
+        if (r===undefined || isNaN(r)) parentElement.dataset.r = r = 0;
+        if (g===undefined || isNaN(g)) parentElement.dataset.g = g = 0;
+        if (b===undefined || isNaN(b)) parentElement.dataset.b = b = 0;
+        if (a===undefined || isNaN(a)) parentElement.dataset.a = a = 1;
         const { h, s, v } = Color.rgb.toHsv({ r: r, g: g, b: b })
         this.parentElement = parentElement;
         this.#brightnessSlider();
@@ -99,7 +135,7 @@ class Wheel {
                 colormode: "RGB"
             },
             childElements: [
-                ...this.makeColorModeButtonObjects(),
+                ...this.#makeColorModeButtonObjects(),
                 this.#slideGroup.element,
                 this.#hexbox,
                 this.#alphaSlider.element
@@ -114,7 +150,7 @@ class Wheel {
                 click: (e) => { e.stopPropagation() },
                 mousedown: () => {
                     this.closable = false;
-                    document.addEventListener("mouseup", this.resetClosable)
+                    document.addEventListener("mouseup", this.#resetClosable)
                 }
             },
             style: `top: ${y + height / 2}px; left: ${x + width}px; transform: translateY(-50%);`,
@@ -180,7 +216,7 @@ class Wheel {
     }
 
 
-    brightnessChange(e, picker) {
+    #brightnessChange(e, picker) {
         if (!picker.activeSelector || !picker.mousedown) return;
 
         const { height, padding, dY } = valueChangeParamGrab(picker.activeSelector, e)
@@ -206,10 +242,10 @@ class Wheel {
         picker.element.dataset.g = g
         picker.element.dataset.b = b
 
-        picker.changeSliders(true);
+        picker.#changeSliders(true);
     }
 
-    hueSatChange(e, wheel) {
+    #hueSatChange(e, wheel) {
         if (!wheel.activeSelector || !wheel.mousedown) return;
         // necessary to calculate positions and colors
         // dX, dY are mouse positions relative to center of wheel
@@ -238,10 +274,10 @@ class Wheel {
         wheel.element.dataset.g = g
         wheel.element.dataset.b = b
         
-        wheel.changeSliders(true);
+        wheel.#changeSliders(true);
     }
 
-    switchColorMode({ target }) {
+    #switchColorMode({ target }) {
         const buttons = Array.from(target.parentNode.querySelectorAll("colormode-button"))
         const newColorMode = target.dataset.mode;
         this.element.dataset.colormode = target.dataset.mode;
@@ -261,14 +297,14 @@ class Wheel {
         buttons.forEach(a => a.dataset.selected = false);
         target.dataset.selected = true;
         target.parentNode.dataset.colormode = target.dataset.mode;
-        this.changeSliders()
+        this.#changeSliders()
     }
 
-    mousemove(e) {
+    #mousemove(e) {
         if (this.mode && this.mousedown) {
-            this.hueSatChange(e, this)
+            this.#hueSatChange(e, this)
         } else {
-            this.brightnessChange(e, this)
+            this.#brightnessChange(e, this)
         }
     }
 
@@ -343,7 +379,7 @@ class Wheel {
             // console.log("UPDATE", e.target.values, h,s,v)
     }
 
-    changeSliders(fireevent) {
+    #changeSliders(fireevent) {
         const { r, g, b, h, s, v, a, colormode} = this.element.dataset;
         // console.log(colormode, r,g,b,h,s,v,a)
         switch(colormode) {
@@ -376,14 +412,16 @@ class Wheel {
 
     
 
-    resetClosable() {
+    #resetClosable() {
         setTimeout(() => {
             this.closable = true;
-            document.removeEventListener("mouseup", this.resetClosable)
+            document.removeEventListener("mouseup", ()=>this.#resetClosable())
         }, 1)
     }
 
-
+    /**
+     * Shows the color wheel
+     */
     show() {
 
         // just grabbing a bunch of parameters
@@ -406,15 +444,6 @@ class Wheel {
         this.#slidertext = [...this.sliderValues]
         // console.log("SHOW", this)
 
-
-
-
-
-
-
-
-
-
         this.backdrop = create({
             tagname: "div",
             classList: ["colorwheel-backdrop"],
@@ -423,7 +452,7 @@ class Wheel {
                     // only removes the color picker if a color isnt actively being selected
                     // in other words: only clicking outside the selector removes it
                     e.stopPropagation()
-                    if (this.closable && e.target.tagName == "DIV") e.target.remove()
+                    if (this.closable && e.target.tagName == "DIV") this.hide()
                 }
             },
             childElements: [this.element]
@@ -443,13 +472,13 @@ class Wheel {
             this.mousedown = true;
             this.closable = false;
             // if (!this.target || this.target.tagName == "DIV") return;
-            this.updateTarget(e)
+            this.#updateTarget(e)
         })
         this.backdrop.addEventListener("mousemove", (e) => {
-            this.updateTarget(e)
+            this.#updateTarget(e)
         })
         this.backdrop.addEventListener("mouseup", (e) => {
-            this.resetClosable(e);
+            this.#resetClosable(e);
             this.mousedown = false;
             this.activeSelector = null
             this.target = null;
@@ -474,7 +503,12 @@ class Wheel {
 
     }
 
-
+    /**
+     * Hides the color wheel
+     */
+    hide() {
+        this.backdrop.remove()
+    }
 
 
     #updateDataset_old(target, mode) {
@@ -510,23 +544,23 @@ class Wheel {
         }
     }
 
-    updateTarget(e) {
+    #updateTarget(e) {
         if (!this.target) return
         switch (this.target.tagName) {
             case "COLORPICKER-HUEWHEELMOUSE":
                 this.activeSelector = this.target
-                this.hueSatChange(e, this)
+                this.#hueSatChange(e, this)
                 break
             case "COLORPICKER-BRIGHTNESS":
                 this.activeSelector = this.target
-                this.brightnessChange(e, this)
+                this.#brightnessChange(e, this)
                 break
             case "COLORMODE-BUTTON":
-                this.switchColorMode(this)
+                this.#switchColorMode(this)
                 break
         }
     }
-    makeColorModeButtonObjects(switchColorMode) {
+    #makeColorModeButtonObjects(switchColorMode) {
         return ([{ m: "RGB", s: true }, { m: "HSV", s: false }, { m: "HEX", s: false }]).map(a => {
             return {
                 tagname: "colormode-button",

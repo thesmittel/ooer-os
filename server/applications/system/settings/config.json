@@ -22,7 +22,7 @@
   "contextmenu": [
     {
       "type": "list",
-      "elements": [
+      "items": [
         {
           "label": "Home",
           "symbol": "bx-home-alt-2"

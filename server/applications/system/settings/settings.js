@@ -276,6 +276,11 @@ function makeColorPicker(label, {r, g, b, a}) {
         ]
     })
 }
+
+/**
+ * @typedef DropDownMenu DropDownMenu
+ * @typedef TextDropDown TextDropDown
+ */
 /**
  * 
  * @param {String} label The label used in the settings window
@@ -309,9 +314,9 @@ function makeDropDownMenu(label, menu, defaultIndex) {
 /**
  * 
  * @param {String} label The label for the settings window
- * @param {([String]|TextDropDown)} options The options, either as array of strings or string convertibles or as instance of TextDropDown 
+ * @param {(String[]|TextDropDown)} options The options, either as array of strings or string convertibles or as instance of TextDropDown 
  * @param {Number=} defaultIndex The default index, optional, defaults to 0, only effective if options is Array
- * @returns 
+ * @returns HTMLElement
  */
 function makeTextDropDown(label, options, defaultIndex) {
     const obj = {

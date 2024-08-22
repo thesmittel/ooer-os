@@ -1,3 +1,35 @@
+/**
+ * @typedef ContextMenu
+ */
+/**
+ * Contains references to UI elements
+ * @file ui.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:UIElements
+ * @see <a href="./Client.Client_UIElements.html">Module</a>
+ */
+/**
+ * Creates and manages an elements context menu
+ * @file ui.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name Client:UIElements
+ * @see <a href="./Client.Client_UIElements.html">Module</a>
+ * @namespace ClientCode.UIElements
+ */
+/**
+ * @module ContextMenu
+ * @memberof Client
+ * @description Creates and manages an elements context menu
+ * @name Client:UIElements
+ * @author Smittel
+ */
+/**
+ * 
+ */
+
+
 import { create, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian } from "./Util.mjs";
 import { Color } from "./colors.mjs";
 import { Wheel } from "./ui/colorwheel.mjs";
@@ -39,6 +71,7 @@ function makeColorSelector(parentElement) {
     let visualSlider = [...sliderValues]
     /**
      * @typedef {Object} Parameters
+     * @deprecated
      * @property { Number } padding CSS Padding property of selector
      * @property { Number } width CSS width of selector
      * @property { Number } height CSS height of selector
@@ -350,6 +383,19 @@ function makeColorSelector(parentElement) {
 }
 
 
+
+/**
+ * Right-click triggered options menu, attachable to any element
+ * @member ContextMenu
+ * @name Client:UIElements > ContextMenu
+ * @see <a href="./client.Client_UIElements%2520_%2520ContextMenu.html">Client:UIElements > ContextMenu</a>
+ */
+/**
+ * Right-click triggered options menu, attachable to any element
+ * @member Wheel
+ * @name Client:UIElements > ColorWheel
+ * @see <a href="./Client_UIElements.Client_UIElements%2520_%2520ColorWheel.html">Client:UIElements > ColorWheel</a>
+ */
 
 
 export {Wheel, TextboxSlider, SliderGroup, DropDownMenu, TextDropDown, ContextMenu, DialogBox}
