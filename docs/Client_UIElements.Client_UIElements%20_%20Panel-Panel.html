@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: ContextMenu</title>
+    <title>JSDoc: Class: Panel</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: ContextMenu</h1>
+    <h1 class="page-title">Class: Panel</h1>
 
     
 
@@ -29,13 +29,7 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="global.html#Client:UIElements">Client:UIElements</a><a href="Client_UIElements.Client_UIElements%2520_%2520ContextMenu.html">.Client:UIElements > ContextMenu</a>~</span>ContextMenu<span class="signature">(parentElement, elements)</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description">Creates a contextmenu accessible by right clicking elements that have a defined one. 
-The Context menu appears to the bottom left of the mouse position, unless the space is insufficient. 
-Horizontally, it gets added to the bottom right of the mouse position, vertically, it gets placed flush with the bottom of the screen.<br>
-Contextmenus support clickable elements arranged in either a list or grid, unclickable elements include a title, a description and dividers. 
-All elements can be placed anywhere.</div>
+            <span class="ancestors"><a href="global.html#Client:UIElements">Client:UIElements</a><a href="Client_UIElements.Client_UIElements%2520_%2520Panel.html">.Client:UIElements > Panel</a>~</span>Panel<span class="signature">(options)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -46,11 +40,9 @@ All elements can be placed anywhere.</div>
         
 
     
-    <h2>Constructor</h2>
-    
 
     
-    <h4 class="name" id="ContextMenu"><span class="type-signature"></span>new ContextMenu<span class="signature">(parentElement, elements)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Panel"><span class="type-signature"></span>new Panel<span class="signature">(options)</span><span class="type-signature"></span></h4>
     
 
     
@@ -90,36 +82,13 @@ All elements can be placed anywhere.</div>
 
         <tr>
             
-                <td class="name"><code>parentElement</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">HTMLElement</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The DOM node that "owns" the context menu. Context menus get attached to the HTML Element as a property.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>elements</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array:<a href="client.Client_Window-Window.html"></a>.&lt;Object:<a href="client.Client_Window-Window.html"></a>></span>
+<span class="param-type">Object</span>
 
 
             
@@ -143,7 +112,11 @@ All elements can be placed anywhere.</div>
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -155,81 +128,174 @@ All elements can be placed anywhere.</div>
 
         <tr>
             
-                <td class="name"><code>type</code></td>
+                <td class="name"><code>position</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">"list"</span>
+<span class="param-type">"left"</span>
 |
 
-<span class="param-type">"grid"</span>
+<span class="param-type">"top"</span>
 |
 
-<span class="param-type">"divider"</span>
+<span class="param-type">"center"</span>
 |
 
-<span class="param-type">"title"</span>
+<span class="param-type">"right"</span>
 |
 
-<span class="param-type">"text"</span>
+<span class="param-type">"bottom"</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Defines the type of an element</td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Defines the position of the panel along the edge. "left" and "top" are interchangeable, as are right and bottom, they only serve as a more descriptive option for horizontal and vertical panels.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>label</code></td>
+                <td class="name"><code>attach</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">"north"</span>
+|
+
+<span class="param-type">"east"</span>
+|
+
+<span class="param-type">"south"</span>
+|
+
+<span class="param-type">"west"</span>
+|
+
+<span class="param-type">"none"</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Defines the text used by Title and Text type elements</td>
+            
+                <td class="default">
+                
+                    "none"
+                
+                </td>
+            
+
+            <td class="description last">Defines the edge of the display a panel is attached to</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>items</code></td>
+                <td class="name"><code>offset</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array:<a href="client.Client_Window-Window.html"></a>.&lt;Object:<a href="client.Client_Window-Window.html"></a>></span>
+<span class="param-type">Array:<a href="client.Client_Window-Window.html"></a>.&lt;Number:<a href="client.Client_Window-Window.html"></a>></span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Defines the elements within the list or grid.
+            
+                <td class="default">
+                
+                    [0,0]
+                
+                </td>
+            
+
+            <td class="description last">position offset relative to default position, [x: Number, y: Number], do NOT include "px"</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>style</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Defines additional styling
                 <h6>Properties</h6>
                 
 
@@ -243,6 +309,8 @@ All elements can be placed anywhere.</div>
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -255,7 +323,7 @@ All elements can be placed anywhere.</div>
 
         <tr>
             
-                <td class="name"><code>label</code></td>
+                <td class="name"><code>[property]</code></td>
             
 
             <td class="type">
@@ -268,56 +336,20 @@ All elements can be placed anywhere.</div>
             </td>
 
             
-
-            
-
-            <td class="description last">The label is directly displayed for list elements, displayed on hover for grid elements</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>symbol</code></td>
-            
-
-            <td class="type">
-            
+                <td class="attributes">
                 
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The symbol is optional for list elements, but semi-mandatory for grid elements, defines a symbol that is displayed on the element</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>handler</code></td>
-            
-
-            <td class="type">
-            
+                    &lt;optional><br>
                 
-<span class="param-type">function</span>
 
+                
 
-            
-            </td>
-
-            
-
+                
+                </td>
             
 
-            <td class="description last">Defines whats executed when a list or grid element is clicked.</td>
+            
+
+            <td class="description last">Things like background-color</td>
         </tr>
 
     
@@ -325,6 +357,92 @@ All elements can be placed anywhere.</div>
 </table>
 
             </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opacity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">0.0-1.0</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1.0
+                
+                </td>
+            
+
+            <td class="description last">Defines opacity of panel including panel elements. Use background-color in options.style to make the background transparent.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>behavior</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"dodge"</span>
+|
+
+<span class="param-type">"hide"</span>
+|
+
+<span class="param-type">"fade"</span>
+|
+
+<span class="param-type">"shrink"</span>
+|
+
+<span class="param-type">"none"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
         </tr>
 
     
@@ -372,7 +490,7 @@ All elements can be placed anywhere.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="client_public_js_modules_ui_contextmenu.mjs.html">client/public/js/modules/ui/contextmenu.mjs</a>, <a href="client_public_js_modules_ui_contextmenu.mjs.html#line55">line 55</a>
+        <a href="client_public_js_modules_ui_panels.mjs.html">client/public/js/modules/ui/panels.mjs</a>, <a href="client_public_js_modules_ui_panels.mjs.html#line83">line 83</a>
     </li></ul></dd>
     
 

@@ -67,6 +67,7 @@ function create(args) {
                     }
                     break;
                 default:
+                    e.setAttribute(a, args[a])
                     e[a] = args[a];
             }
         }

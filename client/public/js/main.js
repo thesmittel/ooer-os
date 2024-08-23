@@ -7,6 +7,7 @@
 import * as Connect from "./modules/Connect.mjs"
 import * as Handler from "./Handlers.mjs"
 import { create } from "./modules/Util.mjs"
+import { Panel } from "./modules/ui/panels.mjs"
 
 
 // for some reason this works, but will be changed anyways
@@ -57,6 +58,11 @@ Object.defineProperty(HTMLElement.prototype, "value", {
     }
 })
 
+const test = new Panel({
+    position: "left",
+    attach: "bottom",
+})
+document.body.append(test.element)
 const clockobject = document.getElementById("clock-main");
 document.addEventListener("contextmenu", Handler.contextMenu)
 // Clock
