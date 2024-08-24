@@ -59,8 +59,10 @@ Object.defineProperty(HTMLElement.prototype, "value", {
 })
 
 const test = new Panel({
-    position: "left",
-    attach: "bottom",
+    position: "center",
+    attach: "south",
+    offset: [0, 200],
+    floating: true
 })
 document.body.append(test.element)
 const clockobject = document.getElementById("clock-main");

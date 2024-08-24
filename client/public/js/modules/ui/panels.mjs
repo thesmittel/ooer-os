@@ -64,48 +64,147 @@ class Panel {
     #position; // (Left/Top)|Center|(Right/Bottom) 
     #attach; #offset; // Edge the panel is attached to, offset XY relative to default
     // Default for edge 
+    #floating; #width;
     #applets = []; // list of applets (the respective class object). For simplicity, the taskbar is also an applet 
 
     #style; // Object, contains additional styling such as offset if floating, background color, corner rounding etc
     #behavior; // additional behavior such as "unfloating" when a window is maximised
+
     element;
     /**
-     * 
+     * Terminology: <br>
+     * <ul>
+     * <li>Attached refers to the edge of the screen a panels position is defined relative to.</li>
+     * <li>Floating means an offset from the screen edge it is attached to.</li>
+     * <li>The axis of a panel follows the edge of the screen it is attached to, regardless of actual dimensions. Unattached panels have a horizontal axis.</li>
+     * @todo Implement behaviors
      * @param {Object} options 
-     * @param {("left"|"top"|"center"|"right"|"bottom")} options.position Defines the position of the panel along the edge. "left" and "top" are interchangeable, as are right and bottom, they only serve as a more descriptive option for horizontal and vertical panels. 
-     * @param {("north"|"east"|"south"|"west"|"none")=} [options.attach="none"] Defines the edge of the display a panel is attached to
+     * @param {("north"|"east"|"south"|"west"|"none")=} [options.attach="none"] Defines the edge of the display a panel is attached to. "none" invalidates position, offset will be relative to top left of screen.
+     * @param {("left"|"top"|"center"|"right"|"bottom")} [options.position="center"] Defines the position of the panel along the edge. "left" and "top" are interchangeable, as are right and bottom, they only serve as a more descriptive option for horizontal and vertical panels. 
      * @param {Number[]} [options.offset=[0,0]] position offset relative to default position, [x: Number, y: Number], do NOT include "px"
      * @param {Object=} options.style Defines additional styling
-     * @param {String} [options.style.[property]] Things like background-color
+     * @param {String} [options.style.[property]] [property] refers to any CSS property.
      * @param {(0.0-1.0)} [options.opacity=1.0] Defines opacity of panel including panel elements. Use background-color in options.style to make the background transparent.
-     * @param {("dodge"|"hide"|"fade"|"shrink"|"none")} options.behavior
+     * @param {Object=} [options.behavior="none"] Defines behavior of panel depending on state of desktop and user interaction. Panels can shrink, hide, fade and dodge windows
+     * @param {Object} [options.behavior.hide] Whether the panel will automatically hide
+     * @param {Number} [options.behavior.hide.time] Animation time in ms
+     * @param {Number} [options.behavior.hide.offset] Animation offset in ms
+     * @param {String} [options.behavior.hide.anim] CSS animations (e.g. "ease-in-out", "cubic-bezier(0.1, 0.7, 1.0, 0.1)" etc)
+     * @param {Object} [options.behavior.dodge] Panel will dodge windows
+     * @param {Number} [options.behavior.dodge.time] Animation time in ms
+     * @param {Number} [options.behavior.dodge.offset] Animation offset in ms
+     * @param {String} [options.behavior.dodge.anim] CSS animations (e.g. "ease-in-out", "cubic-bezier(0.1, 0.7, 1.0, 0.1)" etc)
+     * @param {Object} [options.behavior.fade] Panel will reduce opacity if not in active use
+     * @param {Number} [options.behavior.fade.time] Animation time in ms
+     * @param {Number} [options.behavior.fade.offset] Animation offset in ms
+     * @param {String} [options.behavior.fade.anim] CSS animations (e.g. "ease-in-out", "cubic-bezier(0.1, 0.7, 1.0, 0.1)" etc)
+     * @param {(0.0-1.0)} [options.behavior.fade.opacity] Opacity of panel if not in use
+     *  @param {Object} [options.behavior.shrink] Panel will shrink if not in active use
+     * @param {Number} [options.behavior.shrink.time] Animation time in ms
+     * @param {Number} [options.behavior.shrink.offset] Animation offset in ms
+     * @param {String} [options.behavior.shrink.anim] CSS animations (e.g. "ease-in-out", "cubic-bezier(0.1, 0.7, 1.0, 0.1)" etc)
+     * @param {Number=} [options.behavior.shrink.perp] Size of panel if not in active use perpendicular to main axis of panel
+     * @param {Number=} [options.behavior.shrink.axis] Size of panel along axis, if not in use
+     * @param {Boolean} [options.floating=false] false: offset perpendicular to screen edge gets ignored. 
+     * @param {("fit"|"full"|Number)} [options.fullwidth="fit"] whether or not the panel takes up the entire space along its axis
+     * @example new Panel({
+     *   position: "center",
+     *   attach: "south",
+     *   offset: [0, 20],
+     *   floating: true,
+     *   fullwidth: false
+     * })
      */
     constructor(options) {
-        if (!(options.offset instanceof Array)) options.offset = [0,0];
-        options.offset = options.offset.map(a => {
-            a = parseFloat(a);
-            return isNaN(a)?0:a;
-        })
-
+        console.log("options", options)
         this.element = create({
             tagname: "desktop-panel",
-            classList: [],
-            style: 
-            `--offsetX: ${options.offset[0]}; --offsetY: ${options.offset[1]}`
-            // {
-                
-            //     "--offsetY": 202,
-            //     "--offsetX": 42,
-            // }
-            ,
             childElements: [
-                
-            ],
-            attach: "south",
-            floating: false,
-            fullwidth: false,
-            position: "center"
+
+            ]
         })
+        this.setOffset(options.offset)
+        this.setAttach(options.attach)
+        this.setFloating(options.floating)
+        this.setWidth(options.fullwidth)
+        this.setPosition(options.position)
+        this.setStyle(options.style)
+
+    }
+
+    setStyle(style) {
+        try {
+            const s = Object.keys(a);
+            for (let i = 0; i < s.length; i++) {
+                this.element.style.setProperty(s[i], style[s[i]])
+            }
+        } catch (e) {
+            // Nothing because invalid
+        }
+
+
+    }
+
+    setPosition(position) {
+        const valid = ["left", "top", "center", "right", "bottom"];
+        if (!valid.includes(position)) position = "center";
+        this.#position = position;
+        this.element.setAttribute("position", position)
+    }
+
+    setWidth(width) {
+        
+        this.#width = width;
+        this.element.setAttribute("fullwidth", this.#width)
+        if (typeof width == "number") {
+            if (this.element.attach == "east" || this.element.attach == "west") {
+                this.element.style.height = `${width}px`
+            } else {
+                this.element.style.width = `${width}px`
+            }
+
+            this.element.setAttribute("panelwidth", "fixed")
+            this.#width = "fixed"
+        } else if (width == "full") {
+            if (this.element.attach == "east" || this.element.attach == "west") {
+                this.element.style.height = `100%`
+            } else {
+                this.element.style.width = `100%`
+            }
+        } else { // "fit" or invalid
+            if (this.element.attach == "east" || this.element.attach == "west") {
+                this.element.style.height = `fit-content`
+            } else {
+                this.element.style.width = `fit-content`
+            }
+        }
+
+    }
+
+    setFloating(floating) {
+        if (floating !== true) floating = false;
+        this.#floating = floating;
+        this.element.setAttribute("floating", floating)
+    }
+
+    setAttach(attach) {
+        const valid = ["north", "east", "south", "west", "none"]
+        if (!valid.includes(attach)) attach = "none";
+        this.#attach = attach;
+        this.element.setAttribute("attach", attach)
+    }
+
+    setOffset(offset) {
+        if (!(offset instanceof Array)) offset = [0, 0];
+        let c = "X"
+        offset = offset.map(a => {
+            a = isNaN(a) ? 0 : parseFloat(a);
+            this.element.style.setProperty(`--offset${c}`, a)
+            this.element.setAttribute(`offset${c}`, a)
+            c = "Y"
+            return
+        })
+        this.offset = offset
     }
 }
 
