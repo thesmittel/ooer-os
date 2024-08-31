@@ -1,19 +1,30 @@
 
 ## Version
 
-0.1.240823
-- Documentation part 1
-- Small changes here and there 
-
-0.1.240823_b
-- Panel class (rough draft)
-- some more docs
+0.1.240831
+- Prepwork for rework of applications as a whole with a new AppManager module that handles individual granular permissions
+- Draft for new Errors
+- New base class for desktop widgets
+- New Desktop module, will contain desktop related components as a parent module similar to Util module
+- Planned: DesktopManager.mjs, will handle positioning of symbols and widgets and by extension panels
+- Planned: shortcutmanager.mjs, will handle keyboard shortcuts for apps and system
+- added Button component 
+- various other changes
+Overall not really anything productive
 
 
 ## Why such a weird version numbering?
 It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
 
 ## Changes
+
+### 0.1.240823
+- Documentation part 1
+- Small changes here and there 
+
+#### 0.1.240823_b
+- Panel class (rough draft)
+- some more docs
 
 ### 0.1.240822
 - Changes to error box

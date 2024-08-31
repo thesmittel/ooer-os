@@ -38,6 +38,7 @@ import { DropDownMenu } from "./ui/dropdown.mjs";
 import { TextDropDown } from "./ui/textdropdown.mjs";
 import { ContextMenu } from "./ui/contextmenu.mjs";
 import { DialogBox } from "./ui/dialogbox.mjs";
+import { Button } from "./ui/button.mjs";
 let closable = true;
 let activeSelector;
 
@@ -398,4 +399,4 @@ function makeColorSelector(parentElement) {
  */
 
 
-export {Wheel, TextboxSlider, SliderGroup, DropDownMenu, TextDropDown, ContextMenu, DialogBox}
+export {Wheel, Button, TextboxSlider, SliderGroup, DropDownMenu, TextDropDown, ContextMenu, DialogBox}

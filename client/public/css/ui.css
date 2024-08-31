@@ -9,6 +9,10 @@
     --colorPickerSliderColor: rgb(129, 53, 99);
     --colorPickerSliderShadowColor: rgba(33, 33, 33, 1);
     --colorPickerSliderBackdrop: rgba(55, 55, 55, 1);
+    --primaryBackground: #222;
+    --primaryText: #eee;
+    --uiElementShadow: 0 0 12px #000a;
+    --uiElementShadowHover: 0 0 12px #fff4;
 }
 
 /* ERROR MESSAGES */
@@ -120,7 +124,7 @@ error-box>.container>.error-description>pre {
     font-size: 12px;
     word-wrap: break-word;
     white-space: pre-wrap;
-    font-weight: 300;
+    font-weight: 500;
 }
 
 error-box::before {
@@ -1220,4 +1224,35 @@ context-menu > context-menu-list > context-menu-element[data-submenu="true"]>spa
     right: -3px;
     align-self: center;
     top: 2px;
+}
+
+input[type=button] {
+    background-color: var(--primaryBackground);
+    color: var(--primaryText);
+    box-shadow: var(--uiElementShadow);
+    filter: brightness(1);
+    width: fit-content;
+    padding-inline: 12px;
+    display: flex;
+    align-items: center;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    transition: filter 0.1s ease-out;
+}
+
+input[type=button]:hover {
+    filter: brightness(1.4);
+    transition: filter 0.1s ease-in;
+}
+
+input[type=button]:active {
+    filter: brightness(1.6);
+}
+
+desktop-widget {
+    position: fixed;
+    z-index: -1;
 }

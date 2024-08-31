@@ -79,6 +79,14 @@
                     "icon": null,
                     "position": [2,6],
                     "locked": false
+                }, 
+                {
+                    "appid": "themes",
+                    "text": "Themes",
+                    "label": null,
+                    "icon": null,
+                    "position": [7,3],
+                    "locked": false
                 }
             ]
         },

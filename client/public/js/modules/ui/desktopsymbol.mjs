@@ -32,7 +32,8 @@ function isLockedError(text) {
     const error = new DialogBox(text, 
         "Application locked, please unlock first",
         3, 
-        [{text: "OK", call:()=>{error.close()}}],
+        [{
+            text: "OK", call:()=>{error.close()}, main: true}],
         document.body,
         false
     )
@@ -57,8 +58,8 @@ class DesktopSymbol {
         this.locked = locked;
         // Errors
         if (!(contextmenu instanceof Array)) throw new ReferenceError("class DesktopSymbol: optional argument contextMenu must be an array.")
-        if (!text) throw new ReferenceError("class DesktopSymbol: argument text must be non-empty string. Got: '" + text + "' (" + typeof label + ")");
-
+            if (!text) throw new ReferenceError("class DesktopSymbol: argument text must be non-empty string. Got: '" + text + "' (" + typeof label + ")");
+        
         this.contextmenu = contextmenu
         this.icon = icon;
         if (!icon) this.icon = appid; // If user didnt customise icon, use assigned apps icon
@@ -69,8 +70,8 @@ class DesktopSymbol {
         this.element = create({
             tagname: "desktop-symbol",
             style: `background-image: url(/media/desktopicons?i=${this.icon});
-                top: ${this.position[1] * 72}px;
-                left: ${this.position[0] * 96}px`,
+            top: ${this.position[1] * 72}px;
+            left: ${this.position[0] * 96}px`,
             dataset: {
                 appid: this.appid,
                 name: this.label
@@ -97,7 +98,7 @@ class DesktopSymbol {
 class DesktopSymbolApp extends DesktopSymbol {
     constructor({ position, appid, text, icon, description, contextmenu, locked, label }) {
         super({ position, appid, text, icon, description, contextmenu, locked, label });
-
+        
         this.contextmenu = new ContextMenu(this.element, [{
             type: "title", label: text
         }, {

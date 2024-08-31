@@ -182,4 +182,21 @@ const handlers = {
     "S-0001": connectionTimedOut  // S-SC-CTO  System; Server Connection; Connection timed out
 }
 
-export { handlers, errorDialog }
+
+class ArgumentError extends Error {
+    constructor(obj, func, text) {
+        super(errorFormatter(obj,func,text))
+    }
+}
+
+class ValueError extends Error {
+    constructor(obj, func, text) {
+        super(errorFormatter(obj,func,text))
+    }
+}
+
+function errorFormatter(obj, func, text) {
+    return `${obj?(obj.constructor?obj.constructor.name + ".":""):""}${func.toString().match(/.*?\)(?= *{)/)[0].trim()}: ${text}`
+}
+
+export { handlers, errorDialog, ArgumentError, ValueError }

@@ -8,7 +8,8 @@ import * as Connect from "./modules/Connect.mjs"
 import * as Handler from "./Handlers.mjs"
 import { create } from "./modules/Util.mjs"
 import { Panel } from "./modules/ui/panels.mjs"
-
+import { Widget } from "./modules/desktop.mjs"
+import { ArgumentError, ValueError } from "./Error.mjs"
 
 // for some reason this works, but will be changed anyways
 // Handler.openLogin({stopPropagation: ()=>{}})
@@ -82,5 +83,8 @@ function clocktick() {
     })
 }
 clocktick();
+
+
 setInterval(clocktick, 1000)
 
+document.addEventListener("keydown", (e) => {console.log(e)})
