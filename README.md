@@ -111,6 +111,8 @@ Will document soon.
 - Replacing fontawesome with a non-tracking alternative
 - Webworker based multithreading
 - Multi Desktop
+- required password to lock and unlock
+- more customisations
 
 ## Anything else?
 
