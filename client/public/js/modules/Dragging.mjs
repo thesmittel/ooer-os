@@ -18,10 +18,10 @@
 /**
  * @module Dragging
  * @memberof client
- * @description Technically a violation of the license. 
- * In the future, there will be custom code, for now, a slightly 
+ * @description Technically a violation of the license.
+ * In the future, there will be custom code, for now, a slightly
  * modified version of the original.
- * will handle Dragging windows and other draggable elements, for 
+ * will handle Dragging windows and other draggable elements, for
  * now, this isnt a high priority, being in the proof of concept stage.
  * @name UI:Dragging
  * @author W3Schools, minor changes by Smittel
@@ -36,14 +36,14 @@ import { loseFocus } from "../Handlers.mjs";
 /**
  * Registers an element as draggable. Dragging is accomplished by listening to a mousedown event being fired
  * @listens MouseEvent
- * @param { HTMLElement } elmnt 
+ * @param { HTMLElement } elmnt
  * @name Export:dragElement
  */
 function dragElement(elmnt) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (elmnt.children[0].id == (elmnt.id + "-header")) {
+  if (elmnt.querySelector("#" + elmnt.id + "-header") ) {
     // if present, the header is where you move the DIV from:
-    elmnt.children[0].onmousedown = dragMouseDown;
+    elmnt.querySelector("#" + elmnt.id + "-header").onmousedown = dragMouseDown;
   } else {
     // otherwise, move the DIV from anywhere inside the DIV:
     // elmnt.onmousedown = dragMouseDown;
@@ -69,7 +69,7 @@ function dragElement(elmnt) {
 
   /**
    * Adjusts the Elements style property, more specifically, the top and left offset in px based on the mouse position delta
-   * @param { MouseEvent } e 
+   * @param { MouseEvent } e
    * @listens MouseEvent mousemove
    * @name Internal:elementDrag
    */
@@ -109,7 +109,7 @@ function dragElement(elmnt) {
     prev.style.top    = bounds.top + "px"
     prev.style.height = bounds. height+ "px"
 
-    
+
     if (parseInt(elmnt.style.top) < 1 && elmnt.dataset.maximised != "true" && elmnt.id.match(/^window-\d{12}-\d{12}-\d{12}$/g)) {
       // if (!elmnt.classList.contains("about-to-be-maximised")) {
         elmnt.classList.add("about-to-be-maximised")
@@ -127,7 +127,7 @@ function dragElement(elmnt) {
   /**
    * Stops the dragging by fixing the top and left offsets and removing the mouseup and mousemove listeners
    * @listens MouseEvent mouseup
-   * @param { MouseEvent } e 
+   * @param { MouseEvent } e
    * @name Internal:closeDragElement
    */
   function closeDragElement(e) {

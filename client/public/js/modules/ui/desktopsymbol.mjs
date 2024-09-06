@@ -29,9 +29,9 @@ import { create } from "../Util.mjs";
 import { ContextMenu, DialogBox } from "../ui.mjs";
 
 function isLockedError(text) {
-    const error = new DialogBox(text, 
+    const error = new DialogBox(text,
         "Application locked, please unlock first",
-        3, 
+        3,
         [{
             text: "OK", call:()=>{error.close()}, main: true}],
         document.body,
@@ -49,7 +49,9 @@ class DesktopSymbol {
     description;
     position;
     locked;
-    constructor({ position, appid, text, icon, description, contextmenu, locked, label }) {
+    lockedMarker;
+    background;
+    constructor({ position, appid, text, icon, description, contextmenu, locked, label, systemapp }) {
         if (!contextmenu) {
             contextmenu = []
         } else {
@@ -59,7 +61,17 @@ class DesktopSymbol {
         // Errors
         if (!(contextmenu instanceof Array)) throw new ReferenceError("class DesktopSymbol: optional argument contextMenu must be an array.")
             if (!text) throw new ReferenceError("class DesktopSymbol: argument text must be non-empty string. Got: '" + text + "' (" + typeof label + ")");
-        
+
+        this.lockedMarker = create({
+            tagname: "div",
+            classList: ["symbol-locked"],
+            childElements: [{
+                tagname: "i",
+                classList: ["bx", "bxs-lock-alt", "bx-md"]
+            }]
+        })
+
+
         this.contextmenu = contextmenu
         this.icon = icon;
         if (!icon) this.icon = appid; // If user didnt customise icon, use assigned apps icon
@@ -67,19 +79,26 @@ class DesktopSymbol {
         this.appid = appid
         this.position = position
         this.description = description
+        this.background = create({
+            tagname: "div",
+            style: `background-image: url(/media/desktopicons?i=${this.icon});`,
+            classList: ["desktop-symbol-background"]
+        })
+
         this.element = create({
             tagname: "desktop-symbol",
-            style: `background-image: url(/media/desktopicons?i=${this.icon});
-            top: ${this.position[1] * 72}px;
+            style: `top: ${this.position[1] * 72}px;
             left: ${this.position[0] * 96}px`,
             dataset: {
                 appid: this.appid,
-                name: this.label
+                name: this.label,
+                locked: this.locked
             },
+            childElements: [this.background],
             eventListener: {
                 click: () => {
                     if (this.locked) {
-                        isLockedError(text) 
+                        isLockedError(text)
                         return
                     }
                     if (this.appid.match(/^\d{12}$/g)) {
@@ -91,14 +110,15 @@ class DesktopSymbol {
                 // mousedown: dragSymbol
             }
         })
+
     }
 }
 
 
 class DesktopSymbolApp extends DesktopSymbol {
-    constructor({ position, appid, text, icon, description, contextmenu, locked, label }) {
-        super({ position, appid, text, icon, description, contextmenu, locked, label });
-        
+    constructor({ position, appid, text, icon, description, contextmenu, locked, label, systemapp }) {
+        super({ position, appid, text, icon, description, contextmenu, locked, label, systemapp });
+
         this.contextmenu = new ContextMenu(this.element, [{
             type: "title", label: text
         }, {
@@ -114,7 +134,7 @@ class DesktopSymbolApp extends DesktopSymbol {
                     "symbol": "bx-window-open",
                     handler: (event) => {
                         if (this.locked) {
-                            isLockedError(text) 
+                            isLockedError(text)
                             return
                         }
                         if (this.appid.match(/^\d{12}$/g)) {
@@ -135,6 +155,12 @@ class DesktopSymbolApp extends DesktopSymbol {
                         target.childNodes[0].classList.toggle("bx-lock-alt")
                         target.childNodes[0].classList.toggle("bx-lock-open-alt")
                         target.childNodes[1].innerText = this.locked?"Unlock":"Lock"
+                        this.element.dataset.locked = this.element.dataset.locked == "false"
+                        // if (this.locked) {
+                        //     this.element.append(this.lockedMarker)
+                        // } else {
+                        //     this.lockedMarker.remove()
+                        // }
                     }
                 },
                 {
@@ -165,10 +191,34 @@ class DesktopSymbolApp extends DesktopSymbol {
                 }
             ]
         }]);
-
+        this.lockedMarker.contextMenu = this.contextmenu
+        this.lockedMarker.childNodes[0].contextMenu = this.contextmenu
         this.element.contextMenu = this.contextmenu;
-    }
+        this.background.contextMenu = this.contextmenu
+        if (systemapp) {
+            const badge = create({
+                tagname: "div",
+                classList: ["system-app-badge"],
+                childElements: [
+                    {
+                        tagname: "i",
+                        classList: ["bx", "bx-shield-quarter", "bx-xs"]
+                    }
+                ]
+            })
+            badge.contextMenu = this.contextmenu
+            badge.childNodes[0].contextMenu = this.contextmenu
+            this.element.append(badge)
+        }
 
+        // if (locked) {
+            this.element.append(this.lockedMarker)
+        // }
+
+
+
+
+    }
 }
 
 export { DesktopSymbolApp }

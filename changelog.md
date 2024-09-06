@@ -1,26 +1,49 @@
 
 ## Version
 
-0.1.240831
+0.1.240906
+
+- Desktop:
+    - Desktop symbols now show if they are locked or not
+    - Slightly changes the structure of a `desktop-symbol` element
+    - System applications now have a small badge marking them as such
+    - Prepwork for rewrite of desktop as a whole
+        - Desktop class will manage windows, widgets, icons, windows
+        - Multiple desktops will be possible
+    - new desktop will work with layers, desktop symbols are always on layer 1, windows on layer 3 and panels on layer 5
+    - Widgets (will) have their separate layers, 0, 2 or 4, so that its possible to customise their draw order
+- Windows:
+    - Slightly altered design
+    - Window themes are now easier to create, using CSS variables where they make sense
+    - These variables are declared in their own separate stylesheet which can in theory be swapped out at runtime
+    - slightly restructured the header
+- Other:
+    - New module that keeps track of special key presses like Shift, Alt etc., exporting booleans describing if they are pressed
+    - Slight restructuring, desktop environment related stuff is now in its own location, although not everything has been sorted, desktop symbols are still an UI element
+    - The window dragging function was slightly altered to accomodate the change in header structure
+    - Right clicking now recursively checks if the parent has a context menu defined, if it doesnt have its own.
+        - only checks until it finds a <body> or an element with a data attribute called `stopCtxPropagation` set to `true`
+
+
+## Why such a weird version numbering?
+It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
+
+## Changes
+
+### 0.1.240831
 - Prepwork for rework of applications as a whole with a new AppManager module that handles individual granular permissions
 - Draft for new Errors
 - New base class for desktop widgets
 - New Desktop module, will contain desktop related components as a parent module similar to Util module
 - Planned: DesktopManager.mjs, will handle positioning of symbols and widgets and by extension panels
 - Planned: shortcutmanager.mjs, will handle keyboard shortcuts for apps and system
-- added Button component 
+- added Button component
 - various other changes
 Overall not really anything productive
 
-
-## Why such a weird version numbering?
-It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress. 
-
-## Changes
-
 ### 0.1.240823
 - Documentation part 1
-- Small changes here and there 
+- Small changes here and there
 
 #### 0.1.240823_b
 - Panel class (rough draft)
@@ -39,7 +62,7 @@ It's in early development. I took a long break from the project, when i came bac
     - Bottom grid still has some placeholders
     - Middle section can be customised to your liking, though right now only through the apps config file, meaning handlers dont yet work since functions cannot be serialised, a solution is coming soon
 - Applications (also files, folders, shortcuts, when they arrive) can now have a description (For apps, this is defined in the config.json)
-- Locking sorta works, it prevents the app from being opened. 
+- Locking sorta works, it prevents the app from being opened.
     - The aim is to have locked elements require a password to open or unlock them
     - Password query for locking elements is also a good idea i think
     - The lock state of anything is stored in the user data where it makes sense.
@@ -74,7 +97,7 @@ It's in early development. I took a long break from the project, when i came bac
         - necessary because theres a ton of options planned for each of these
 - Login screen
     - idk why it worked before but i fixed it anyways, slight restructure, a nice animation, auto login if a session token is present
-    - made a default wallpaper to avoid copyright issues, the mountains however will stay for now, im willing to risk it 
+    - made a default wallpaper to avoid copyright issues, the mountains however will stay for now, im willing to risk it
 - Fixed textbox with filtering dropdown, filter was slightly broken
 - ignore "App (new).mjs"
 
@@ -87,7 +110,7 @@ It's in early development. I took a long break from the project, when i came bac
 
 - Minor commit: prepwork for context menu
 
-0.1.240819_b 
+0.1.240819_b
 - Context menu class
 - takes array of objects with specific structure, docs coming soon (promise)
 - styling
@@ -100,13 +123,13 @@ It's in early development. I took a long break from the project, when i came bac
 - so far, buttons can be arranged in lists and grids and there are horizontal divider lines, titles and text.
     - grid layout is 5 icons in however many rows it takes
     - list layout is like the classic context menu
-    - dividers divide 
+    - dividers divide
     - title is 14pt text, white color, fairly heavy, restricted to one line and gets ellipsis'd
     - text is 12pt, grey, can wrap and isnt limited in size by software, only by practicality.
     - icons are optional for list items
     - The design guideline specifies that grid elements must have an icon. It is designed to fail in a controlled manner, however. It provides a trace, but it triggers failsaves strategically.
     - If a grid element does need to not have an icon for whatever reason, just provide a dummy class. maybe start keymashing, idk, something that doesnt get interpreted into anything. Doing so does not trigger the failsaves.
-    
+
 
 ### 0.1.240731
 
@@ -143,7 +166,7 @@ It's in early development. I took a long break from the project, when i came bac
     - All markers can be escaped
     - Formatting can overlap, aside from headers.
     - Superscript and subscript can be combined.
-    - for visual representations, check the `llama probably` app 
+    - for visual representations, check the `llama probably` app
 - Added a separate "Profile" app, where the profile can be changed. For now it just uses an older version of the settings app as a place holder so it at least has something showing up. It can be accessed
 - Added click-and-drag selection (visual only so far, only implemented on desktop)
 

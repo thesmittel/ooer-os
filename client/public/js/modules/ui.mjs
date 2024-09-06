@@ -26,7 +26,7 @@
  * @author Smittel
  */
 /**
- * 
+ *
  */
 
 
@@ -45,7 +45,7 @@ let activeSelector;
 /**
  * only keeping this for future reference
  * @deprecated
- * @param {HTMLDivElement} parentElement 
+ * @param {HTMLDivElement} parentElement
  */
 function makeColorSelector(parentElement) {
     // If provided element is not dom element, throw up in a tantrum bc what else is there to do
@@ -80,13 +80,13 @@ function makeColorSelector(parentElement) {
      * @property { Number } dY Mouse Y position relative tp origin of selector
      */
     /**
-     * Shorthand to avoid duplication. Grabs a number of necessary parameters from different Objects 
+     * Shorthand to avoid duplication. Grabs a number of necessary parameters from different Objects
      * and serves them neatly to be deconstructed later.
      * dX, dY are mouse position relative to selector (0, 0), meaning hue wheel requires extra adjustment
-     * @param { HTMLDivElement } activeSelector 
-     * @param { MouseEvent } e 
+     * @param { HTMLDivElement } activeSelector
+     * @param { MouseEvent } e
      * @local
-     * @returns 
+     * @returns
      * }
      */
     function valueChangeParamGrab(activeSelector, e) {
@@ -107,11 +107,11 @@ function makeColorSelector(parentElement) {
         if (!activeSelector) return;
         e.stopPropagation(); // dont know if this is needed tbh
 
-        
+
         const { height, padding, dY } = valueChangeParamGrab(activeSelector, e)
 
         const relY = clamp(7 + padding, dY + 2 * padding, height + 2); // coordinates are top-to-bottom; relY is used as is for UI update
-        
+
         const indicator = activeSelector.childNodes[0];
         indicator.style.top = relY + "px";
 
@@ -129,11 +129,11 @@ function makeColorSelector(parentElement) {
         e.stopPropagation(); // dont know if this is needed tbh
         // necessary to calculate positions and colors
         // dX, dY are mouse positions relative to center of wheel
-        const { width, height, dX, dY} = valueChangeParamGrab(activeSelector, e) 
+        const { width, height, dX, dY} = valueChangeParamGrab(activeSelector, e)
 
         const polar = cartesianToPolar({x: dX - width / 2, y: dY - height / 2});
         polar.r = clamp(0, polar.r, height / 2)
-        
+
         const newCoords = polarToCartesian(polar)
         newCoords.x += width / 2;
         newCoords.y += height / 2;
@@ -153,8 +153,8 @@ function makeColorSelector(parentElement) {
     function changeSliders(el) {
         const sliderContainer = el.querySelector("colorpicker-slidercontainer")
         const sliders = sliderContainer.querySelectorAll("color-slidetextbox")
-        
-        
+
+
         const hueWheelSelector = el.querySelector("colorpicker-wheel").childNodes[2]
         const newRgb = Color.hsv.toRgb(el.dataset)
         hueWheelSelector.style["background-color"] = `rgba(${newRgb.r},${newRgb.g},${newRgb.b},${sliderValues[3] / 100})`
@@ -174,7 +174,7 @@ function makeColorSelector(parentElement) {
             case "HSV":
                 sliderValues = [ round(el.dataset.h, 2), round(el.dataset.s, 2), round(el.dataset.v, 2), sliderValues[3] ]
                 visualSlider = [ map(sliderValues[0], 0, 360, 0, 100), sliderValues[1], sliderValues[2], sliderValues[3] ]
-                
+
                 break
             case "HEX":
                 const hexColor = Color.hsv.toHex(el.dataset)
@@ -182,7 +182,7 @@ function makeColorSelector(parentElement) {
                 sliders[0].innerText = hexColor;
                 return;
         }
-        
+
         for (let i = 0; i < 3; i++) {
             sliders[i].dataset.value = sliderValues[i];
             sliders[i].innerText = sliderValues[i];
@@ -218,7 +218,7 @@ function makeColorSelector(parentElement) {
             // Change active
         } else if (newColorMode == "RGB" || newColorMode == "HSV") {
             for (let i = 0; i < 3; i++) {
-                sliders[i].dataset.current = newColorMode.charAt(i); // i dont like this 
+                sliders[i].dataset.current = newColorMode.charAt(i); // i dont like this
                 sliders[i].style.visibility = "visible"
             }
             sliders[3].style.visibility = "visible";
@@ -235,7 +235,7 @@ function makeColorSelector(parentElement) {
      * Avoids code duplication.
      * Prevents color wheel from being accidentally closed, calls the necessary UI updates.
      * Needs to be passed all arguments since the exact process is slightly different
-     * @param { MouseEvent } e 
+     * @param { MouseEvent } e
      * @param { Function } func Handles the UI update itself
      * @param { HTMLDivElement } el The element to act upon instead of the colorpicker-indicator
      */
@@ -265,7 +265,7 @@ function makeColorSelector(parentElement) {
             }
         ]
     })
-    
+
     const colorpickerWheel = create({
         tagname: "colorpicker-wheel",
         childElements: [
@@ -288,7 +288,7 @@ function makeColorSelector(parentElement) {
             }
         ]
     })
-    
+
     function makeColorModeButtonObjects() {
         return ([{m: "RGB", s: true},{m: "HSV", s: false},{m: "HEX", s: false}]).map(a => {
             return {
@@ -315,7 +315,7 @@ function makeColorSelector(parentElement) {
                 background: -webkit-gradient(90deg, var(--colorPickerSliderColor) ${sliderValues[i]}%, var(--colorPickerSliderShadowColor) ${sliderValues[i]}%, var(--colorPickerSliderBackdrop) ${sliderValues[i] + 1}%);
                 background: linear-gradient(90deg, var(--colorPickerSliderColor) ${sliderValues[i]}%, var(--colorPickerSliderShadowColor) ${sliderValues[i]}%, var(--colorPickerSliderBackdrop) ${sliderValues[i] + 1}%);
                 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#8b0000",endColorstr="#6d6d6d",GradientType=1);`,
-                
+
             })
         }
         return ret
@@ -338,7 +338,7 @@ function makeColorSelector(parentElement) {
         },
         style: `top: ${y + height / 2}px; left: ${x + width}px; transform: translateY(-50%);`,
         eventListener: {
-            mousedown: () => { 
+            mousedown: () => {
                 closable = false;
                 document.addEventListener("mouseup", resetClosable)
              }
@@ -355,12 +355,12 @@ function makeColorSelector(parentElement) {
         tagname: "div",
         classList: ["colorwheel-backdrop"],
         eventListener: {
-            click: (e) => { 
+            click: (e) => {
                 // only removes the color picker if a color isnt actively being selected
                 // in other words: only clicking outside the selector removes it
                 e.stopPropagation()
                 if (closable && e.target.tagName == "DIV") e.target.remove()
-            } 
+            }
         },
         childElements: [colorpicker]
     })
@@ -375,7 +375,7 @@ function makeColorSelector(parentElement) {
     const hueHeight = parseInt(hueCompStyle["height"])
     const hueSat = polarToCartesian({a: degreeToRadian(h), r: s / 200 * hueHeight});
     const hueStyle = `top: ${Math.round(hueSat.y + 64)}px; left: ${Math.round(hueSat.x + 64)}px; background-color: rgba(${r}, ${g}, ${b}, 1)`
-    
+
     colorpickerWheel.childNodes[1].style["backdrop-filter"] = `brightness(${v / 100})`
 
     colorpickerBright.childNodes[0].style.top = brightTop;

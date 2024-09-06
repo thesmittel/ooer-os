@@ -101,7 +101,7 @@ document.addEventListener("mousedown", (e) => {
     }
 
     document.addEventListener("mousemove", dragSelect)
-    document.addEventListener("mouseup", endDrag) 
+    document.addEventListener("mouseup", endDrag)
 })
 document.addEventListener("keydown", documentKeyDown)
 document.addEventListener("keyup", documentKeyUp)
@@ -109,7 +109,7 @@ document.addEventListener("keyup", documentKeyUp)
 /**
  * Creates the login screen when the login button is clicked. Sends requests to the Connect module and handles events within the login screen
  * @see <a href="./client.Client_Connect.html">Connect</a>
- * @param { Event } event 
+ * @param { Event } event
  * @method openLogin
  * @name Export:openLogin
  */
@@ -173,7 +173,7 @@ function openLogin(event) {
                                 ],
                                 eventListener: {click: closeLogin}
                             },
-                            
+
                             {
                                 tagname: "div"
                             },
@@ -194,7 +194,7 @@ function openLogin(event) {
                     }
                 ]
             },
-            
+
         ]
     })
     document.body.append(loginscreen)
@@ -216,7 +216,7 @@ function openLogin(event) {
 /**
  * Creates signup DOM-Tree, sends signup requests to the Connect module and sets up events within the signup screen.
  * @see <a href="./client.Client_Connect.html">Connect</a>
- * @param { Event } event 
+ * @param { Event } event
  * @method openSignup
  * @name Export:openSignup
  */
@@ -229,7 +229,7 @@ function openSignup(event) {
         , 1)
         sendSignup(event)
     }
-    
+
     function sendEmail(event) {
         setTimeout(() => {
             Server.Auth({req: "signupCheckEmailRegistered", data: event.target.value})
@@ -263,7 +263,7 @@ function openSignup(event) {
             }
         })
     }
-    
+
     function matchPasswords(event) {
         const p1 = event.target.parentNode.children[0];
         const p2 = event.target.parentNode.children[2];
@@ -433,7 +433,7 @@ function openSignup(event) {
                                 ],
                                 eventListener: {click: closeSignup}
                             },
-                            
+
                             {
                                 tagname: "div"
                             },
@@ -464,7 +464,7 @@ function openSignup(event) {
 
 /**
  * Toggles start menu
- * @param { MouseEvent } event 
+ * @param { MouseEvent } event
  * @method openStartmenu
  * @name Internal:openStartmenu
  */
@@ -475,7 +475,7 @@ function openStartmenu(event) {
 
 /**
  * Toggles search bar
- * @param { MouseEvent } event 
+ * @param { MouseEvent } event
  * @method openSearch
  * @name Internal:openSearch
  */
@@ -490,7 +490,7 @@ function openSearch(event) {
  * If an element loses focus, this allows that element to have specific behaviours. For example: Elements with the data attribute "closeonfocus" set to "true" will set the data attribute "active" to "false", if another element is clicked. If the clicked element has the data attribute "ignore" set to "startmenu" or "search", the respective element will NOT be closed.
  * @todo Allow multiple elements to be ignored
  * @todo Allow elements to "register" for their own ignore tag
- * @param { MouseEvent } event 
+ * @param { MouseEvent } event
  * @method loseFocus
  * @name Internal:loseFocus
  */
@@ -511,7 +511,7 @@ function loseFocus(event) {
  * @todo Make event parameter optional by wrapping <code>e.stopPropagation()</code> in a try-catch block
  * @todo Once optional: add to export
  * @todo Let function take optional parameters for what settings submenu to initialise as
- * @param { Event } e 
+ * @param { Event } e
  * @method openSettings
  * @name Internal:openSettings
  */
@@ -541,7 +541,7 @@ function removeContextMenus(e) {
 }
 
 
-    
+
 
 function contextMenu(e) {
     e.preventDefault()
@@ -549,8 +549,15 @@ function contextMenu(e) {
         activeContextMenu.hide()
         activeContextMenu = undefined;
     }
-    console.log("context menu", e.target)
-    let t = e.target.contextMenu
+    let target = e.target;
+
+    while (!target.contextMenu && !target.dataset.stopCtxPropagation == "true" && target.tagName != "BODY") {
+        target = target.parentNode;
+    }
+
+
+    console.log("context menu", target)
+    let t = target.contextMenu
     if (!t) return
     activeContextMenu = t;
 

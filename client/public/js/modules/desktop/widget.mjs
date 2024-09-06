@@ -31,7 +31,8 @@ class Widget {
             translate: ${anchorX=="center"?"-50%":"0"} ${anchorY=="center"?"-50%":"0"};
             width: ${w}px;
             height: ${h}px;
-            `
+            `,
+            innerHTML: html
         })
         
     }
@@ -74,6 +75,15 @@ class Widget {
         if (y) {
             this.anchorY = y
         };
+    }
+
+    update(data) {
+        if (typeof data == "string") { // Raw html provided
+            this.element.innerHTML = data;
+        } else {
+            this.element.innerHTML = "";
+            this.element.append(create(data))
+        }
     }
 }
 

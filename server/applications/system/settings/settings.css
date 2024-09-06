@@ -21,6 +21,8 @@
     width: 100%;
     height: 100%;
     overflow-y: scroll;
+    padding-left: 6px;
+    box-sizing: border-box;
 }
 
 .right-top {
@@ -170,10 +172,11 @@ div.settings-element.regular {
 
 div.settings-element.button {
     grid-template-columns: 1fr 36px;
-    background-color: #fff2;
+    background-color: #333;
     box-shadow: 0px 0px 10px #0006;
-    filter: drop-shadow(0px 0px 0px #fff0);
-    transition: filter 0.2s ease-in-out;
+    /* filter: drop-shadow(0px 0px 0px #fff0); */
+    box-shadow: 0 0 0px #fff0;
+    transition: box-shadow 0.2s ease-in-out;
     cursor: pointer;
 }
 
@@ -181,8 +184,9 @@ div.settings-element.button {
 
 
 div.settings-element.button:hover {
-    filter: drop-shadow(0px 0px 10px #fff6);
-    transition: filter 0.2s ease-in-out;
+    box-shadow: 0 0 6px #fff4;
+    /* filter: drop-shadow(0px 0px 6px #fff4); */
+    transition: box-shadow 0.2s ease-in-out;
 }
 
 div.settings-element>.text {

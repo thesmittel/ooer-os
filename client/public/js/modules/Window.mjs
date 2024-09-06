@@ -35,7 +35,7 @@ let appInstances;
 /**
  * Receives reference to object keeping track of app instances, saves it into member appInstances on the first go.
  * Rejects any subsequent attempts at altering it.
- * @param { Object } obj Reference to appInstances object from App.mjs 
+ * @param { Object } obj Reference to appInstances object from App.mjs
  */
 function addAppInstanceObjectRef(obj) {
     // This prevents any changes after the fact, only the original assignment will go through
@@ -70,11 +70,11 @@ class Window {
         parent.remove();
     }
     /**
-     * 
+     *
      * @param { (String|Number) } instance_id 12 Digit identificator
      * @param { (String|Number) } app_id 12 Digit identificator
      * @param { Object } data Window confic provided by server
-     * @param { String } icon URL to icon, provided by server 
+     * @param { String } icon URL to icon, provided by server
      * @param { Boolean } sys Determines access level of window scripts
      */
     constructor(instance_id, app_id, data, icon, sys) {
@@ -210,35 +210,34 @@ class Window {
             childElements: [
                 {
                     tagname: "div",
-                    id: `window-${this.#app_id}-${this.#instance_id}-${this.windowId}-header`,
-                    classList: ["window-header"],
-                    childElements: [
-                        {
-                            tagname: "div",
-                            id: `window-${this.#app_id}-${this.#instance_id}-${this.windowId}-header-icon`,
-                            classList: ["window-icon"],
-                            childElements: [
-                                { tagname: "img", src: icon }
-                            ]
-                        },
-                        {
-                            tagname: "div",
-                            id: `window-${this.#app_id}-${this.#instance_id}-${this.windowId}-header-title`,
-                            innerText: data.title,
-                            classList: ["window-title"]
-                        },
-                        {
-                            tagname: "div",
-                            id: `window-${this.#app_id}-${this.#instance_id}-${this.windowId}-header-controls`,
-                            classList: ["window-controls"],
-                            childElements: [
-                                minimiseButton,
-                                maximiseButton,
-                                closebutton
-                            ]
-                        }
-                    ]
-                }, this.#style, this.#windowBody, {
+                    classList: ["header-wrap"],
+                    childElements: [{
+                        tagname: "div",
+                        id: `window-${this.#app_id}-${this.#instance_id}-${this.windowId}-header`,
+                        classList: ["window-header"],
+                        childElements: [
+                            {
+                                tagname: "div",
+                                id: `window-${this.#app_id}-${this.#instance_id}-${this.windowId}-header-icon`,
+                                classList: ["window-icon"],
+                                childElements: [
+                                    { tagname: "img", src: icon }
+                                ]
+                            },
+                            {
+                                tagname: "div",
+                                id: `window-${this.#app_id}-${this.#instance_id}-${this.windowId}-header-title`,
+                                innerText: data.title,
+                                classList: ["window-title"]
+                            },
+
+                            minimiseButton,
+                            maximiseButton,
+                            closebutton
+                        ]
+                    }]
+                },
+                this.#style, this.#windowBody, {
                     tagname: "div",
                     classList: ["resize", "left"],
                     eventListener: {
@@ -335,7 +334,7 @@ class Window {
      * Sets the draw order of the current window. DO NOT USE
      * could potentially cause draw order issues for window updates.
      * @deprecated
-     * @param { Number } n 
+     * @param { Number } n
      */
     setDrawOrder(n) {
         this.windowObject.style["z-index"] = n
@@ -495,7 +494,7 @@ class Window {
 
 /**
  * Finds the parent window of an element by walking up the DOM Tree until it finds an ID that matches the format used by windows.<br>
- * @param { DOMElement } el 
+ * @param { DOMElement } el
  * @returns DOMElement, if window was found, <code>null</code> if given element was not part of a window
  * @method getParentWindow
  * @name Export:getParentWindow
@@ -559,7 +558,7 @@ let originalWindow = null;
 /**
  * Saves the initial parameters required for properly resizing windows with the new and improved system. The advantage compared to the CSS property <code>resize: both;</code> is, that this allows resizing on all edges in only one dimension as well as on all corners in both dimensions.
  * @listens mousedown
- * @param {Event} event 
+ * @param {Event} event
  * @method startResize
  * @name Internal:startResize
  */
@@ -581,7 +580,7 @@ function startResize(event) {
 /**
  * Calculates the required new values for resizing the windows. Resizing from the top/left edge is equivalent to moving and resizing under the hood
  * @listens mousemove
- * @param {Event} event 
+ * @param {Event} event
  * @method windowResize
  * @name Internal:windowResize
  */
@@ -657,12 +656,12 @@ function windowResize(event) {
 /**
  * Resets all initial values because they are no longer needed.
  * @listens mouseup
- * @param {Event} event 
+ * @param {Event} event
  * @method endResize
  * @name Internal:endResize
  */
 function endResize(event) {
-    // setTimeout(() => { // why was here a 1ms timeout i dont get it 
+    // setTimeout(() => { // why was here a 1ms timeout i dont get it
     targetWindow = null;
     initialMouseX = null;
     initialMouseY = null;
@@ -693,7 +692,7 @@ let onButton = false;
 
 /**
  * Adds a small preview to the taskbar icon on hover by creating a deep copy of the window at the time of the hover event, then scaling it down via CSS scale to preserve aspect ratio, while also retaining the layout of the window
- * The HTML spec sadly lacks widespread support for <code>&lt;element&gt;</code>, so a deep copy has to be created. 
+ * The HTML spec sadly lacks widespread support for <code>&lt;element&gt;</code>, so a deep copy has to be created.
  * It is not a live preview, doing so would mean a massive performance hit.
  * @param {MouseEvent} mouseover
  * @method taskbarSymbolAddWindowPreview
@@ -775,7 +774,7 @@ function taskbarSymbolAddWindowPreview({ target }) {
 
 /**
  * Changes mouseOnPreview state to ensure that the preview stays visible, when hovering over the preview instead of the button
- * @param { MouseEvent } e 
+ * @param { MouseEvent } e
  * @method previewMouseIn
  * @name Internal:previewMouseIn
  */
@@ -787,7 +786,7 @@ function previewMouseIn(e) {
 
 /**
  * Change mouseOnPreview state and delete preview when no longer hovering over button or preview
- * @param { MouseEvent } e 
+ * @param { MouseEvent } e
  * @method previewMouseOut
  * @name Internal:previewMouseOut
  */
@@ -797,7 +796,7 @@ function previewMouseOut(e) {
     mouseOnPreview = false;
     taskbarSymbolDeleteWindowPreview({ target: e.target.parentNode })
 }
-// TO DO: change minimising animation to end back on normal scale 
+// TO DO: change minimising animation to end back on normal scale
 /**
  * After a brief delay, delete the preview if the mouseOnPreview state is false.
  * @param { Event } e
@@ -825,7 +824,7 @@ function taskbarSymbolDeleteWindowPreview({ target }) {
 /**
  * Handles the click event when focussing a window. Passes the target window to Internal:activeWindowChangeTarget
  * @see Internal:activeWindowChangeTarget
- * @param { MouseEvent } event 
+ * @param { MouseEvent } event
  * @listens MouseEvent
  * @method activeWindowChange
  * @name Internal:activeWindowChange

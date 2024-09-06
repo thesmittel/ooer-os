@@ -6,18 +6,18 @@
 - `express`
 - `socket.io`
 
-## THIS IS NOT READY TO USE. DO NOT ATTEMPT TO DO SO! 
+## THIS IS NOT READY TO USE. DO NOT ATTEMPT TO DO SO!
 Some work needs to be done on the backend to properly implement login and signup, as of now, user login info is saved in a JSON using MD5, while the salt is fairly big, i still wouldnt advise using it, though youre free to do so. You can also change the backend, not much going on there so far, but then, theres still the issue of it still being single threaded.
 
 ## What is this and what is the goal
 The goal is to not only imitate a desktop environment in a website, but also to provide functionality that the streamed nature of the entire thing offers, like sharing files more easily, collaboration (like google drive for example), easy communication etc.
-While its usefulness is up for debate, one usecase would be for use within intranets. 
-One piece of functionality for example would be, that in order to view files, you do not need to locally "install" (or rather, register) an app, only for creating files yourself from scratch. If a file is sent for which you do not have the appropriate "App", it is simply "included" with the file, you will be prompted if you want to register the app for your local account after which you can add a shortcut to your desktop or whatever else. 
+While its usefulness is up for debate, one usecase would be for use within intranets.
+One piece of functionality for example would be, that in order to view files, you do not need to locally "install" (or rather, register) an app, only for creating files yourself from scratch. If a file is sent for which you do not have the appropriate "App", it is simply "included" with the file, you will be prompted if you want to register the app for your local account after which you can add a shortcut to your desktop or whatever else.
 
 ## Contributing
 The module structure will be reworked soon, some of them will disappear entirely, for example: the client side utility functions will probably be added to built in JS objects. This will also mean that proper documentation will be added.
 
-"Applications" will soon switch to a webworker based approach to prevent the whole thing from being locked by a simple loop, for that, a standardised communication interface between the workers and the main thread will be provided, making heavy use of callbacks in a more indirect way. Promises would probably be better but oh well. The switch to webworkers will also mean that windowed applications, background tasks and widgets will use a unified approach. Until now, the idea was to have widgets be their separate thing to windowed application while background tasks were outright banned. The exact nature of this is still unknown. I will probably have a separate permanent webworker that handles communication, spawning and destruction of all other web workers, while the main thread will only respond to UI events and requests. The exact performance impact of such an approach in terms of potential latency has not been assessed yet. 
+"Applications" will soon switch to a webworker based approach to prevent the whole thing from being locked by a simple loop, for that, a standardised communication interface between the workers and the main thread will be provided, making heavy use of callbacks in a more indirect way. Promises would probably be better but oh well. The switch to webworkers will also mean that windowed applications, background tasks and widgets will use a unified approach. Until now, the idea was to have widgets be their separate thing to windowed application while background tasks were outright banned. The exact nature of this is still unknown. I will probably have a separate permanent webworker that handles communication, spawning and destruction of all other web workers, while the main thread will only respond to UI events and requests. The exact performance impact of such an approach in terms of potential latency has not been assessed yet.
 
 Web workers will get access to different calls depending on app permission level similar to what is already the case. They will be created using the same back end call as right now, the difference is that the JS returned by the server will be turned into a blob. The old ID structure will become the new "process" ID structure, with some changes: `<app id> <instance id> <call id>` where `<call id>` is used for callbacks inside the webworker.
 
@@ -27,13 +27,13 @@ A switch to typescript is NOT planned. I just dont care enough. JSDoc provides t
 A backend rewrite in Rust is on the table, but for that i have to learn it first
 
 ## Current version:
-`0.1.240831`
+`0.1.240906`
 
 ## Information regarding documentation
 
 ### Documentation has not been kept up to date for quite some time now
 Modules are divided into groups: `Server:`, `Client:`, `Sysapp:`, `App:` and `ThirdParty:`.
-They show these prefixes in the name so its clearer, which is which. 
+They show these prefixes in the name so its clearer, which is which.
 
 - `Client:` modules are front-end code that runs clientside
 - `Server:` is the back-end
@@ -49,7 +49,7 @@ Documentation is implemented via JSDoc. Works well in VSCode/Codium with JSDoc i
 
 ### Windows
 Can be moved, closed, minimised, support snapping (so far only for maximising). Taskbar is present and functional, though not yet finished, window previews as well as app instance groups will soon be added.
-Both CSS and javascript belonging to a window are locked within their respective "scopes", CSS in particular cannot alter anything outside the window body it belongs to, meaning it essentially functions like iframes. 
+Both CSS and javascript belonging to a window are locked within their respective "scopes", CSS in particular cannot alter anything outside the window body it belongs to, meaning it essentially functions like iframes.
 
 ### Applications
 Applications have multiple permission levels that are defined serverside
@@ -65,7 +65,7 @@ As of now, all applications run on the main thread, a draw API and webworkers ar
     - Other than that, it is the same as L0
     - Server communication will be added for L1 applications soon.
 
-- System (L2): instead of being a regular main thread global scope script that removes access to specific objects, System apps are modules and thus have access to all exposed system functions. 
+- System (L2): instead of being a regular main thread global scope script that removes access to specific objects, System apps are modules and thus have access to all exposed system functions.
 
 Running scripts without a window doesnt work, not even for system apps. That latter part might change, allowing system apps to set up permanent event handlers, for example.
 
@@ -83,7 +83,7 @@ Will document soon.
 
 
 ## Coming soon
-- unified UI element styling in the form of custom tags for a more cohesive and easier to write design 
+- unified UI element styling in the form of custom tags for a more cohesive and easier to write design
     - will also allow easier customisation and even themes.
 - App communication with the server, will only be available for system apps for now.
 - Search function
@@ -109,14 +109,13 @@ Will document soon.
     - Messaging
     - Event sharing
 - Replacing fontawesome with a non-tracking alternative
-- Webworker based multithreading 
+- Webworker based multithreading
 
 ## Anything else?
 
 At some point in the future, the back end will be rewritten using a better approach using a normal language. Probably rust, tbh, but im not quite sure yet. For now, Node will do. User data will be stored in proper databases, sensitive data will be encrypted (i kinda wanna use the encryption algoritm i made a few years ago, but first i need to figure out how to have it accept keys, but maybe ill just do a hybrid with my own and something more common like RSA)
 
 Maybe i will also make it into a desktop app using NW.js
-This will mean that there is no need for a server, but the option to connect to one will be there after which it will function like the website, with locally saved login information if theres multiple servers. Once thats working maybe it can be turned into a desktop environment for linux too using the same functionality, but thats far far into the future, v3.0 kinda far. 
+This will mean that there is no need for a server, but the option to connect to one will be there after which it will function like the website, with locally saved login information if theres multiple servers. Once thats working maybe it can be turned into a desktop environment for linux too using the same functionality, but thats far far into the future, v3.0 kinda far.
 
 The website will NOT get any of the features that the desktop app/environment will receive, it doesnt really make sense considering you need to connect to a specific server anyways
-

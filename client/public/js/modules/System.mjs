@@ -54,7 +54,7 @@ function registerSysApp(fullId, func) {
  * @see Client:Connect
  * @param { Object } data Server Data
  * @method handle
- * @name Export:handle 
+ * @name Export:handle
  */
 function handle(data) {
     console.log("System", data)
@@ -88,12 +88,17 @@ function addMessageListener(app, func) {
  * Sets up the desktop symbols supplied by the server based on user preference
  * @param { Object } data Server Data
  * @method setupDesktopSymbols
- * @name Internal:setupDesktopSymbols 
+ * @name Internal:setupDesktopSymbols
  */
 function setupDesktopSymbols({ data }) {
     const container = document.getElementById("sysdsouter");
-    console.log(data)
+    console.log("DS", data)
     for (let i = 0; i < data.length; i++) {
+        if (!data[i].appid.match(/^\d{12}$/g)) {
+            data[i].systemapp = true; // will be put serverside
+            console.log(data[i].appid, "is system")
+        }
+        console.log(data[i])
         const curr = new DesktopSymbolApp(data[i])
         container.append(curr.element)
     }
@@ -101,7 +106,7 @@ function setupDesktopSymbols({ data }) {
 
 /**
  * Handles incoming server messages that passed through the Connect module.
- * @param { Event } e 
+ * @param { Event } e
  * @method dragSymbol
  * @name Internal:dragSymbol
  * @todo Actually implement something
@@ -119,7 +124,7 @@ function dragSymbol(e) {
  * @todo Add click listener with attached application, screen or other event
  * @param { Object } notificationData Icon, title, text and app associated with the notification
  * @method makeNotification
- * @name Internal:makeNotification 
+ * @name Internal:makeNotification
  */
 function makeNotification({ icon, title, text, app }) {
     const box = Util.create({
