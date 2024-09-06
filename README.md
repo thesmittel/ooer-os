@@ -110,6 +110,7 @@ Will document soon.
     - Event sharing
 - Replacing fontawesome with a non-tracking alternative
 - Webworker based multithreading
+- Multi Desktop
 
 ## Anything else?
 
