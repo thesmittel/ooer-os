@@ -8,3 +8,11 @@ desktop-environment {
     padding: 0;
 
 }
+
+desktop-layer {
+    visibility: hidden;
+}
+
+desktop-layer > * {
+    visibility: visible;
+}

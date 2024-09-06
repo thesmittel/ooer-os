@@ -175,7 +175,10 @@ class Window {
             tagname: "div",
             classList: ["window-body"],
             id: `window-${this.#app_id}-${this.#instance_id}-${this.windowId}.body`,
-            innerHTML: data.html
+            innerHTML: data.html,
+            dataset: {
+                stopCtxPropagation: true,
+            }
         })
 
         const w = create({
@@ -205,7 +208,8 @@ class Window {
                 oldHeight: "100%",
                 maximised: "false",
                 minHeight: (data.minHeight || 70),
-                minWidth: (data.minWidth || 240)
+                minWidth: (data.minWidth || 240),
+                stopCtxPropagation: true,
             },
             childElements: [
                 {

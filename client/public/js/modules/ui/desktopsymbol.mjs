@@ -92,7 +92,8 @@ class DesktopSymbol {
             dataset: {
                 appid: this.appid,
                 name: this.label,
-                locked: this.locked
+                locked: this.locked,
+                stopCtxPropagation: true
             },
             childElements: [this.background],
             eventListener: {
@@ -191,10 +192,8 @@ class DesktopSymbolApp extends DesktopSymbol {
                 }
             ]
         }]);
-        this.lockedMarker.contextMenu = this.contextmenu
-        this.lockedMarker.childNodes[0].contextMenu = this.contextmenu
+
         this.element.contextMenu = this.contextmenu;
-        this.background.contextMenu = this.contextmenu
         if (systemapp) {
             const badge = create({
                 tagname: "div",
@@ -206,8 +205,6 @@ class DesktopSymbolApp extends DesktopSymbol {
                     }
                 ]
             })
-            badge.contextMenu = this.contextmenu
-            badge.childNodes[0].contextMenu = this.contextmenu
             this.element.append(badge)
         }
 

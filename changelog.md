@@ -1,6 +1,9 @@
 
 ## Version
 
+0.1.240906_b
+- Fixed context menu propagation
+
 0.1.240906
 
 - Desktop:

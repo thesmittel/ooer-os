@@ -24,7 +24,10 @@ class WindowHeader {
         this.element = create({
             tagname: "div",
             id: `window-${appId}-${instanceId}-${windowId}-header`,
-            classList: ["window-header"]
+            classList: ["window-header"],
+            dataset: {
+                stopCtxPropagation: "true",
+            }
         })
     }
 }

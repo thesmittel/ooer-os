@@ -549,14 +549,15 @@ function contextMenu(e) {
         activeContextMenu.hide()
         activeContextMenu = undefined;
     }
-    let target = e.target;
 
-    while (!target.contextMenu && !target.dataset.stopCtxPropagation == "true" && target.tagName != "BODY") {
+    let target = e.target;
+    while (!target.contextMenu && target.dataset.stopCtxPropagation != "true") {
         target = target.parentNode;
+        if (target.tagName == "BODY") return;
     }
 
 
-    console.log("context menu", target)
+    // console.log("context menu", target)
     let t = target.contextMenu
     if (!t) return
     activeContextMenu = t;
