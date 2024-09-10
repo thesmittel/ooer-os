@@ -5,6 +5,13 @@
 - Only committing because im scared of losing progress
 - Panels can now be created and styled properly in code, though you still cant add applets
 
+0.1.240910_b
+- Panels can now be customised in the following ways:
+    - Position: attach to 4 cardinal edges and 4 corners
+    - Floating: Defines if panel is flush with screen edges
+    - Fullwidth: Defines if panel stretches the entire width/height of screen
+    - Full width only works if the panel is docked to a cardinal edge (not in a corner)
+- All settings are available through the context menu
 
 
 

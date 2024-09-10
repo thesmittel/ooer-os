@@ -24,17 +24,244 @@ desktop-layer>* {
     visibility: visible;
 }
 
+edge-selector-container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 64px 1fr 64px 1fr 64px;
+    grid-template-rows: 64px 1fr 64px 1fr 64px;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    z-index: 100000000;
+    position: fixed;
+}
+
+edge-selector {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    display: flex;
+    background-color: #fff6;
+    backdrop-filter: blur(15px);
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    box-shadow: 0 0 8px black;
+}
+
+
+
+
+edge-selector:nth-child(1) {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+edge-selector:nth-child(2) {
+    grid-area: 1 / 3 / 2 / 4;
+}
+
+edge-selector:nth-child(3) {
+    grid-area: 1 / 5 / 2 / 6;
+}
+
+edge-selector:nth-child(4) {
+    grid-area: 3 / 1 / 4 / 2;
+}
+
+edge-selector:nth-child(5) {
+    grid-area: 3 / 5 / 4 / 6;
+}
+
+edge-selector:nth-child(6) {
+    grid-area: 5 / 1 / 6 / 2;
+}
+
+edge-selector:nth-child(7) {
+    grid-area: 5 / 3 / 6 / 4;
+}
+
+edge-selector:nth-child(8) {
+    grid-area: 5 / 5 / 6 / 6;
+}
+
+edge-selector::after {
+    position: absolute;
+    background: #2228;
+    box-shadow: 0 0 6px #0008;
+    white-space: nowrap;
+    padding-inline: 8px;
+    padding-block: 4px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease 0.3s;
+    visibility: hidden;
+    backdrop-filter: blur(15px);
+}
+
+edge-selector:hover::after {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    visibility: visible;
+}
+
+edge-selector:nth-child(1)::after {
+    content: "Align to top left corner";
+    justify-self: left;
+    align-self: bottom;
+    top: 100%;
+}
+
+edge-selector:nth-child(2)::after {
+    content: "Align to top edge";
+    justify-self: center;
+    align-self: bottom;
+    top:100%;
+}
+
+edge-selector:nth-child(3)::after {
+    content: "Align to top right corner";
+    justify-self: right;
+    align-self: bottom;
+    top: 100%;
+}
+
+edge-selector:nth-child(4)::after {
+    content: "Align to left edge";
+    justify-self: left;
+  left: 100%;
+  align-self: center;
+}
+
+edge-selector:nth-child(5)::after {
+    content: "Align to right edge";
+    justify-self: right;
+  right: 100%;
+  align-self: center;
+}
+
+edge-selector:nth-child(6)::after {
+    content: "Align to bottom left corner";
+    justify-self: left;
+    bottom: 100%;
+}
+
+edge-selector:nth-child(7)::after {
+    content: "Align to bottom edge";
+    justify-self: center;
+    bottom:100%;
+}
+
+edge-selector:nth-child(8)::after {
+    content: "Align to bottom right corner";
+    justify-self: right;
+    bottom: 100%;
+}
+
+edge-selector>i.rotate-45 {
+    rotate: 45deg;
+}
+
+edge-selector>i.rotate-90 {
+    rotate: 90deg;
+}
+
+edge-selector>i.rotate-135 {
+    rotate: 135deg;
+}
+
+edge-selector>i.rotate-180 {
+    rotate: 180deg;
+}
+
+edge-selector>i.rotate-225 {
+    rotate: 225deg;
+}
+
+edge-selector>i.rotate-270 {
+    rotate: 270deg;
+}
+
+edge-selector>i.rotate-315 {
+    rotate: 315deg;
+}
+
+edge-selector>i {
+    align-self: center;
+    justify-self: center;
+    color: white;
+    filter: drop-shadow(0 0 3px #0008)
+}
+
 desktop-panel {
+    /* --fill-available: -webkit-fill-available;
+    --fill-available: -moz-available; */
+    --fill-available: 100%;
+    --margin-block: 0;
+    --margin-inline: 0;
+    --animation-speed: 0.05s;
+    --transition: margin var(--animation-speed) ease, border-radius var(--animation-speed) ease, width 0.06s ease;
     padding: var(--panel-padding);
     border-radius: var(--panel-border-radius);
     display: block;
     position: fixed;
     /* vertical offset */
-    margin-inline: 0;
+    margin-inline: var(--margin-inline);
     /* horizontal offset */
-    margin-block: 0;
+    margin-block: var(--margin-block);
     /* anchorX */
     justify-self: center;
     /* anchorY */
     align-self: self-end;
+    transition: var(--transition);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 4px #0006;
+    max-width: calc(100% - 2 * var(--margin-inline));
+    max-height: calc(100% - 2 * var(--margin-block) )
+}
+
+desktop-panel[floating="false"][edgeY="bottom"],
+desktop-panel[floating="false"][edgeY="top"] {
+    margin-block: 0 !important;
+    transition: var(--transition)
+}
+
+desktop-panel[floating="false"][edgeY="bottom"] {
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    transition: var(--transition)
+}
+
+desktop-panel[floating="false"][edgeY="top"] {
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    transition: var(--transition)
+}
+
+desktop-panel[floating="false"][edgeX="left"],
+desktop-panel[floating="false"][edgeX="right"] {
+    margin-inline: 0 !important;
+    transition: var(--transition)
+}
+
+desktop-panel[floating="false"][edgeX="left"] {
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    transition: var(--transition)
+}
+
+desktop-panel[floating="false"][edgeX="right"] {
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    transition: var(--transition)
+}
+
+desktop-panel[fullwidth="true"][edgeY="bottom"]:not([edgeX="left"]):not([edgeX="right"]),
+desktop-panel[fullwidth="true"][edgeY="top"]:not([edgeX="left"]):not([edgeX="right"]) {
+    width: var(--fill-available) !important;
+}
+
+desktop-panel[fullwidth="true"][edgeX="right"]:not([edgeY="top"]):not([edgeY="bottom"]),
+desktop-panel[fullwidth="true"][edgeX="left"]:not([edgeY="top"]):not([edgeY="bottom"]) {
+    height: var(--fill-available) !important;
 }

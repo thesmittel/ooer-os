@@ -2,7 +2,6 @@ document.addEventListener("keydown", handleKeyDown)
 document.addEventListener("keyup", handleKeyUp)
 
 function handleKeyDown(e) {
-    console.log(e)
     // e.preventDefault();
     switch (e.key) {
         case "Control": {

@@ -93,12 +93,13 @@ function addDesktop(style, symbols) {
     const p = currentDesktop.addPanel({
         width: 120,
         height: 48,
-        offsetX: 0,
+        offsetX: 24,
         offsetY: 36,
         anchorX: "center",
         anchorY: "bottom",
         rgb: {r: 255, g: 255, b: 255},
-        alpha: 0.1
+        alpha: 0.2,
+        floating: false
     })
 }
 

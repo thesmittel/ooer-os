@@ -4,12 +4,12 @@
 
 /**
  * Takes an object of a specific format and can recursively create a DOM subtree, which is then returned.
- * It is not appended to anything, it only exists in memory, until manually appended. 
+ * It is not appended to anything, it only exists in memory, until manually appended.
  * Note that since it works by reference, it is not possible to append it to multiple different DOM Elements without making a deep copy.<br>
  * The list of child elements can contain both Objects that match the required format or actual DOM Elements. <br>
  * eventListener takes any number of event names as you would use with <code>addEventListener</code> as key, with the function to be executed being the value.<br>
  * Besides the explicitly mentioned properties, any property can also be set simply by taking the name of the property as the key and the value being the value.
- * @param { Object } args 
+ * @param { Object } args
  * @method create
  * @name Export:create
  * @returns DOMElement
@@ -30,8 +30,10 @@
     ]
  * }
  */
-function create(args) {
+function create(args, debug) {
+    if (debug) console.log(args)
     let e = document.createElement(args.tagname);
+    delete args.tagname;
     if (args) {
         for (let a in args) {
             switch (a) {
@@ -76,8 +78,8 @@ function create(args) {
 }
 
 /**
- * Returns true if it is a DOM element  
- * @param { Object } o Object to check 
+ * Returns true if it is a DOM element
+ * @param { Object } o Object to check
  * @method isElement
  * @name Export:isElement
  * @returns Boolean
@@ -110,7 +112,7 @@ function getElement(str) {
 
 /**
  * Finds the parent window of an element by walking up the DOM Tree until it finds an ID that matches the format used by windows.<br>
- * @param { DOMElement } el 
+ * @param { DOMElement } el
  * @returns DOMElement, if window was found, <code>null</code> if given element was not part of a window
  * @method getParentWindow
  * @name Export:getParentWindow

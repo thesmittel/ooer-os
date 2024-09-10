@@ -68,6 +68,7 @@ class ContextMenu {
      * @param {String} elements[].items[].label The label is directly displayed for list elements, displayed on hover for grid elements
      * @param {String} elements[].items[].symbol The symbol is optional for list elements, but semi-mandatory for grid elements, defines a symbol that is displayed on the element
      * @param {Function} elements[].items[].handler Defines whats executed when a list or grid element is clicked.
+     * @param {Boolean} elements[].items[].empty Skips the spot this element would have taken within the grid. Only works for grid elements.
      */
     constructor(parentElement, elements) {
         this.parent = parentElement;
@@ -82,7 +83,10 @@ class ContextMenu {
             switch (elements[i].type) {
                 case "grid":
                     e = new ContextMenuGrid(
-                        elements[i].items.map(a => new ContextMenuGridElement(a.label, a.symbol, a.handler))
+                        elements[i].items.map(a => {
+                            if (a.empty) return {element: create({tagname: "div"})}
+                            return new ContextMenuGridElement(a.label, a.symbol, a.handler)
+                        })
                     )
                     this.#structure.push(e)
                     e = e.element;
@@ -245,7 +249,33 @@ class ContextMenuGridElement extends ContextMenuElement {
         this.element = create({
             tagname: "context-menu-element",
             childElements: [{ tagname: "i", classList: ["bx", ...(this.symbol || [])] }],
-            dataset: { label: this.label }
+            dataset: { label: this.label },
+            eventListener: {
+                click: (event) => {
+                    if (this.handler) this.handler(event)
+                }
+            }
+        })
+    }
+}
+
+class InteractableContextMenuListElement extends ContextMenuElement {
+    constructor(label, symbol, handler, type) {
+        super(label, handler, symbol);
+
+        this.element = create({
+            tagname: "context-menu-element",
+            childElements: [
+                { tagname: "i", classList: ["bx", this.symbol] },
+                // depending on type
+                // { tagname: "span", innerText: this.label }
+            ],
+            eventListener: {
+                click: (event) => {
+                    // Something was supposed to go here but i dont remember rn
+                    if (this.handler) this.handler(event);
+                }
+            }
         })
     }
 }
