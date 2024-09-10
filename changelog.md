@@ -1,10 +1,29 @@
 
 ## Version
 
-0.1.240906_b
-- Fixed context menu propagation
+0.1.240910_a
+- Only committing because im scared of losing progress
+- Panels can now be created and styled properly in code, though you still cant add applets
 
-0.1.240906
+
+
+
+## Why such a weird version numbering?
+It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
+
+## Changes
+### 0.1.240909
+
+- Fixed bug where open drop down menus would cause the desktop environment to resize itself
+
+### 0.1.240907
+- Windows and desktop symbols are now located inside the new desktop environment
+- you can now select multiple desktop symbols by holding the shift key
+- opening applications now requires a double click
+- theres a new wallpaper called "iceland"
+- The new desktop environment layers work via the visibility CSS property, i mention this because i just found out thats a thing.
+
+### 0.1.240906
 
 - Desktop:
     - Desktop symbols now show if they are locked or not
@@ -26,12 +45,10 @@
     - The window dragging function was slightly altered to accomodate the change in header structure
     - Right clicking now recursively checks if the parent has a context menu defined, if it doesnt have its own.
         - only checks until it finds a <body> or an element with a data attribute called `stopCtxPropagation` set to `true`
+0.1.240906_b
+- Fixed context menu propagation
 
 
-## Why such a weird version numbering?
-It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
-
-## Changes
 
 ### 0.1.240831
 - Prepwork for rework of applications as a whole with a new AppManager module that handles individual granular permissions

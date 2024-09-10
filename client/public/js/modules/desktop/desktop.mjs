@@ -1,5 +1,7 @@
 import { Widget } from "./widget.mjs";
-import { deleteElement } from "../Util.mjs";
+import { deleteElement, create } from "../Util.mjs";
+import { DesktopSymbolApp } from "../ui/desktopsymbol.mjs";
+import { Panel } from "./systemwidgets/panel.mjs";
 /*
 Panels: layer 5, z-index 1 000 000
 Windows: layer 3, z-index starts at 1 000
@@ -12,13 +14,51 @@ class Desktop {
     #widgets = [];
     #windows = [];
     #symbols = [];
+    layers = [];
     #contextMenu;
     #hub;
     #background;
     element;
 
     constructor(data) {
+        const s = ["widgets-0", "symbols", "widgets-1", "windows", "widgets-2", "panels", "notifications"]
+        const c = ["red", "green", "blue", "yellow", "cyan", "magenta"]
+        for (let i = 0; i < 7; i++) {
+            this.layers.push(create({
+                tagname: "desktop-layer",
+                dataset: {
+                    "layerName": s[i]
+                },
+                style: `z-index: ${i}`
+            }))
+        }
+        this.element = create({
+            tagname: "desktop-environment",
+            childElements: this.layers,
+            style: `background-image: url("${data.backgroundimage || "/media/images?i=wallpaper abstract 2.png"}");
+                    background-size: ${data.backgroundsize || "cover"};
+                    background-position: ${data.backgroundposition || "center center"};
+                    background-attachment: fixed;`,
+            eventListener: {
+                click: ({target}) => {
 
+                    try {
+                        while (target.tagName !== "DESKTOP-SYMBOL") {
+                            if (target.tagName == "DESKTOP-ENVIRONMENT") break
+                            target = target.parentNode
+                        }
+                        if (target.tagName !== "DESKTOP-SYMBOL") {
+                            this.layers[1].childNodes.forEach(element => {
+                                element.dataset.selected = "false"
+                            });
+                        }
+                    } catch (e) {
+                        return
+                    }
+                }
+            }
+        })
+        document.body.append(this.element)
     }
 
     hide() {
@@ -55,6 +95,38 @@ class Desktop {
         window.remove();
         deleteElement(this.#windows, this.#windows.indexOf(window))
     }
+
+    /**
+     * Adds any number of desktop symbols to the Desktop
+     * @param {...DesktopSymbol} desktop_symbols
+     *
+     */
+    addDesktopSymbols() {
+        for (let i = 0; i < arguments.length; i++) {
+            if (!arguments[i].appid.match(/^\d{12}$/g)) {
+                arguments[i].systemapp = true; // will be put serverside
+                // console.log(arguments[i].appid, "is system")
+            }
+            const curr = new DesktopSymbolApp(arguments[i])
+            this.layers[1].append(curr.element)
+            this.#symbols.push(curr.element)
+        }
+
+    }
+
+    addWindow(windowelement) {
+        // make new window here
+        this.#windows.push(windowelement)
+        this.layers[3].append(windowelement)
+    }
+
+    addPanel(panel) {
+        let p = new Panel(panel)
+        this.#panels.push(p.element)
+        this.layers[5].append(p.element)
+        return p;
+    }
+
 }
 
-export {Widget}
+export {Desktop}

@@ -25,6 +25,7 @@
 
 import { App, System } from "../Connect.mjs";
 import { dragElement } from "../Dragging.mjs";
+import * as Keys from "../Keyboard.mjs";
 import { create } from "../Util.mjs";
 import { ContextMenu, DialogBox } from "../ui.mjs";
 
@@ -93,11 +94,27 @@ class DesktopSymbol {
                 appid: this.appid,
                 name: this.label,
                 locked: this.locked,
-                stopCtxPropagation: true
+                stopCtxPropagation: true,
+                selected: "false"
             },
             childElements: [this.background],
             eventListener: {
-                click: () => {
+                click: ({target}) => {
+                    console.log("LEFT SHIFT", Keys.L_SHIFT)
+                    while (target.tagName !== "DESKTOP-SYMBOL") {
+                        if (target.tagName == "DESKTOP-ENVIRONMENT") return
+                        target = target.parentNode
+                    }
+                    if (!Keys.L_SHIFT) {
+                        target.parentNode.querySelectorAll("desktop-symbol").forEach(element => {
+                            element.dataset.selected = "false";
+                        });
+                        target.dataset.selected = "true"
+                    } else {
+                        target.dataset.selected = target.dataset.selected == "false"
+                    }
+                },
+                dblclick: () => {
                     if (this.locked) {
                         isLockedError(text)
                         return

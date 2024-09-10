@@ -28,6 +28,7 @@ import { create, randomId, getElement } from "./Util.mjs";
 import { dragElement } from "./Dragging.mjs";
 import { loseFocus } from "../Handlers.mjs";
 import { registerListener } from "./App.mjs";
+import { currentDesktop } from "./System.mjs";
 document.addEventListener("mousemove", windowResize);
 document.addEventListener("mouseup", endResize)
 
@@ -347,7 +348,8 @@ class Window {
      * Adds window object to DOM tree parented to body, changes active window to itself
      */
     show() {
-        document.body.append(this.windowObject)
+        currentDesktop.addWindow(this.windowObject)
+        // document.body.append(this.windowObject)
         activeWindowChangeTarget(this.windowObject)
     }
 

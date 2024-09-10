@@ -28,6 +28,10 @@ import { handlers } from "../Error.mjs";
 import * as Util from "./Util.mjs";
 import { ContextMenu } from "./ui.mjs";
 import { DesktopSymbolApp } from "./ui/desktopsymbol.mjs";
+import { Desktop } from "./desktop/desktop.mjs";
+
+
+
 
 let lastheartbeat = Date.now();
 
@@ -57,7 +61,7 @@ function registerSysApp(fullId, func) {
  * @name Export:handle
  */
 function handle(data) {
-    console.log("System", data)
+    // console.log("System", data)
     switch (data.res) {
         case "heartbeat":
             lastheartbeat = Date.now();
@@ -78,6 +82,27 @@ function handle(data) {
     }
 }
 
+const desktops = [];
+let currentDesktop = 0;
+function addDesktop(style, symbols) {
+    const nd = new Desktop(style)
+    desktops.push(nd)
+    nd.addDesktopSymbols(...symbols)
+    currentDesktop = nd
+    // console.log(currentDesktop)
+    const p = currentDesktop.addPanel({
+        width: 120,
+        height: 48,
+        offsetX: 0,
+        offsetY: 36,
+        anchorX: "center",
+        anchorY: "bottom",
+        rgb: {r: 255, g: 255, b: 255},
+        alpha: 0.1
+    })
+}
+
+
 const messageListeners = {};
 
 function addMessageListener(app, func) {
@@ -92,13 +117,13 @@ function addMessageListener(app, func) {
  */
 function setupDesktopSymbols({ data }) {
     const container = document.getElementById("sysdsouter");
-    console.log("DS", data)
+    // console.log("DS", data)
     for (let i = 0; i < data.length; i++) {
         if (!data[i].appid.match(/^\d{12}$/g)) {
             data[i].systemapp = true; // will be put serverside
-            console.log(data[i].appid, "is system")
+            // console.log(data[i].appid, "is system")
         }
-        console.log(data[i])
+        // console.log(data[i])
         const curr = new DesktopSymbolApp(data[i])
         container.append(curr.element)
     }
@@ -179,4 +204,4 @@ function makeNotification({ icon, title, text, app }) {
 //     if (Date.now() - lastheartbeat > 10) handlers["S-0001"]({code: "S-0001", message: "Connection to server timed out"})
 // }, 1000)
 
-export { handle, registerSysApp, addMessageListener }
+export { handle, registerSysApp, addMessageListener, addDesktop, currentDesktop }

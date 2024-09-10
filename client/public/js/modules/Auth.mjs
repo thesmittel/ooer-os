@@ -26,6 +26,7 @@ import { Auth as emit, System } from "./Connect.mjs"
 import { openSignup, openLogin, openSettings, openProfile } from "../Handlers.mjs"
 import { create } from "./Util.mjs"
 import {handlers} from "../Error.mjs"
+import { addDesktop } from "./System.mjs"
 
 
 
@@ -43,19 +44,19 @@ function cookieLogin() {
         loggedout();
     }
 
-    
+
 }
 
 
 /**
  * Entrypoint for all authentification related data coming from the server, passed through Connect module.<br>
  * @see Client:Connect
- * @param {Object} data 
+ * @param {Object} data
  * @method handle
  * @name Export:handle
  */
 function handle(data) {
-    console.log("in auth", data)
+    // console.log("in auth", data)
     if (data.error) {
         console.log(data.error)
         handlers[data.error.code](data.error);
@@ -63,18 +64,18 @@ function handle(data) {
     }
     if (data.response == "confirm-login") {
         if (document.querySelector("login-main")) {
-            console.log("confirmed login")
+            // console.log("confirmed login")
             const element = document.querySelector("login-main");
             element.dataset.hide = "true"
             setTimeout(() => {
                 element.remove()
             }, 200);
-            
+
         }
         loggedin(data.data);
     }
     if (data.response == "confirm-cookielogin") {
-        console.log("cookielogin")
+        // console.log("cookielogin")
         loggedin(data.data);
     }
     if (data.response == "confirm-usernameAvailable") {
@@ -88,7 +89,7 @@ function handle(data) {
     }
     if (data.response == "confirm-signup") {
         emit({
-            req: "login", 
+            req: "login",
             data: {
                 username: data.data.username,
                 password: data.data.password
@@ -100,7 +101,7 @@ function handle(data) {
 
 
 /**
- * Removes the error message for invalid email in signup. 
+ * Removes the error message for invalid email in signup.
  * @method validEmail
  * @name Internal:validEmail
  */
@@ -130,11 +131,11 @@ function emailAvailable() {
     const signup = document.querySelector("div#signup-container");
     signup.dataset.erroremail = "None";
 }
- 
+
 
 /**
  * Logs out by deleting session cookie and sending a logout request to server, calls function that resets interface
- * @param {Event} event 
+ * @param {Event} event
  * @method userLogOut
  * @name Internal:userLogOut
  */
@@ -149,28 +150,39 @@ function userLogOut(event) {
 		const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
 		document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
 	}
-	
+
     loggedout();
 	login = {}
 	// openLogin({stopPropagation: ()=>{}})
-    
+
 }
 
 /**
  * Server response: successful login. Changes appearance of start menu
- * @param {Object} data 
+ * @param {Object} data
  * @method loggedin
  * @name Internal:loggedin
  */
 function loggedin(data) {
-    // console.log(data)
+    /*
+    data.desktop = {
+        backgroundimage: url,
+        backgroundsize: auto|contain|cover,
+        backgroundposition: left|center|right top|center|bottom,
+
+    }
+    */
+   data.desktop = {
+    backgroundimage: "/media/images?i=iceland.jpg"
+   }
+   addDesktop(data.desktop, data.cache.desktop_symbols)
     let expire = new Date(data.expires).toUTCString()
     // console.log(new Date(Date.now()).toUTCString(), expire)
     const smtopbar =  document.querySelector("div#sm-topbar")
     smtopbar.dataset.login = "true"
     document.cookie = `userid=${data["user-id"]};expires=${expire};SameSite=Strict;secure`
-	document.cookie = `token=${data.token};expires=${expire};SameSite=Strict;secure` 
-    console.log(data)
+	document.cookie = `token=${data.token};expires=${expire};SameSite=Strict;secure`
+    // console.log(data)
 	login = {id: data.id, token: data.token, expires: data.expires, cache: data.cache};
     smtopbar.innerHTML = "";
 
@@ -223,7 +235,7 @@ function loggedin(data) {
                     eventListener: {
                         click: openProfile
                     },
-                    
+
                 }
             ]
         }),
@@ -233,7 +245,7 @@ function loggedin(data) {
             eventListener: {click: userLogOut},
             dataset: {ignore: "startmenu"},
             childElements: [{
-                tagname: "i", 
+                tagname: "i",
                 dataset: {ignore: "startmenu"},
                 classList: ["bx", "bx-log-out", "bx-sm", "bx-flip-horizontal"]
             }]
@@ -289,5 +301,3 @@ function username() {
 }
 
 export {handle, cookieLogin, username}
-
-

@@ -26,6 +26,7 @@ import * as Util from "./modules/Util.mjs";
 import * as Server from "./modules/Connect.mjs"
 import {handlers} from "./Error.mjs"
 import { ContextMenu } from "./modules/ui.mjs";
+import { currentDesktop } from "./modules/System.mjs";
 
 const hub = document.querySelector("desktop-hub")
 
@@ -80,14 +81,14 @@ function documentKeyUp(e) {
 document.addEventListener("mousedown", loseFocus);
 document.addEventListener("mousedown", (e) => {
     if(e.buttons == 2) return;
-    if (e.target.tagname != "DIV" && e.target.id != "sysdscontainer" && e.target.tagName != "HTML" && e.target.dataset.type != "widget") return
+    // if (e.target.tagname != "DIV" && e.target.id != "sysdscontainer" && e.target.tagName != "HTML" && e.target.dataset.type != "widget") return
+    if (e.target.tagName != "DESKTOP-ENVIRONMENT") return
     origin = [e.clientX, e.clientY]
     const dragSelector = Util.create({
         tagname: "selector-box"
     })
-
     function dragSelect(e) {
-        document.body.append(dragSelector)
+        currentDesktop.layers[1].append(dragSelector)
         dragSelector.style.top = Math.min(origin[1], e.clientY) + "px";
         dragSelector.style.left = Math.min(origin[0], e.clientX) + "px";
         dragSelector.style.height = (Math.max(origin[1], e.clientY) - Math.min(origin[1], e.clientY)) + "px";
@@ -252,7 +253,7 @@ function openSignup(event) {
     }
 
     function sendSignupBtn(event) {
-        console.log(event.target.parentNode.parentNode.parentNode)
+        // console.log(event.target.parentNode.parentNode.parentNode)
         Server.Auth({
             req: "signup",
             data: {
@@ -267,7 +268,7 @@ function openSignup(event) {
     function matchPasswords(event) {
         const p1 = event.target.parentNode.children[0];
         const p2 = event.target.parentNode.children[2];
-        console.log(p1, p2)
+        // console.log(p1, p2)
         setTimeout(() => {
             if (p1.value != p2.value) {
                 handlers["A-0006"]({code: "A-0006", message: "Passwords don't match"})
@@ -315,7 +316,7 @@ function openSignup(event) {
             const hint = event.target.parentNode.children[1];
             const val = event.target.value;
             const req = checkPasswordRequirements(val);
-            console.log(metRequirements)
+            // console.log(metRequirements)
             let reqElements = hint.querySelectorAll(".pw-requirement");
             for (let i = 0; i < 5; i++) {
                 reqElements[i].dataset.met = req[i]
@@ -516,14 +517,14 @@ function loseFocus(event) {
  * @name Internal:openSettings
  */
 function openSettings(e) {
-    console.log("eventFIred")
+    // console.log("eventFIred")
     Server.System( {req: "fetch_app", data: { id: "settings" }})
     document.querySelector("start-menu").dataset.active = "false"
     e.stopPropagation();
 }
 
 function openProfile(e) {
-    console.log("OPEN PROFILE")
+    // console.log("OPEN PROFILE")
     Server.System( {req: "fetch_app", data: { id: "profile" }})
     document.querySelector("start-menu").dataset.active = "false"
     e.stopPropagation();

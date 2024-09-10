@@ -8,9 +8,10 @@ import * as Connect from "./modules/Connect.mjs"
 import * as Handler from "./Handlers.mjs"
 import { create } from "./modules/Util.mjs"
 import { Panel } from "./modules/ui/panels.mjs"
-import { Widget } from "./modules/desktop/desktop.mjs"
+// import { Widget } from "./modules/desktop/desktop.mjs"
 import { ArgumentError, ValueError } from "./Error.mjs"
 import * as Keyboard from "./modules/Keyboard.mjs"
+import { clock } from "./modules/clock.mjs"
 
 // for some reason this works, but will be changed anyways
 // Handler.openLogin({stopPropagation: ()=>{}})
@@ -60,13 +61,7 @@ Object.defineProperty(HTMLElement.prototype, "value", {
     }
 })
 
-const test = new Panel({
-    position: "center",
-    attach: "south",
-    offset: [0, 200],
-    floating: true
-})
-document.body.append(test.element)
+
 const clockobject = document.getElementById("clock-main");
 document.addEventListener("contextmenu", Handler.contextMenu)
 // Clock

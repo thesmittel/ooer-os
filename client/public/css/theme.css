@@ -73,5 +73,12 @@
     --window-maximised-header-padding-block: 2px;
     --window-maximised-header-padding-left: 2px;
     --window-maximised-header-padding-right: 2px;
-    --window-header-actual-size: calc(max(var(--window-header-min-button-height), var(--window-header-cls-button-height), var(--window-header-max-button-height), var(--window-header-height)) + 2 * var(--window-header-padding-block))
+    --window-header-actual-size: calc(max(var(--window-header-min-button-height), var(--window-header-cls-button-height), var(--window-header-max-button-height), var(--window-header-height)) + 2 * var(--window-header-padding-block));
+
+    --panel-padding: 3px;
+    --panel-border-radius: 6px;
+    --panel-background-r: 255;
+    --panel-background-g: 255;
+    --panel-background-b: 255;
+    --panel-background-opacity: 0.3;
 }

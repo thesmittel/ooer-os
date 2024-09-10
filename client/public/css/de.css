@@ -1,18 +1,40 @@
-
-
 desktop-environment {
     position: fixed;
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
-
+    z-index: 100;
+    display: block;
 }
 
 desktop-layer {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
     visibility: hidden;
+    position: fixed;
 }
 
-desktop-layer > * {
+desktop-layer>* {
     visibility: visible;
+}
+
+desktop-panel {
+    padding: var(--panel-padding);
+    border-radius: var(--panel-border-radius);
+    display: block;
+    position: fixed;
+    /* vertical offset */
+    margin-inline: 0;
+    /* horizontal offset */
+    margin-block: 0;
+    /* anchorX */
+    justify-self: center;
+    /* anchorY */
+    align-self: self-end;
 }

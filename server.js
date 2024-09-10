@@ -1,3 +1,4 @@
+
 /**
  * Main server script
  * @todo Replace with something that isnt javascript. Ideally rust with rust-socketio or something comparable, but this will do for now
@@ -26,7 +27,7 @@
  * @namespace ServerCode
  */
 /**
- * 
+ *
  * @module Server
  * @memberof server
  * @description Main server script
@@ -89,7 +90,7 @@ app.get('/media/desktopicons', (req, res) => {
 /**
  * Handles authentication requests and calls the relevant methods in the Auth module
  * @see <a href="./server.Server_Auth.html">Auth module</a>
- * @param { Socket! } socket 
+ * @param { Socket! } socket
  * @param { {req: String, data: (Map<String, any>|String)}! } data
  * @method authReq
  * @name Internal:authReq
@@ -105,11 +106,11 @@ function authReq(socket, data) {
             const cookie = data.data.split(";").map(a => a.split("="))
             const userid = cookie[0][1];
             const oldToken = cookie[1][1];
-    
+
             const cookieuser = users.filter(a => a.id == userid)[0];
             if (cookieuser != null && cookieuser != undefined) Auth.loginwithcookie(socket, {id: userid, oldToken: oldToken}, cookieuser)
             break
-        case "signupCheckUsernameAvailable": 
+        case "signupCheckUsernameAvailable":
             Auth.signupCheckUsernameAvailable(socket, users, data.data)
             break
         case "signupCheckEmailRegistered":
@@ -129,7 +130,7 @@ function authReq(socket, data) {
 /**
  * Handles application requests and calls the relevant methods in the App module
  * @see <a href="./server.Server_App.html">App module</a>
- * @param { Socket! } socket 
+ * @param { Socket! } socket
  * @param { {req: String, data: (Map<String, any>|String)}! } data
  * @method appReq
  * @name Internal:appReq
@@ -145,7 +146,7 @@ function appReq(socket, data) {
 /**
  * Handles client data requests and calls the relevant methods in the Client module
  * @see <a href="./server.Server_Client.html">Client module</a>
- * @param { Socket! } socket 
+ * @param { Socket! } socket
  * @param { {req: String, data: (Map<String, any>|String)}! } data
  * @method clientReq
  * @name Internal:clientReq
@@ -157,7 +158,7 @@ function clientReq(socket, data) {
 /**
  * Handles system requests and calls the relevant methods in the System module
  * @see <a href="./server.Server_System.html">System module</a>
- * @param { Socket! } socket 
+ * @param { Socket! } socket
  * @param { {req: String, data: (Map<String, any>|String)}! } data
  * @method systemReq
  * @name Internal:systemReq
@@ -193,8 +194,8 @@ server.listen(8080, () => {
 /**
  * registers a user
  * @todo Put in Auth, requires synchronisation of user object or moving of user object to auth module entirely with requests being sent to the auth module for user info
- * @param { String } id 
- * @param { String } username 
+ * @param { String } id
+ * @param { String } username
  * @param { String } email
  * @method addUser
  * @name Export:addUser

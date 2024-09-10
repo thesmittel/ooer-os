@@ -39,7 +39,38 @@ function handleKeyDown(e) {
 }
 
 function handleKeyUp(e) {
-    console.log(e)
+    switch (e.key) {
+        case "Control": {
+            if (e.location == 1) { L_CTRL = false; }
+            if (e.location == 2) { R_CTRL = false; }
+            return;
+        }
+        case "Escape": {
+            ESC = false;
+            return
+        }
+        case "Tab": {
+            TAB = false;
+            return
+        }
+        case "Alt": {
+            ALT = false;
+            return;
+        }
+        case "AltGraph": {
+            ALT_GR = false;
+            return;
+        }
+        case "ContextMenu": {
+            CTX = false;
+            return
+        }
+        case "Shift": {
+            if (e.location == 1) { L_SHIFT = false; }
+            if (e.location == 2) { R_SHIFT = false; }
+            return;
+        }
+    }
 }
 
 let ALT     = false;
