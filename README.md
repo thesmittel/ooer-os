@@ -27,7 +27,7 @@ A switch to typescript is NOT planned. I just dont care enough. JSDoc provides t
 A backend rewrite in Rust is on the table, but for that i have to learn it first
 
 ## Current version:
-`0.1.240911`
+`0.1.240911_b`
 
 ## Information regarding documentation
 

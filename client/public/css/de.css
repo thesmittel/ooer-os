@@ -350,6 +350,7 @@ panel-settings[edgeH="left"][edgeV="bottom"] {
 
 panel-settings[data-hidden="true"] {
     transition: translate 0.15s ease, visibility 0.1s ease 0.1s;
+    visibility: hidden;
 }
 
 panel-settings[edgeH="left"][edgeV="top"][data-hidden="true"] {

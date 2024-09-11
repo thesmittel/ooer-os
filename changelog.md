@@ -46,6 +46,9 @@ Known issues:
 - Panels have no applets
 - Code is a mess
 
+0.1.240911_b
+- Fixed minor bug
+
 ## Why such a weird version numbering?
 It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
 
@@ -60,7 +63,7 @@ It's in early development. I took a long break from the project, when i came bac
     - Position: attach to 4 cardinal edges and 4 corners
     - Floating: Defines if panel is flush with screen edges
     - Fullwidth: Defines if panel stretches the entire width/height of screen
-    - Full width only works if the panel is docked to a cardinal edge (not in a corner)
+    - Full width only works if the panel is docked to a cardinal edge (not in a corner), THIS IS INTENTIONAL!
 - All settings are available through the context menu
 
 ### 0.1.240909
