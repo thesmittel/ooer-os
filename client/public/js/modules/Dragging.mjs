@@ -32,6 +32,7 @@
 import { getElement, clamp } from "./Util.mjs";
 import { maximiseWindow } from "./App.mjs";
 import { loseFocus } from "../Handlers.mjs";
+import { currentDesktop } from "./System.mjs";
 
 /**
  * Registers an element as draggable. Dragging is accomplished by listening to a mousedown event being fired
@@ -101,7 +102,7 @@ function dragElement(elmnt) {
     elmnt.style.left = (newLeft) + "px";
     // Prevent from being moved off screen //(elmnt.offsetTop - pos2) + "px";//
     //clamp(0, (elmnt.offsetLeft - pos1), window.innerWidth  - parseInt(elmnt.style.width)) + "px";
-    const prev = document.getElementById("snapping-prev")
+    const prev = currentDesktop.snapPreview
     let bounds = elmnt.getBoundingClientRect();
 
     prev.style.left   = bounds.left + "px"
@@ -134,7 +135,7 @@ function dragElement(elmnt) {
     // e.stopPropagation();
     // stop moving when mouse button is released:
     if (parseInt(elmnt.style.top) < 1 && !elmnt.maximised && elmnt.id.match(/^window-\d{12}-\d{12}-\d{12}$/g)) {
-      document.getElementById("snapping-prev").dataset.visible = false
+      currentDesktop.snapPreview.dataset.visible = false
       maximiseWindow(elmnt);
     }
     elmnt.style["z-index"] = elmnt.dataset.oldz

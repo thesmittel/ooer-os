@@ -81,4 +81,8 @@
     --panel-background-g: 255;
     --panel-background-b: 255;
     --panel-background-opacity: 0.3;
+    --panel-border-style: none;
+    --panel-border-width: 0;
+    --panel-border-color: transparent;
+    --panel-highlight-color: #e84;
 }

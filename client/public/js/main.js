@@ -65,19 +65,19 @@ Object.defineProperty(HTMLElement.prototype, "value", {
 const clockobject = document.getElementById("clock-main");
 document.addEventListener("contextmenu", Handler.contextMenu)
 // Clock
-function clocktick() {
-    let now = new Date(Date.now());
-    clockobject.dataset.time = now.toLocaleTimeString(undefined, {
-        hour: "2-digit",
-        minute: "2-digit"
-    }).replace(/[ap]m/gi, "")
-    clockobject.dataset.date = now.toLocaleDateString(undefined, {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-    })
-}
-clocktick();
+// function clocktick() {
+//     let now = new Date(Date.now());
+//     clockobject.dataset.time = now.toLocaleTimeString(undefined, {
+//         hour: "2-digit",
+//         minute: "2-digit"
+//     }).replace(/[ap]m/gi, "")
+//     clockobject.dataset.date = now.toLocaleDateString(undefined, {
+//         weekday: "long",
+//         year: "numeric",
+//         month: "long",
+//         day: "numeric"
+//     })
+// }
+// clocktick();
 
-setInterval(clocktick, 1000)
+// setInterval(clocktick, 1000)

@@ -70,7 +70,7 @@ function handle(data) {
             makeNotification(data.data);
             break;
         case "desktop-symbols":
-            setupDesktopSymbols(data)
+            // setupDesktopSymbols(data)
             break
         case "sysapp":
             break
@@ -101,6 +101,17 @@ function addDesktop(style, symbols) {
         alpha: 0.2,
         floating: false
     })
+    const p2 = currentDesktop.addPanel({
+        width: 120,
+        height: 48,
+        offsetX: 24,
+        offsetY: 36,
+        anchorX: "center",
+        anchorY: "top",
+        rgb: {r: 255, g: 255, b: 255},
+        alpha: 0.2,
+        floating: false
+    })
 }
 
 
@@ -116,19 +127,19 @@ function addMessageListener(app, func) {
  * @method setupDesktopSymbols
  * @name Internal:setupDesktopSymbols
  */
-function setupDesktopSymbols({ data }) {
-    const container = document.getElementById("sysdsouter");
-    // console.log("DS", data)
-    for (let i = 0; i < data.length; i++) {
-        if (!data[i].appid.match(/^\d{12}$/g)) {
-            data[i].systemapp = true; // will be put serverside
-            // console.log(data[i].appid, "is system")
-        }
-        // console.log(data[i])
-        const curr = new DesktopSymbolApp(data[i])
-        container.append(curr.element)
-    }
-}
+// function setupDesktopSymbols({ data }) {
+//     const container = document.getElementById("sysdsouter");
+//     // console.log("DS", data)
+//     for (let i = 0; i < data.length; i++) {
+//         if (!data[i].appid.match(/^\d{12}$/g)) {
+//             data[i].systemapp = true; // will be put serverside
+//             // console.log(data[i].appid, "is system")
+//         }
+//         // console.log(data[i])
+//         const curr = new DesktopSymbolApp(data[i])
+//         container.append(curr.element)
+//     }
+// }
 
 /**
  * Handles incoming server messages that passed through the Connect module.

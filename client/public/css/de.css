@@ -6,6 +6,8 @@ desktop-environment {
     padding: 0;
     z-index: 100;
     display: block;
+    transition: scale 0.2s ease-in-out;
+    box-shadow: 0 0 24px black;
 }
 
 desktop-layer {
@@ -34,9 +36,11 @@ edge-selector-container {
     grid-row-gap: 0px;
     z-index: 100000000;
     position: fixed;
+    visibility: hidden;
 }
 
 edge-selector {
+    visibility: visible;
     width: 100%;
     height: 100%;
     border-radius: 8px;
@@ -116,7 +120,7 @@ edge-selector:nth-child(2)::after {
     content: "Align to top edge";
     justify-self: center;
     align-self: bottom;
-    top:100%;
+    top: 100%;
 }
 
 edge-selector:nth-child(3)::after {
@@ -129,15 +133,15 @@ edge-selector:nth-child(3)::after {
 edge-selector:nth-child(4)::after {
     content: "Align to left edge";
     justify-self: left;
-  left: 100%;
-  align-self: center;
+    left: 100%;
+    align-self: center;
 }
 
 edge-selector:nth-child(5)::after {
     content: "Align to right edge";
     justify-self: right;
-  right: 100%;
-  align-self: center;
+    right: 100%;
+    align-self: center;
 }
 
 edge-selector:nth-child(6)::after {
@@ -149,7 +153,7 @@ edge-selector:nth-child(6)::after {
 edge-selector:nth-child(7)::after {
     content: "Align to bottom edge";
     justify-self: center;
-    bottom:100%;
+    bottom: 100%;
 }
 
 edge-selector:nth-child(8)::after {
@@ -200,7 +204,9 @@ desktop-panel {
     --margin-block: 0;
     --margin-inline: 0;
     --animation-speed: 0.05s;
-    --transition: margin var(--animation-speed) ease, border-radius var(--animation-speed) ease, width 0.06s ease;
+    --panel-height: 48px;
+    --panel-width: 120px;
+    --transition: margin var(--animation-speed) ease, border-radius var(--animation-speed) ease, width 0.06s ease, border 0.1s ease;
     padding: var(--panel-padding);
     border-radius: var(--panel-border-radius);
     display: block;
@@ -217,7 +223,9 @@ desktop-panel {
     backdrop-filter: blur(15px);
     box-shadow: 0 0 4px #0006;
     max-width: calc(100% - 2 * var(--margin-inline));
-    max-height: calc(100% - 2 * var(--margin-block) )
+    max-height: calc(100% - 2 * var(--margin-block));
+    width: var(--panel-width);
+    height: var(--panel-height)
 }
 
 desktop-panel[floating="false"][edgeY="bottom"],
@@ -264,4 +272,119 @@ desktop-panel[fullwidth="true"][edgeY="top"]:not([edgeX="left"]):not([edgeX="rig
 desktop-panel[fullwidth="true"][edgeX="right"]:not([edgeY="top"]):not([edgeY="bottom"]),
 desktop-panel[fullwidth="true"][edgeX="left"]:not([edgeY="top"]):not([edgeY="bottom"]) {
     height: var(--fill-available) !important;
+}
+
+
+panel-settings {
+    width: 300px;
+    height: 400px;
+    position: absolute;
+    padding: 12px;
+    border-radius: 12px;
+    display: grid;
+    z-index: 102;
+    background-color: #fff4;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 12px #0008;
+    transition: translate 0.15s ease, visibility 0.1s ease 0.1s;
+    visibility: visible;
+}
+
+panel-settings[edgeV="bottom"] {
+    bottom: calc(100% + 12px);
+    left: 50%;
+    translate: -50%;
+}
+
+panel-settings[edgeV="top"] {
+    top: calc(100% + 12px);
+    left: 50%;
+    translate: -50%;
+}
+
+panel-settings[edgeH="left"] {
+    left: calc(100% + 12px);
+    top: 50%;
+    translate: 0 -50%;
+}
+
+panel-settings[edgeH="right"] {
+    right: calc(100% + 12px);
+    top: 50%;
+    translate: 0 -50%;
+}
+
+panel-settings[edgeH="right"][edgeV="top"] {
+    top: calc(100% + 12px);
+    right: 12px;
+    translate: 0 0;
+    left: unset;
+    bottom: unset;
+}
+
+panel-settings[edgeH="left"][edgeV="top"] {
+    top: calc(100% + 12px);
+    left: 12px;
+    translate: 0 0;
+    right: unset;
+    bottom: unset;
+}
+
+panel-settings[edgeH="right"][edgeV="bottom"] {
+    bottom: calc(100% + 12px);
+    right: 12px;
+    translate: 0 0;
+    left: unset;
+    top: unset;
+}
+
+panel-settings[edgeH="left"][edgeV="bottom"] {
+    bottom: calc(100% + 12px);
+    left: 12px;
+    translate: 0 0;
+    right: unset;
+    top: unset;
+}
+
+
+
+panel-settings[data-hidden="true"] {
+    transition: translate 0.15s ease, visibility 0.1s ease 0.1s;
+}
+
+panel-settings[edgeH="left"][edgeV="top"][data-hidden="true"] {
+    translate: 0% calc(-100% - var(--panel-height) - var(--margin-block) - 36px);
+    visibility: hidden;
+}
+panel-settings[edgeH="center"][edgeV="top"][data-hidden="true"] {
+    translate: -50% calc(-100% - var(--panel-height) - var(--margin-block) - 36px);
+    visibility: hidden;
+}
+panel-settings[edgeH="right"][edgeV="top"][data-hidden="true"] {
+    translate: 0% calc(-100% - var(--panel-height) - var(--margin-block) - 36px);
+    visibility: hidden;
+}
+panel-settings[edgeH="left"][edgeV="center"][data-hidden="true"] {
+    translate: calc(-100% - var(--panel-width) - var(--margin-inline) - 36px) -50%;
+    visibility: hidden;
+}
+panel-settings[edgeH="right"][edgeV="center"][data-hidden="true"] {
+    translate: calc(100% + var(--panel-width) + var(--margin-inline) + 36px) -50%;
+    visibility: hidden;
+}
+panel-settings[edgeH="left"][edgeV="bottom"][data-hidden="true"] {
+    translate: 0% calc(100% + var(--panel-height) + var(--margin-block) + 36px);
+    visibility: hidden;
+}
+panel-settings[edgeH="center"][edgeV="bottom"][data-hidden="true"] {
+    translate: -50% calc(100% + var(--panel-height) + var(--margin-block) + 36px);
+    visibility: hidden;
+}
+panel-settings[edgeH="right"][edgeV="bottom"][data-hidden="true"] {
+    translate: 0% calc(100% + var(--panel-height) + var(--margin-block) + 36px);
+}
+
+panel-settings:hover {
+    cursor: pointer;
+    background-color: #f004;
 }

@@ -14,11 +14,14 @@ class Desktop {
     #widgets = [];
     #windows = [];
     #symbols = [];
+    #panelObjects = [];
     layers = [];
     #contextMenu;
     #hub;
     #background;
     element;
+    snapPreview;
+
 
     constructor(data) {
         const s = ["widgets-0", "symbols", "widgets-1", "windows", "widgets-2", "panels", "notifications"]
@@ -32,6 +35,14 @@ class Desktop {
                 style: `z-index: ${i}`
             }))
         }
+
+        this.snapPreview = create({
+            tagname: "div",
+            classList: ["snap-preview"],
+            dataset: {visible: false},
+            id: "snapping-prev"
+        })
+        this.layers[3].append(this.snapPreview)
         this.element = create({
             tagname: "desktop-environment",
             childElements: this.layers,
@@ -121,10 +132,15 @@ class Desktop {
     }
 
     addPanel(panel) {
-        let p = new Panel(panel)
+        let p = new Panel(panel, this)
         this.#panels.push(p.element)
+        this.#panelObjects.push(p)
         this.layers[5].append(p.element)
         return p;
+    }
+
+    getPanels() {
+        return this.#panelObjects;
     }
 
 }

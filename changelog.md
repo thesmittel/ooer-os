@@ -1,7 +1,57 @@
 
 ## Version
 
-0.1.240910_a
+0.1.240911
+- The old taskbar is currently hidden, so the start menu is only available if you inspect the source and make it visible manually. (Shift+Rightclick)
+- The old clock widget was removed entirely
+- The clocktick is moved to its own module, it provides a shorthand for the current time and its components like minutes, hours, days etc.
+- The old desktop symbols and their container are removed
+- Window snapping preview was migrated to the new multi-desktop(-compatible (possibly)) layer architecture
+- Panel customisation
+    - Position can now be changed
+    - A menu for more granular controls was added
+    - A makeshift [plasma-esque](https://community.kde.org/Plasma/Plasma_6) edit mode was added
+        - You stay in edit mode as long as youre actively changing settings
+        - For now, the menu doesnt contain anything and closes by clicking
+        - Opening both position and more options keeps edit mode on until you pick a position AND confirm your other settings
+        - In edit mode, you can edit any panel and stay in edit mode. settings are not lost (there arent any, coming soon, but if theyre here, they wont be lost)
+- Planned:
+    - Applets
+        - Can be linked, so they are synchronised
+    - Importing and exporting panel config, saved either locally or on the server if you wish
+    - reset settings, resetting to previously saved state
+    - saving occurs if a definite action is being taken
+        - a definite action is chosing a position, changing anything thats accessible via the context menu or exiting edit mode for the More options menu
+        - it will save the settings as is, overwriting the current config.
+    - Options in more options:
+        - Panel width and height
+            - context menu's fullwidth will override
+            - Height/width modes:
+                - Fit: Scales according to content, but not wider than the max width, which is defined by the horizontal offset
+                - Fixed: Specify a number in px
+                - Full: Full width
+        - Offset (from edges)
+        - Floating
+            - Synchronised with context menu's floating option
+            - Floating=false overrides the offset from the docked edge (implemented)
+        - Locking panel
+            - disallowing any changes to a panel until unlocked again (no password required)
+        - Border radius
+        - Color: Background color of the panel
+        - Transparency: How transparent is the panel background, does not affect any applets
+
+Known issues:
+- Windows ignore panels entirely
+- Multi desktop not tested
+- Panels have no applets
+- Code is a mess
+
+## Why such a weird version numbering?
+It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
+
+## Changes
+
+### 0.1.240910_a
 - Only committing because im scared of losing progress
 - Panels can now be created and styled properly in code, though you still cant add applets
 
@@ -13,12 +63,6 @@
     - Full width only works if the panel is docked to a cardinal edge (not in a corner)
 - All settings are available through the context menu
 
-
-
-## Why such a weird version numbering?
-It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
-
-## Changes
 ### 0.1.240909
 
 - Fixed bug where open drop down menus would cause the desktop environment to resize itself

@@ -16,7 +16,7 @@ strong {
 
 body {
     /* background-image: url("/media/images?i=mountain.jpg"); */
-    background-image: url("/media/images?i=wallpaper abstract 2.png");
+    background-image: url("/media/images?i=iceland.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -503,4 +503,12 @@ div.symbol-locked {
 desktop-symbol[data-locked="true"] > div.symbol-locked {
     opacity: 1;
     transition: opacity 0.15s ease-in-out;
+}
+
+body > div.backdrop {
+    height: 100%;
+    width: 100%;
+    inset: 0;
+    position: fixed;
+    backdrop-filter: blur(50px);
 }
