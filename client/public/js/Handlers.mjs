@@ -83,6 +83,7 @@ document.addEventListener("mousedown", (e) => {
     if(e.buttons == 2) return;
     // if (e.target.tagname != "DIV" && e.target.id != "sysdscontainer" && e.target.tagName != "HTML" && e.target.dataset.type != "widget") return
     if (e.target.tagName != "DESKTOP-ENVIRONMENT") return
+    if (e.target.dataset.editMode == "true") return;
     origin = [e.clientX, e.clientY]
     const dragSelector = Util.create({
         tagname: "selector-box"

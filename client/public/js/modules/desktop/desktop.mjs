@@ -2,6 +2,7 @@ import { Widget } from "./widget.mjs";
 import { deleteElement, create } from "../Util.mjs";
 import { DesktopSymbolApp } from "../ui/desktopsymbol.mjs";
 import { Panel } from "./systemwidgets/panel.mjs";
+import { ContextMenu } from "../ui.mjs";
 /*
 Panels: layer 5, z-index 1 000 000
 Windows: layer 3, z-index starts at 1 000
@@ -17,10 +18,13 @@ class Desktop {
     #panelObjects = [];
     layers = [];
     #contextMenu;
+    #contextMenuEditMode;
     #hub;
     #background;
     element;
     snapPreview;
+    #exitEditModeButton;
+
 
 
     constructor(data) {
@@ -39,9 +43,10 @@ class Desktop {
         this.snapPreview = create({
             tagname: "div",
             classList: ["snap-preview"],
-            dataset: {visible: false},
+            dataset: { visible: false },
             id: "snapping-prev"
         })
+
         this.layers[3].append(this.snapPreview)
         this.element = create({
             tagname: "desktop-environment",
@@ -50,8 +55,12 @@ class Desktop {
                     background-size: ${data.backgroundsize || "cover"};
                     background-position: ${data.backgroundposition || "center center"};
                     background-attachment: fixed;`,
+            dataset: {
+                editMode: false,
+                editModeManuallyStarted: false,
+            },
             eventListener: {
-                click: ({target}) => {
+                click: ({ target }) => {
 
                     try {
                         while (target.tagName !== "DESKTOP-SYMBOL") {
@@ -66,10 +75,89 @@ class Desktop {
                     } catch (e) {
                         return
                     }
+                },
+                keydown: (e) => {
+                    if (key == "Escape") console.log("it")
                 }
-            }
+            },
         })
+        this.#exitEditModeButton = create({
+            tagname: "div",
+            classList: ["exitEditModeContainer"],
+            childElements: [{
+                tagname: "div",
+                classList: ["exitEditMode"],
+                childElements: [
+                    {
+                        tagname: "i",
+                        classList: ["bx", "bx-x", "bx-md"]
+                    },
+                    {
+                        tagname: "span",
+                        innerText: "Exit edit mode"
+                    }
+                ],
+                eventListener: {
+                    click: () => {
+                        this.element.dataset.editModeManuallyStarted = false;
+                        this.exitEditMode()
+                    }
+                }
+            }]
+        })
+        this.#contextMenuEditMode = new ContextMenu(this.element, [
+            {
+                type: "list", items: [
+                    {
+                        label: "Exit edit mode",
+                        symbol: "bx-x",
+                        handler: () => {
+                            this.element.dataset.editModeManuallyStarted = false;
+                            this.exitEditMode()
+                         }
+                    }
+                ]
+            }
+        ])
+
+        this.#contextMenu = new ContextMenu(this.element, [
+            {
+                type: "list", items: [
+                    {
+                        label: "Edit Desktop", symbol: "bx-cog", handler: () => {
+                            this.element.dataset.editModeManuallyStarted = true;
+                            this.enterEditMode()
+                        }
+                    }
+                ]
+            }
+        ])
+
         document.body.append(this.element)
+    }
+
+    enterEditMode() {
+        this.element.dataset.editMode = "true";
+        this.element.contextMenu = this.#contextMenuEditMode;
+        document.body.append(this.#exitEditModeButton)
+        this.layers[1].style.zIndex = -2;
+        this.layers[1].style.pointerEvents = "none"
+        this.layers[3].style.zIndex = -1;
+    }
+
+    exitEditMode() {
+        if (this.element.dataset.editModeManuallyStarted == "true") return
+        if (this.element.dataset.editMode == "false") return;
+        this.element.dataset.editMode = "false"
+        this.element.contextMenu = this.#contextMenu
+        this.#exitEditModeButton.remove()
+        this.layers[1].style.zIndex = 1;
+        this.layers[1].style.pointerEvents = "all"
+        this.layers[3].style.zIndex = 3;
+        this.#panelObjects.forEach(a => {
+            a.edgeselector.hide()
+            a.settingsWindow.hide()
+        })
     }
 
     hide() {
@@ -145,4 +233,4 @@ class Desktop {
 
 }
 
-export {Desktop}
+export { Desktop }

@@ -1,7 +1,30 @@
 
 ## Version
 
-0.1.240911
+0.1.240913
+- Desktop now has a dedicated edit mode
+    - Can be activated by right-clicking empty parts of the desktop and choosing "Edit Desktop"
+    - Entering edit mode like this means you can make as many changes as you want, open and close the panel dialogs, and stay in edit mode
+- Panels can now be locked, meaning
+- Changed the way edit mode is achieved
+- Small fixes
+- Realised i cant keep distracting myself with making a pretty UI and should start focussing on making it functional at some point
+- immediately disregarded that realisation
+
+
+## Known issues:
+- Windows ignore panels entirely
+- Multi desktop not tested
+- Panels have no applets
+- Code is a mess
+
+
+## Why such a weird version numbering?
+It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
+
+## Dev Diary
+
+### 0.1.240911
 - The old taskbar is currently hidden, so the start menu is only available if you inspect the source and make it visible manually. (Shift+Rightclick)
 - The old clock widget was removed entirely
 - The clocktick is moved to its own module, it provides a shorthand for the current time and its components like minutes, hours, days etc.
@@ -40,19 +63,8 @@
         - Color: Background color of the panel
         - Transparency: How transparent is the panel background, does not affect any applets
 
-Known issues:
-- Windows ignore panels entirely
-- Multi desktop not tested
-- Panels have no applets
-- Code is a mess
-
 0.1.240911_b
 - Fixed minor bug
-
-## Why such a weird version numbering?
-It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
-
-## Changes
 
 ### 0.1.240910_a
 - Only committing because im scared of losing progress

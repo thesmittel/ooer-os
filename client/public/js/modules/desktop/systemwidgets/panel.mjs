@@ -29,13 +29,15 @@ class Panel {
     offsetY;
     floating;
     fullwidth;
+    locked;
     edgeselector;
     id;
     settingsWindow;
     height; width;
     #desktop;
-    constructor({ width, height, offsetX, offsetY, anchorX, anchorY, rgb, alpha, floating = false, fullwidth = false }, Desktop) {
+    constructor({ width, height, offsetX, offsetY, anchorX, anchorY, rgb, alpha, floating = false, fullwidth = false, locked = false }, Desktop) {
         this.id = randomId(12);
+        this.locked = locked;
         this.#desktop = Desktop;
         this.edgeselector = new EdgeSelector(this, Desktop)
         this.anchorH = horizontal[Math.abs(horizontal.indexOf(anchorX))];
@@ -61,6 +63,7 @@ class Panel {
             },
             floating: floating,
             fullwidth: fullwidth,
+            locked: this.locked,
             edgeX: anchorX,
             edgeY: anchorY,
             dataset: {
@@ -70,7 +73,7 @@ class Panel {
                 keydown: (e) => {
                     console.log(e);
                     if (e.key == "escape") {
-                        this.edgeselector.remove()
+                        this.edgeselector.hide()
                     }
                 },
                 click: (e) => {
@@ -94,9 +97,10 @@ class Panel {
         const ctxRaw = [
             { type: "title", label: "Panel" },
             {
-                type: "text", label: `Vertical: ${this.anchorH}<br>
+                type: "text", label: `Debug info:<br>Vertical: ${this.anchorH}<br>
             Horizontal: ${this.anchorV}<br>
-            Floating: ${this.floating ? "Yes" : "No"}`
+            Floating: ${this.floating ? "Yes" : "No"}<br>
+            Locked: ${this.locked?"Yes":"No"}`
             },
             { type: "divider" },
             {
@@ -107,36 +111,50 @@ class Panel {
                         symbol: this.floating ? "bxs-checkbox-checked" : "bx-checkbox",
                         handler: () => {
                             console.log(this.element.floating)
+                            if (this.locked) return;
                             this.setFloating(!this.floating)
-                        }
+                        },
+                        enabled: !this.locked
                     }, {
                         label: "Full width",
                         symbol: this.fullwidth ? "bxs-checkbox-checked" : "bx-checkbox",
                         handler: () => {
                             console.log(this.element.fullwidth)
+                            if (this.locked) return;
                             this.setFullWidth(!this.fullwidth)
+                        },
+                        enabled: !this.locked
+                    }, {
+                        label: this.locked ? "Unlock" : "Lock",
+                        symbol: this.locked ? "bx-lock-open-alt" : "bx-lock-alt",
+                        handler: () => {
+                            console.log(this.element.locked)
+                            this.setLockedState(!this.getLockedState())
                         }
                     }, {
                         label: "Set position",
                         symbol: "bx-move",
                         handler: () => {
+                            if (this.locked) return;
                             let panels = this.#desktop.getPanels()
                             console.log(panels)
                             this.hasBackdrop[0] = true
                             for (let i = 0; i < panels.length; i++) {
                                 if (this != panels[i]) {
                                     panels[i].settingsWindow.hide();
-                                    panels[i].edgeselector.remove();
+                                    panels[i].edgeselector.hide();
                                     console.log("t3wtw3t")
                                     console.log(panels[i].edgeselector)
                                 }
                             }
                             this.edgeselector.show()
-                        }
+                        },
+                        enabled: !this.locked
                     }, {
                         label: "More Options...",
                         symbol: "bx-cog",
                         handler: () => {
+                            if (this.locked) return;
                             // show option dialog
                             let panels = this.#desktop.getPanels()
                             console.log(panels)
@@ -144,13 +162,14 @@ class Panel {
                             for (let i = 0; i < panels.length; i++) {
                                 if (this != panels[i]) {
                                     panels[i].settingsWindow.hide();
-                                    panels[i].edgeselector.remove();
+                                    panels[i].edgeselector.hide();
                                     console.log("t3wtw3t")
                                     console.log(panels[i].edgeselector)
                                 }
                             }
                             this.settingsWindow.show()
-                        }
+                        },
+                        enabled: !this.locked
                     }
                 ]
             }
@@ -192,6 +211,17 @@ class Panel {
         this.element.setAttribute("fullwidth", fullwidth)
         this.#makeContextMenu()
     }
+
+    getLockedState() {
+        return this.locked
+    }
+
+    setLockedState(l) {
+        this.locked = l;
+        this.element.setAttribute("locked", l)
+        this.#makeContextMenu()
+    }
+
 }
 
 class EdgeSelector {
@@ -208,7 +238,7 @@ class EdgeSelector {
                 click: (e) => {
                     this.#parent.hasBackdrop = [false, false]
                     e.stopPropagation();
-                    this.remove()
+                    this.hide()
                 }
             },
             childElements: [
@@ -220,7 +250,7 @@ class EdgeSelector {
                         click: (e) => {
                             this.#parent.setEdge({ x: "left", y: "top" });
                             e.stopPropagation()
-                            this.remove();
+                            this.hide();
                         }
                     },
                     childElements: [
@@ -237,7 +267,7 @@ class EdgeSelector {
                         click: (e) => {
                             this.#parent.setEdge({ y: "top" });
                             e.stopPropagation()
-                            this.remove();
+                            this.hide();
                         }
                     },
                     childElements: [
@@ -254,7 +284,7 @@ class EdgeSelector {
                         click: (e) => {
                             this.#parent.setEdge({ x: "right", y: "top" });
                             e.stopPropagation()
-                            this.remove();
+                            this.hide();
                         }
                     },
                     childElements: [
@@ -271,7 +301,7 @@ class EdgeSelector {
                         click: (e) => {
                             this.#parent.setEdge({ x: "left" });
                             e.stopPropagation()
-                            this.remove();
+                            this.hide();
                         }
                     },
                     childElements: [
@@ -288,7 +318,7 @@ class EdgeSelector {
                         click: (e) => {
                             this.#parent.setEdge({ x: "right" });
                             e.stopPropagation()
-                            this.remove();
+                            this.hide();
                         }
                     },
                     childElements: [
@@ -305,7 +335,7 @@ class EdgeSelector {
                         click: (e) => {
                             this.#parent.setEdge({ x: "left", y: "bottom" });
                             e.stopPropagation()
-                            this.remove();
+                            this.hide();
                         }
                     },
                     childElements: [
@@ -322,7 +352,7 @@ class EdgeSelector {
                         click: (e) => {
                             this.#parent.setEdge({ y: "bottom" });
                             e.stopPropagation()
-                            this.remove();
+                            this.hide();
                         }
                     },
                     childElements: [
@@ -339,7 +369,7 @@ class EdgeSelector {
                         click: (e) => {
                             this.#parent.setEdge({ x: "right", y: "bottom" });
                             e.stopPropagation()
-                            this.remove();
+                            this.hide();
                         }
                     },
                     childElements: [
@@ -356,19 +386,21 @@ class EdgeSelector {
 
 
     show() {
-        document.querySelector("desktop-environment").style.scale = 0.9;
-        this.#parent.element.parentNode.append(backdrop);
+        // document.querySelector("desktop-environment").style.scale = 0.9;
+        // this.#parent.element.parentNode.append(backdrop);
+        this.#desktop.enterEditMode()
         this.#parent.element.style["z-index"] = 101;
         this.#parent.element.style.border = "solid 2px var(--panel-highlight-color)"
         document.body.append(this.element)
         console.log(this.#parent.element)
     }
 
-    remove() {
+    hide() {
         this.#parent.hasBackdrop[0] = false;
         if (!this.#parent.hasBackdrop[1]) {
             this.element.remove();
-            document.querySelector("desktop-environment").style.scale = 1;
+            this.#desktop.exitEditMode()
+            // document.querySelector("desktop-environment").style.scale = 1;
             backdrop.remove();
             this.#parent.element.style["z-index"] = undefined
             this.#parent.element.style.borderStyle = "var(--panel-border-style)"
@@ -385,7 +417,6 @@ class PanelOptions {
     #backdrop;
     #desktop;
     constructor(parent, desktop) {
-        console.log("Panel Optitions parent", parent)
         this.#desktop = desktop
         this.#parent = parent
         /*
@@ -397,7 +428,7 @@ class PanelOptions {
         Color: Color,
         Transparency: Number 0..1
         */
-        console.log(this.#parent.offsetY, this.#parent.height, 6, "px")
+        // console.log(this.#parent.offsetY, this.#parent.height, 6, "px")
         this.element = create({
             tagname: "panel-settings",
             style: {
@@ -423,7 +454,7 @@ class PanelOptions {
     setEdge({ x = "center", y = "center" }) {
 
 
-        console.log("set edge", x, horizontal[Math.abs(vertical.indexOf(x))], flex[Math.abs(horizontal.indexOf(x))], "|", y, vertical[Math.abs(vertical.indexOf(y))], flex[Math.abs(horizontal.indexOf(y))], "\n", horizontal, "\n", vertical)
+        // console.log("set edge", x, horizontal[Math.abs(vertical.indexOf(x))], flex[Math.abs(horizontal.indexOf(x))], "|", y, vertical[Math.abs(vertical.indexOf(y))], flex[Math.abs(horizontal.indexOf(y))], "\n", horizontal, "\n", vertical)
 
 
         this.element.setAttribute("edgeH", x)
@@ -433,10 +464,11 @@ class PanelOptions {
 
     show() {
         this.element.dataset.hidden = false;
-        document.querySelector("desktop-environment").style.scale = 0.9;
-        this.#parent.element.parentNode.append(backdrop);
+        // document.querySelector("desktop-environment").style.scale = 0.9;
+        // this.#parent.element.parentNode.append(backdrop);
         this.#parent.element.style["z-index"] = 101;
         this.#parent.element.style.border = "solid 2px var(--panel-highlight-color)"
+        this.#desktop.enterEditMode();
         // console.log(this.#parent)
         // console.log(this.#parent.offsetY , this.#parent.height , 6 , "px")
         // this.element.style.marginBlock = (this.#parent.floating * this.#parent.offsetY + this.#parent.height + 6) + "px"
@@ -451,13 +483,14 @@ class PanelOptions {
         this.#parent.hasBackdrop[1] = false;
         this.element.dataset.hidden = true;
         if (!this.#parent.hasBackdrop[0]) {
-            document.querySelector("desktop-environment").style.scale = 1;
-            backdrop.remove();
+            // document.querySelector("desktop-environment").style.scale = 1;
+            // backdrop.remove();
             this.#parent.element.style["z-index"] = undefined
+            this.#desktop.exitEditMode()
             this.#parent.element.style.borderStyle = "var(--panel-border-style)"
             this.#parent.element.style.borderWidth = "var(--panel-border-width)"
             this.#parent.element.style.borderColor = "var(--panel-border-color)"
-            this.#parent.edgeselector.remove()
+            this.#parent.edgeselector.hide()
         }
 
     }

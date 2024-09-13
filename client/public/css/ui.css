@@ -1154,6 +1154,16 @@ context-menu > context-menu-grid > context-menu-element {
     white-space: nowrap;
 }
 
+context-menu > context-menu-list > context-menu-element[enabled="false"],
+context-menu > context-menu-grid > context-menu-element[enabled="false"],
+context-menu > context-menu-list > context-menu-element[enabled="false"] > *,
+context-menu > context-menu-grid > context-menu-element[enabled="false"] > * {
+    color: #999;
+    pointer-events: none;
+}
+
+
+
 context-menu > context-menu-grid > context-menu-element:hover::after {
     content: attr(data-label);
     position: absolute;

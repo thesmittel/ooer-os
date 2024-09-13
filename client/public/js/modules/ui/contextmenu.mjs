@@ -85,7 +85,7 @@ class ContextMenu {
                     e = new ContextMenuGrid(
                         elements[i].items.map(a => {
                             if (a.empty) return {element: create({tagname: "div"})}
-                            return new ContextMenuGridElement(a.label, a.symbol, a.handler)
+                            return new ContextMenuGridElement(a.label, a.symbol, a.handler, a.enabled)
                         })
                     )
                     this.#structure.push(e)
@@ -93,7 +93,7 @@ class ContextMenu {
                     break;
                 case "list":
                     e = new ContextMenuList(
-                        elements[i].items.map(a => new ContextMenuListElement(a.label, a.symbol, a.handler))
+                        elements[i].items.map(a => new ContextMenuListElement(a.label, a.symbol, a.handler, a.enabled))
                     )
                     this.#structure.push(e);
                     e = e.element;
@@ -116,6 +116,7 @@ class ContextMenu {
             }
             this.#element.append(e);
         }
+        parentElement.contextMenu = this;
     }
 
     debug() {
@@ -208,7 +209,9 @@ class ContextMenuElement {
     label
     handler;
     element;
-    constructor(label, handler, symbol) {
+    enabled;
+    constructor(label, handler, symbol, enabled) {
+        this.enabled = enabled;
         if (handler && typeof handler != "function") throw new TypeError("class ContextMenuElement: optional argument handler must be a function")
         if (label == undefined || label == null || label == "") throw new ReferenceError("class ContextMenuElement: argument label must be non-empty string.")
 
@@ -224,14 +227,15 @@ class ContextMenuElement {
 }
 
 class ContextMenuListElement extends ContextMenuElement {
-    constructor(label, symbol, handler) {
-        super(label, handler, symbol);
+    constructor(label, symbol, handler, enabled = true) {
+        super(label, handler, symbol, enabled);
         this.element = create({
             tagname: "context-menu-element",
             childElements: [
                 { tagname: "i", classList: ["bx", this.symbol] },
                 { tagname: "span", innerText: this.label }
             ],
+            enabled: this.enabled,
             eventListener: {
                 click: (event) => {
                     // Something was supposed to go here but i dont remember rn
@@ -243,13 +247,14 @@ class ContextMenuListElement extends ContextMenuElement {
 }
 
 class ContextMenuGridElement extends ContextMenuElement {
-    constructor(label, symbol, handler) {
-        super(label, handler, symbol);
+    constructor(label, symbol, handler, enabled = true) {
+        super(label, handler, symbol, enabled);
         if (!symbol) console.trace("class ContextMenuGridElement: grid icons must have an icon.")
         this.element = create({
             tagname: "context-menu-element",
             childElements: [{ tagname: "i", classList: ["bx", ...(this.symbol || [])] }],
             dataset: { label: this.label },
+            enabled: this.enabled,
             eventListener: {
                 click: (event) => {
                     if (this.handler) this.handler(event)
