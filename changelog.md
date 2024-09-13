@@ -5,7 +5,7 @@
 - Desktop now has a dedicated edit mode
     - Can be activated by right-clicking empty parts of the desktop and choosing "Edit Desktop"
     - Entering edit mode like this means you can make as many changes as you want, open and close the panel dialogs, and stay in edit mode
-- Panels can now be locked, meaning
+- Panels can now be locked, you can not make any changes to a locked panel until you unlock it again
 - Changed the way edit mode is achieved
 - Small fixes
 - Realised i cant keep distracting myself with making a pretty UI and should start focussing on making it functional at some point
