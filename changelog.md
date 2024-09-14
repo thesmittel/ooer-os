@@ -1,15 +1,19 @@
 
 ## Version
 
-0.1.240913
-- Desktop now has a dedicated edit mode
-    - Can be activated by right-clicking empty parts of the desktop and choosing "Edit Desktop"
-    - Entering edit mode like this means you can make as many changes as you want, open and close the panel dialogs, and stay in edit mode
-- Panels can now be locked, you can not make any changes to a locked panel until you unlock it again
-- Changed the way edit mode is achieved
-- Small fixes
-- Realised i cant keep distracting myself with making a pretty UI and should start focussing on making it functional at some point
-- immediately disregarded that realisation
+0.1.240914
+- Started rewriting some parts to be more debuggable
+    - mostly involving getter and setter functions
+- fixed severe bugs that somehow materialised from that
+- DynamicString class:
+    - a more dynamic string template
+    - gets passed strings and references to objects and names of properties
+    - A DynamicString is defined *once*
+    - When it is printed with *instance*.string - no parentheses - all properties will be printed according to their value at the point of printing
+    - For classes, this only works if the property being accessed is public or has a getter
+    - Allows for accessing individual elements in objects, arrays and strings as well
+    - As of now, these properties can only be printed as they are, im working on ways to manipulate them afterwards
+
 
 
 ## Known issues:
@@ -23,6 +27,16 @@
 It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
 
 ## Dev Diary
+
+### 0.1.240913
+- Desktop now has a dedicated edit mode
+    - Can be activated by right-clicking empty parts of the desktop and choosing "Edit Desktop"
+    - Entering edit mode like this means you can make as many changes as you want, open and close the panel dialogs, and stay in edit mode
+- Panels can now be locked, you can not make any changes to a locked panel until you unlock it again
+- Changed the way edit mode is achieved
+- Small fixes
+- Realised i cant keep distracting myself with making a pretty UI and should start focussing on making it functional at some point
+- immediately disregarded that realisation
 
 ### 0.1.240911
 - The old taskbar is currently hidden, so the start menu is only available if you inspect the source and make it visible manually. (Shift+Rightclick)

@@ -94,7 +94,7 @@ function errorDialog({ title, description, type, buttons, blocked, parent }) {
     /*
     {
         title: String,
-        description: String, 
+        description: String,
         type: Number, |INFO:0, QUESTION:1, WARN:2, CRITICAL:3|
         buttons: [
             {
@@ -195,8 +195,16 @@ class ValueError extends Error {
     }
 }
 
-function errorFormatter(obj, func, text) {
-    return `${obj?(obj.constructor?obj.constructor.name + ".":""):""}${func.toString().match(/.*?\)(?= *{)/)[0].trim()}: ${text}`
+class AutoTypeError extends Error {
+    constructor(origin, expectedType, name, value) {
+        super(`${origin}: Value ${name} must be ${expectedType}, got ${value}: ${typeof value}`)
+    }
 }
 
-export { handlers, errorDialog, ArgumentError, ValueError }
+function errorFormatter(obj, func, text) {
+    console.log(obj, func, text)
+    return `${obj?.constructor?.name ? obj.constructor.name + "." : ""}${typeof func == "function" ? func.toString().match(/.*?\)(?= *{)/)[0].trim() : func}: ${text}`
+
+}
+
+export { handlers, errorDialog, ArgumentError, ValueError, AutoTypeError }

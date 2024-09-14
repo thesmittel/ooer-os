@@ -93,10 +93,11 @@ function addDesktop(style, symbols) {
     const p = currentDesktop.addPanel({
         width: 120,
         height: 48,
-        offsetX: 24,
-        offsetY: 36,
-        anchorX: "center",
-        anchorY: "bottom",
+        dimensions: [120, 48],
+        offset: [24, 36],
+        anchor: ["center", "bottom"],
+        anchorH: "center",
+        anchorV: "bottom",
         rgb: {r: 255, g: 255, b: 255},
         alpha: 0.2,
         floating: false
@@ -104,10 +105,11 @@ function addDesktop(style, symbols) {
     const p2 = currentDesktop.addPanel({
         width: 120,
         height: 48,
-        offsetX: 24,
-        offsetY: 36,
-        anchorX: "center",
-        anchorY: "top",
+        dimensions: [120, 48],
+        offset: [24, 36],
+        anchor: ["center", "top"],
+        anchorH: "center",
+        anchorV: "top",
         rgb: {r: 255, g: 255, b: 255},
         alpha: 0.2,
         floating: false

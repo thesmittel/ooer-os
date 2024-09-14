@@ -13,10 +13,10 @@ function randomInt(min, max) {
 
 /**
  * Generates a string of digits with a given length
- * @param { Number } length 
+ * @param { Number } length
  * @method randomId
  * @name Export:randomId
- * @returns A string of decimal digits with the specified length
+ * @returns {String} A string of decimal digits with the specified length
  */
 function randomId(length) {
 	let id = "";
@@ -60,7 +60,7 @@ function degreeToRadian(a) {
 }
 
 /**
- * 
+ *
  * @param {Number} v Value to be mapped
  * @param {Number} fromMin Original minimum
  * @param {Number} fromMax Original maxi
@@ -83,9 +83,9 @@ function round(v, d) {
 
 /**
  * Takes a number and snaps it to the nearest step
- * @param {Number} val 
- * @param {Number} min 
- * @param {Number} step 
+ * @param {Number} val
+ * @param {Number} min
+ * @param {Number} step
  * @returns Number
  */
 function snap(val, min, step) {

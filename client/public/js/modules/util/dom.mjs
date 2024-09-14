@@ -12,7 +12,7 @@
  * @param { Object } args
  * @method create
  * @name Export:create
- * @returns DOMElement
+ * @returns {HTMLElement}
  * @example {
  * 	tagname: "HTML tag name",
  *	dataset: {

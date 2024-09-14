@@ -1,81 +1,112 @@
+/**
+ * Manages a panels properties and elements
+ * @file Panel.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name UI:Handlers
+ * @see <a href="./client.Client_Handlers.html">Module</a>
+ */
+/**
+ * Manages a panels properties and elements
+ * @file Panel.mjs
+ * @author Smittel
+ * @copyright 2024
+ * @name UI:Handlers
+ * @see <a href="./client.Client_Handlers.html">Module</a>
+ * @namespace ClientCode
+ */
+/**
+ * @module Panel
+ * @memberof client
+ * @description Manages Panels and panel related UI
+ * @name UI:Desktop.Panel
+ * @author Smittel
+ */
+import { AutoTypeError, ValueError } from "../../../Error.mjs";
 import { contextMenu } from "../../../Handlers.mjs";
 import { ContextMenu } from "../../ui.mjs";
 import { create, randomId } from "../../Util.mjs";
+import { DynamicString } from "../../util/dynstring.mjs";
 import { Window } from "../../Window.mjs";
+import { Desktop } from "../desktop.mjs";
+
 
 const horizontal = ["left", "center", "right"]
 const vertical = ["top", "center", "bottom"]
 const flex = ["flex-start", "center", "flex-end"]
 
-const backdrop = create({
-    tagname: "div",
-    style: `backdrop-filter: blur(2px) contrast(0.5) saturate(0.5);
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    display: block;
-    position: fixed;
-    z-index: -1`
-})
+
 
 class Panel {
     hasBackdrop = [false, false]
-    element;
+    element; /** @member {HTMLElement} element */
     #applets = [];
     contextmenu;
+    #anchor; /** @property {[("left"|"center"|"right") ("top"|"center"|"bottom")]} anchor */
+
     anchorH;
     anchorV;
-    offsetX;
-    offsetY;
-    floating;
-    fullwidth;
-    locked;
-    edgeselector;
-    id;
-    settingsWindow;
-    height; width;
+    #offset; /** @property {[Number Number]} offset */
+    #dimensions = []; /** @member {[Number Number]} dimensions */
+    #floating; /** @member {Boolean} floating */
+    #fullwidth; /** @member {Boolean} fullwidth */
+    #locked; /** @member {Boolean} locked */
+    #edgeselector; /** @member {EdgeSelector} edgeselector */
+    id; /** @member {String} id */
+    #settingsWindow; /** @member {PanelOptions} settingsWindow */
     #desktop;
-    constructor({ width, height, offsetX, offsetY, anchorX, anchorY, rgb, alpha, floating = false, fullwidth = false, locked = false }, Desktop) {
+    #edgeX; #edgeY;
+    #edge;
+    debug = new DynamicString(
+        "Debug info: <br>\nHorizontal: ", { object: this, properties: ["anchor[0]"] },
+        "<br>\nVertical: ", { object: this, properties: ["anchor[1]"] },
+        "<br>\nFloating: ", { object: this, properties: ["floating"] },
+        "<br>\nFull Width: ", { object: this, properties: ["fullwidth"] },
+        "<br>\nLocked: ", { object: this, properties: ["locked"] }
+    )
+    /**
+     *
+     * @param {Object} data
+     * @param {Number} data.width,
+     * @param {Number} data.height,
+     * @param {[Number Number]} data.offset [x, y]
+     * @param {[Number Number]} data.dimensions [width, height]
+     * @param {[("left"|"center"|"right") ("top"|"center"|"bottom")]} data.anchor [horizontal, vertical]
+     * @param {String} data.anchorH,
+     * @param {String} data.anchorV,
+     * @param {Color} data.rgb,
+     * @param {Number} data.alpha,
+     * @param {Boolean} data.floating,
+     * @param {Boolean} data.fullwidth,
+     * @param {Boolean} data.locked,
+     * @param {*} Desktop
+     */
+    constructor({ dimensions = [120, 48], offset = [0, 0], anchor = ["center", "bottom"], rgb, alpha, floating = false, fullwidth = false, locked = false }, Desktop) {
+        this.#offset = offset;
+        this.#edge = [flex[Math.abs(horizontal.indexOf(anchor[0]))], flex[Math.abs(vertical.indexOf(anchor[1]))]];
+
         this.id = randomId(12);
-        this.locked = locked;
+        this.#locked = locked;
         this.#desktop = Desktop;
-        this.edgeselector = new EdgeSelector(this, Desktop)
-        this.anchorH = horizontal[Math.abs(horizontal.indexOf(anchorX))];
-        this.anchorV = vertical[Math.abs(vertical.indexOf(anchorY))];
-        this.floating = floating;
-        this.fullwidth = fullwidth;
-        this.settingsWindow = new PanelOptions(this, Desktop)
-        this.height = height;
-        this.width = width;
-        this.offsetX = offsetX
-        this.offsetY = offsetY
         this.element = create({
             tagname: "desktop-panel",
             style: {
-                // "margin-inline": offsetX + "px",
-                // "margin-block": offsetY + "px",
-                "justify-self": flex[Math.abs(horizontal.indexOf(anchorX))],
-                "align-self": flex[Math.abs(vertical.indexOf(anchorY))],
+                "justify-self": this.#edge[0],
+                "align-self": this.#edge[1],
                 "background": `rgba(${(typeof rgb.r == "number" && rgb.r < 256 && rgb.r >= 0) ? rgb.r : "var(--panel-background-r)"},
-                                    ${(typeof rgb.g == "number" && rgb.g < 256 && rgb.g >= 0) ? rgb.g : "var(--panel-background-g)"},
-                                    ${(typeof rgb.b == "number" && rgb.b < 256 && rgb.b >= 0) ? rgb.b : "var(--panel-background-b)"},
-                                    ${alpha})`
+                ${(typeof rgb.g == "number" && rgb.g < 256 && rgb.g >= 0) ? rgb.g : "var(--panel-background-g)"},
+                ${(typeof rgb.b == "number" && rgb.b < 256 && rgb.b >= 0) ? rgb.b : "var(--panel-background-b)"},
+                ${alpha})`
             },
             floating: floating,
             fullwidth: fullwidth,
-            locked: this.locked,
-            edgeX: anchorX,
-            edgeY: anchorY,
+            locked: locked,
+            edgeX: anchor[0],
+            edgeY: anchor[1],
             dataset: {
                 stopCtxPropagation: true
             },
             eventListener: {
-                keydown: (e) => {
-                    console.log(e);
-                    if (e.key == "escape") {
-                        this.edgeselector.hide()
-                    }
-                },
                 click: (e) => {
                     e.stopPropagation()
                 },
@@ -83,93 +114,226 @@ class Panel {
                     e.stopPropagation();
                     contextMenu(e)
                 }
-            },
-            childElements: [this.settingsWindow.element]
+            }
         })
-        this.element.style.setProperty("--margin-block", offsetX + "px")
-        this.element.style.setProperty("--margin-inline", offsetY + "px")
-        this.element.style.setProperty("--panel-height", (typeof height == "number") ? (height + "px") : height)
-        this.element.style.setProperty("--panel-width", (typeof width == "number") ? (width + "px") : width)
+
+
+        this.dimensions = { w: dimensions[0], h: dimensions[1] };
+        this.anchor = anchor
+        this.fullwidth = fullwidth;
+        this.floating = floating;
+        this.edgeselector = new EdgeSelector(this, Desktop)
+        this.settingsWindow = new PanelOptions(this, Desktop)
+        this.edge = { x: this.#anchor[0], y: this.#anchor[1] }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key == "Escape" && Desktop.element.dataset.editMode == "true") {
+                let panels = Desktop.getPanels();
+                panels.forEach(element => {
+                    element.edgeselector.hide()
+                    element.settingsWindow.hide()
+                });
+                Desktop.element.dataset.editModeManuallyStarted = false;
+                Desktop.clearEditDialogs();
+                Desktop.exitEditMode()
+            }
+
+        })
+
+        this.element.append(this.settingsWindow.element)
+        this.element.style.setProperty("--margin-block", this.#offset[0] + "px")
+        this.element.style.setProperty("--margin-inline", this.#offset[1] + "px")
+        this.element.style.setProperty("--panel-height", (typeof this.dimensions[1] == "number") ? (this.dimensions[1] + "px") : this.dimensions[1])
+        this.element.style.setProperty("--panel-width", (typeof this.dimensions[0] == "number") ? (this.dimensions[0] + "px") : this.dimensions[0])
         this.#makeContextMenu();
     }
 
+    set anchor(arr) {
+        if (!(arr instanceof Array)) throw new TypeError(`Panel.anchor: Value must be Array, got ${arr} : ${typeof arr}`)
+        if (!(arr[0] == "left" || arr[0] == "center" || arr[0] == "right")) throw new ValueError(this, "<set anchor>", `First value must be "left", "center" or "right", got ${arr[0]}`)
+        if (!(arr[1] == "top" || arr[1] == "center" || arr[1] == "bottom")) throw new ValueError(this, "<set anchor>", `Second value must be "top", "center" or "bottom", got ${arr[1]}`)
+        let h = horizontal[Math.abs(horizontal.indexOf(arr[0]))];
+        let v = vertical[Math.abs(vertical.indexOf(arr[1]))];
+        this.#anchor = [h, v];
+
+        this.element.dataset.horizontalAnchor = h;
+        this.element.dataset.verticalAnchor = v;
+
+
+    }
+    get anchor() {
+        return this.#anchor
+    }
+
+    /**
+     * @param {Object} offset
+     * @param {Number} offset.x
+     * @param {Number} offset.y
+     */
+    set offset({ x, y }) {
+        this.#offset = [x, y]
+    }
+    /**
+     * @returns {[Number Number]}
+     */
+    get offset() {
+        return this.#offset;
+    }
+
+    set edgeselector(/** @param {EdgeSelector} */ es) {
+        if (!(es instanceof EdgeSelector)) throw new AutoTypeError("Panel.edgeselector", "EdgeSelector", "es", es)
+        this.#edgeselector = es;
+    }
+    /** @returns {EdgeSelector} */
+    get edgeselector() {
+        return this.#edgeselector
+    }
+
+    set settingsWindow(/** @param {PanelOptions} */ sw) {
+        if (!(sw instanceof PanelOptions)) throw new AutoTypeError("Panel.settingsWindow", "PanelOptions", "sw", sw)
+        this.#settingsWindow = sw
+    }
+    get settingsWindow() {
+        return this.#settingsWindow
+    }
+
+    set locked(/** @param {Boolean} locked */ locked) {
+        if (typeof locked !== "boolean") throw new AutoTypeError("Panel.locked", "Boolean", "value", value)
+        this.#locked = locked;
+        this.element.setAttribute("locked", locked)
+    }
+    get locked() {
+        return this.#locked;
+    }
+
+
+    set dimensions({ w, width, h, height }) {
+        if (width) w = width;
+        if (height) h = height;
+        if (typeof w !== "number" && w !== undefined) throw new AutoTypeError("Panel.dimensions", "number", "w", w)
+        if (typeof h !== "number" && w !== undefined) throw new AutoTypeError("Panel.dimensions", "number", "h", h)
+        if (typeof w === "number") {
+            this.#dimensions[0] = w;
+            this.element.dataset.width = w;
+            this.element.style.width = w + "px";
+        }
+        if (typeof h === "number") {
+            this.#dimensions[1] = h;
+            this.element.dataset.height = h;
+            this.element.style.height = h + "px";
+        }
+
+    }
+    get dimensions() {
+        return this.#dimensions;
+    }
+
+
+
+    set floating(/** @param {Boolean} value */ value) {
+        if (typeof value !== "boolean") throw new AutoTypeError("Panel.floating", "Boolean", "value", value)
+
+        this.#floating = value;
+        this.element.setAttribute("floating", value);
+        // this.#makeContextMenu()
+    }
+    get floating() {
+        return this.#floating;
+    }
+
+
+    set fullwidth(/** @param {Boolean} value */ value) {
+        if (typeof value !== "boolean") throw new AutoTypeError("Panel.fullwidth", "Boolean", "value", value)
+        this.#fullwidth = value
+        this.element.setAttribute("fullwidth", value)
+        // this.#makeContextMenu()
+    }
+    get fullwidth() {
+        return this.#fullwidth;
+    }
+
+
     #makeContextMenu() {
+
         const ctxRaw = [
             { type: "title", label: "Panel" },
+            // {
+            //     type: "text", label: `Debug info:<br>Vertical: ${this.#anchor[1]}<br>
+            // Horizontal: ${this.#anchor[0]}<br>
+            // Floating: ${this.floating ? "Yes" : "No"}<br>
+            // Full width: ${this.fullwidth ? "Yes" : "No"}<br>
+            // Locked: ${this.locked ? "Yes" : "No"}`
+            // },
             {
-                type: "text", label: `Debug info:<br>Vertical: ${this.anchorH}<br>
-            Horizontal: ${this.anchorV}<br>
-            Floating: ${this.floating ? "Yes" : "No"}<br>
-            Locked: ${this.locked?"Yes":"No"}`
+                type: "text", label: this.debug.string
             },
             { type: "divider" },
             {
                 type: "list",
                 items: [
                     {
-                        label: "Floating",
-                        symbol: this.floating ? "bxs-checkbox-checked" : "bx-checkbox",
+                        label: this.#locked ? "Unlock" : "Lock",
+                        symbol: this.#locked ? "bx-lock-open-alt" : "bx-lock-alt",
                         handler: () => {
-                            console.log(this.element.floating)
-                            if (this.locked) return;
-                            this.setFloating(!this.floating)
+                            this.locked = !this.locked;
+                            this.#makeContextMenu()
+                        }
+                    },
+                    {
+                        label: "Floating",
+                        symbol: this.#floating ? "bxs-checkbox-checked" : "bx-checkbox",
+                        handler: () => {
+                            if (this.#locked) return;
+                            this.floating = !this.floating;
+                            this.#makeContextMenu()
                         },
-                        enabled: !this.locked
+                        enabled: !this.#locked
                     }, {
                         label: "Full width",
-                        symbol: this.fullwidth ? "bxs-checkbox-checked" : "bx-checkbox",
+                        symbol: this.#fullwidth ? "bxs-checkbox-checked" : "bx-checkbox",
                         handler: () => {
-                            console.log(this.element.fullwidth)
-                            if (this.locked) return;
-                            this.setFullWidth(!this.fullwidth)
+                            if (this.#locked) return;
+                            this.fullwidth = !this.fullwidth
+                            this.#makeContextMenu()
                         },
-                        enabled: !this.locked
-                    }, {
-                        label: this.locked ? "Unlock" : "Lock",
-                        symbol: this.locked ? "bx-lock-open-alt" : "bx-lock-alt",
-                        handler: () => {
-                            console.log(this.element.locked)
-                            this.setLockedState(!this.getLockedState())
-                        }
+                        enabled: !this.#locked
                     }, {
                         label: "Set position",
                         symbol: "bx-move",
-                        handler: () => {
-                            if (this.locked) return;
-                            let panels = this.#desktop.getPanels()
-                            console.log(panels)
+                        handler: (e) => {
+                            e.stopPropagation()
+                            this.contextmenu.hide()
+                            if (this.#locked) return;
+                            let panels = this.#desktop.getPanels().filter(a => a != this)
                             this.hasBackdrop[0] = true
+                            this.settingsWindow.setEdge(this.edge)
                             for (let i = 0; i < panels.length; i++) {
                                 if (this != panels[i]) {
                                     panels[i].settingsWindow.hide();
                                     panels[i].edgeselector.hide();
-                                    console.log("t3wtw3t")
-                                    console.log(panels[i].edgeselector)
                                 }
                             }
-                            this.edgeselector.show()
+                            this.#edgeselector.show()
                         },
-                        enabled: !this.locked
+                        enabled: !this.#locked
                     }, {
                         label: "More Options...",
                         symbol: "bx-cog",
-                        handler: () => {
-                            if (this.locked) return;
+                        handler: (e) => {
+                            e.stopPropagation()
+                            this.contextmenu.hide()
+                            if (this.#locked) return;
                             // show option dialog
-                            let panels = this.#desktop.getPanels()
-                            console.log(panels)
+                            let panels = this.#desktop.getPanels().filter(a => a != this)
                             this.hasBackdrop[1] = true
                             for (let i = 0; i < panels.length; i++) {
-                                if (this != panels[i]) {
-                                    panels[i].settingsWindow.hide();
-                                    panels[i].edgeselector.hide();
-                                    console.log("t3wtw3t")
-                                    console.log(panels[i].edgeselector)
-                                }
+                                panels[i].settingsWindow.hide();
+                                panels[i].edgeselector.hide();
+
                             }
-                            this.settingsWindow.show()
+                            this.#settingsWindow.show()
                         },
-                        enabled: !this.locked
+                        enabled: !this.#locked
                     }
                 ]
             }
@@ -178,49 +342,27 @@ class Panel {
         this.element.contextMenu = this.contextmenu
     }
 
-    setEdge({ x = "center", y = "center" }) {
 
+    set edge(/**@param {Object} edge @param {*} edge.x @param {*} edge.y */ { x, y }) {
+        this.#anchor = [horizontal[Math.abs(horizontal.indexOf(x))], vertical[Math.abs(vertical.indexOf(y))]]
+        this.#edge = [flex[Math.abs(horizontal.indexOf(x))], flex[Math.abs(vertical.indexOf(y))]]
 
-        console.log("set edge", x, horizontal[Math.abs(vertical.indexOf(x))], flex[Math.abs(horizontal.indexOf(x))], "|", y, vertical[Math.abs(vertical.indexOf(y))], flex[Math.abs(horizontal.indexOf(y))], "\n", horizontal, "\n", vertical)
+        this.element.style["justify-self"] = this.#edge[0]
+        this.element.style["align-self"] = this.#edge[1]
 
-
-        this.anchorH = horizontal[Math.abs(horizontal.indexOf(x))];
-        this.element.style["justify-self"] = flex[Math.abs(horizontal.indexOf(x))]
         this.element.setAttribute("edgeX", x)
-
-        this.anchorV = vertical[Math.abs(vertical.indexOf(y))]
-        this.element.style["align-self"] = flex[Math.abs(vertical.indexOf(y))]
         this.element.setAttribute("edgeY", y)
         this.#makeContextMenu()
-        this.settingsWindow.setEdge({ x: x, y: y })
+        this.#settingsWindow.setEdge({ x: x, y: y })
+        this.#edgeselector.hide()
+    }
+    get edge() {
+        return { x: this.#anchor[0], y: this.#anchor[1] }
     }
 
-    setFloating(float) {
-        console.log(float, this.element.floating)
-        this.floating = float;
-        this.element.setAttribute("floating", float);
-        this.#makeContextMenu()
-    }
 
-    getFullwidth() {
-        return this.fullwidth
-    }
 
-    setFullWidth(fullwidth) {
-        this.fullwidth = fullwidth
-        this.element.setAttribute("fullwidth", fullwidth)
-        this.#makeContextMenu()
-    }
 
-    getLockedState() {
-        return this.locked
-    }
-
-    setLockedState(l) {
-        this.locked = l;
-        this.element.setAttribute("locked", l)
-        this.#makeContextMenu()
-    }
 
 }
 
@@ -229,11 +371,18 @@ class EdgeSelector {
     element;
     #backdrop;
     #desktop;
+    /**
+     *
+     * @param {Panel} parent
+     * @param {Desktop} desktop
+     */
     constructor(parent, desktop) {
-        this.#desktop = desktop
-        this.#parent = parent;
+        this.desktop = desktop
+        this.parent = parent;
         this.element = create({
             tagname: "edge-selector-container",
+            parent: parent,
+            self: this,
             eventListener: {
                 click: (e) => {
                     this.#parent.hasBackdrop = [false, false]
@@ -248,10 +397,12 @@ class EdgeSelector {
                     edgeY: "top",
                     eventListener: {
                         click: (e) => {
-                            this.#parent.setEdge({ x: "left", y: "top" });
+                            this.#parent.edge = { x: "left", y: "top" };
                             e.stopPropagation()
+                            console.log("HIDE")
                             this.hide();
                         }
+
                     },
                     childElements: [
                         {
@@ -265,7 +416,7 @@ class EdgeSelector {
                     edgeY: "top",
                     eventListener: {
                         click: (e) => {
-                            this.#parent.setEdge({ y: "top" });
+                            this.#parent.edge = { y: "top" };
                             e.stopPropagation()
                             this.hide();
                         }
@@ -282,7 +433,7 @@ class EdgeSelector {
                     edgeY: "top",
                     eventListener: {
                         click: (e) => {
-                            this.#parent.setEdge({ x: "right", y: "top" });
+                            this.#parent.edge = { x: "right", y: "top" };
                             e.stopPropagation()
                             this.hide();
                         }
@@ -299,7 +450,7 @@ class EdgeSelector {
                     edgeY: "center",
                     eventListener: {
                         click: (e) => {
-                            this.#parent.setEdge({ x: "left" });
+                            this.#parent.edge = { x: "left" };
                             e.stopPropagation()
                             this.hide();
                         }
@@ -316,7 +467,7 @@ class EdgeSelector {
                     edgeY: "center",
                     eventListener: {
                         click: (e) => {
-                            this.#parent.setEdge({ x: "right" });
+                            this.#parent.edge = { x: "right" };
                             e.stopPropagation()
                             this.hide();
                         }
@@ -333,7 +484,7 @@ class EdgeSelector {
                     edgeY: "bottom",
                     eventListener: {
                         click: (e) => {
-                            this.#parent.setEdge({ x: "left", y: "bottom" });
+                            this.#parent.edge = { x: "left", y: "bottom" };
                             e.stopPropagation()
                             this.hide();
                         }
@@ -350,7 +501,7 @@ class EdgeSelector {
                     edgeY: "bottom",
                     eventListener: {
                         click: (e) => {
-                            this.#parent.setEdge({ y: "bottom" });
+                            this.#parent.edge = { y: "bottom" };
                             e.stopPropagation()
                             this.hide();
                         }
@@ -367,7 +518,7 @@ class EdgeSelector {
                     edgeY: "bottom",
                     eventListener: {
                         click: (e) => {
-                            this.#parent.setEdge({ x: "right", y: "bottom" });
+                            this.#parent.edge = { x: "right", y: "bottom" };
                             e.stopPropagation()
                             this.hide();
                         }
@@ -384,6 +535,21 @@ class EdgeSelector {
     }
 
 
+    set parent(/** @param {Panel} panel*/ panel) {
+        if (!(panel instanceof Panel)) throw new AutoTypeError("EdgeSelector.parent", "Panel", "panel", panel)
+        this.#parent = panel;
+    }
+    get parent() {
+        return this.#parent;
+    }
+
+    set desktop(/** @param {Desktop} desktop */ desktop) {
+        if (!(desktop instanceof Desktop)) throw new AutoTypeError("EdgeSelector.parent", "Panel", "panel", panel)
+        this.#desktop = desktop;
+    }
+    get desktop() {
+        return this.#desktop;
+    }
 
     show() {
         // document.querySelector("desktop-environment").style.scale = 0.9;
@@ -391,17 +557,20 @@ class EdgeSelector {
         this.#desktop.enterEditMode()
         this.#parent.element.style["z-index"] = 101;
         this.#parent.element.style.border = "solid 2px var(--panel-highlight-color)"
-        document.body.append(this.element)
-        console.log(this.#parent.element)
+        this.#desktop.layers[5].append(this.element)
+        console.log("show edhe", this.#parent.hasBackdrop)
+        // console.log(this.#parent.element)
     }
 
     hide() {
+        console.log("edge hide", this.#parent)
+        // console.log("hkbdfshkvfdavhhikvb", this.#parent.element, this.#parent.hasBackdrop)
         this.#parent.hasBackdrop[0] = false;
+        this.element.remove();
+        if (this.#desktop.element.dataset.editMode == "false") return;
+        console.log("edge hide", this.#parent.hasBackdrop)
         if (!this.#parent.hasBackdrop[1]) {
-            this.element.remove();
             this.#desktop.exitEditMode()
-            // document.querySelector("desktop-environment").style.scale = 1;
-            backdrop.remove();
             this.#parent.element.style["z-index"] = undefined
             this.#parent.element.style.borderStyle = "var(--panel-border-style)"
             this.#parent.element.style.borderWidth = "var(--panel-border-width)"
@@ -414,7 +583,6 @@ class EdgeSelector {
 class PanelOptions {
     element;
     #parent;
-    #backdrop;
     #desktop;
     constructor(parent, desktop) {
         this.#desktop = desktop
@@ -428,14 +596,14 @@ class PanelOptions {
         Color: Color,
         Transparency: Number 0..1
         */
-        // console.log(this.#parent.offsetY, this.#parent.height, 6, "px")
+        console.log(this.#parent)
         this.element = create({
             tagname: "panel-settings",
             style: {
-                "justify-self": flex[Math.abs(horizontal.indexOf(this.#parent.anchorH))]
+                "justify-self": flex[Math.abs(horizontal.indexOf(this.#parent.anchor[0]))]
             },
             eventListener: {
-                click: (e) => { e.stopPropagation(); this.#parent.contextmenu.hide(); this.hide() }
+                click: (e) => { e.stopPropagation(); this.#parent.contextmenu.hide(); this.hide(); console.log("this is triggered") }
             },
             dataset: { hidden: true },
             edgeH: this.#parent.anchorH,
@@ -464,15 +632,9 @@ class PanelOptions {
 
     show() {
         this.element.dataset.hidden = false;
-        // document.querySelector("desktop-environment").style.scale = 0.9;
-        // this.#parent.element.parentNode.append(backdrop);
         this.#parent.element.style["z-index"] = 101;
         this.#parent.element.style.border = "solid 2px var(--panel-highlight-color)"
         this.#desktop.enterEditMode();
-        // console.log(this.#parent)
-        // console.log(this.#parent.offsetY , this.#parent.height , 6 , "px")
-        // this.element.style.marginBlock = (this.#parent.floating * this.#parent.offsetY + this.#parent.height + 6) + "px"
-        // document.querySelectorAll("desktop-layer")[5].append(this.element)
         setTimeout(() => {
             this.element.style.transition = "none"
         }, 150);
@@ -483,8 +645,6 @@ class PanelOptions {
         this.#parent.hasBackdrop[1] = false;
         this.element.dataset.hidden = true;
         if (!this.#parent.hasBackdrop[0]) {
-            // document.querySelector("desktop-environment").style.scale = 1;
-            // backdrop.remove();
             this.#parent.element.style["z-index"] = undefined
             this.#desktop.exitEditMode()
             this.#parent.element.style.borderStyle = "var(--panel-border-style)"

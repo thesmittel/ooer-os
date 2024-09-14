@@ -27,7 +27,7 @@ A switch to typescript is NOT planned. I just dont care enough. JSDoc provides t
 A backend rewrite in Rust is on the table, but for that i have to learn it first
 
 ## Current version:
-`0.1.240913`
+`0.1.240914`
 
 ## Information regarding documentation
 
@@ -82,12 +82,15 @@ Will document soon.
 
 
 
-## Coming soon
+## Planned features
+- System level user-specific plugins that can hook into system settings and change the way it operates
+    - This may or may not include third party options for replacing nearly everything non-critical
+    - For example tiling window management could be one such feature
+- The above also entails that the settings app will be restructured in a way that allows third party hooks
 - unified UI element styling in the form of custom tags for a more cohesive and easier to write design
     - will also allow easier customisation and even themes.
 - App communication with the server, will only be available for system apps for now.
 - Search function
-- Clocks
 - A way to still talk to windows of the same app, not just same instance, while not allowing communication across apps
     - MAYBE ill add that too in a way that apps can only send data and have to decide how they respond to protect data
 - Moving desktop symbols
@@ -108,11 +111,16 @@ Will document soon.
     - Friend requests
     - Messaging
     - Event sharing
-- Replacing fontawesome with a non-tracking alternative
 - Webworker based multithreading
 - Multi Desktop
 - required password to lock and unlock
 - more customisations
+- Appearance customisations and themes
+- Panel applets
+- "Package" and theme manager
+- More granular permissions for apps
+
+
 
 ## Anything else?
 

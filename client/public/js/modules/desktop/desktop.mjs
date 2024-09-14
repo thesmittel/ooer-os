@@ -145,6 +145,14 @@ class Desktop {
         this.layers[3].style.zIndex = -1;
     }
 
+    clearEditDialogs() {
+
+        this.#panelObjects.forEach(a => {
+            a.edgeselector.hide()
+            a.settingsWindow.hide()
+        })
+    }
+
     exitEditMode() {
         if (this.element.dataset.editModeManuallyStarted == "true") return
         if (this.element.dataset.editMode == "false") return;
@@ -154,10 +162,6 @@ class Desktop {
         this.layers[1].style.zIndex = 1;
         this.layers[1].style.pointerEvents = "all"
         this.layers[3].style.zIndex = 3;
-        this.#panelObjects.forEach(a => {
-            a.edgeselector.hide()
-            a.settingsWindow.hide()
-        })
     }
 
     hide() {
