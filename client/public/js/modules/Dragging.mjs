@@ -49,6 +49,10 @@ function dragElement(elmnt) {
     // otherwise, move the DIV from anywhere inside the DIV:
     // elmnt.onmousedown = dragMouseDown;
   }
+  // alternative approach. will slowly be migrated towards this
+  if (elmnt.querySelector("[data-drag-target='true']")) {
+    elmnt.querySelector("[data-drag-target='true']").onmousedown = dragMouseDown;
+  }
   /**
    * Moves element that triggered the mousedown event, if the mouse is moved while held down. mouseup stops the dragging in place.
    * @listens MouseEvent mouseup, mousemove

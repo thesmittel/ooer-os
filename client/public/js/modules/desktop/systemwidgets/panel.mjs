@@ -25,6 +25,7 @@
 import { AutoTypeError, ValueError } from "../../../Error.mjs";
 import { contextMenu } from "../../../Handlers.mjs";
 import { ContextMenu } from "../../ui.mjs";
+import { NumberBox } from "../../ui/numberbox.mjs";
 import { create, randomId } from "../../Util.mjs";
 import { DynamicString } from "../../util/dynstring.mjs";
 import { Window } from "../../Window.mjs";
@@ -399,7 +400,6 @@ class EdgeSelector {
                         click: (e) => {
                             this.#parent.edge = { x: "left", y: "top" };
                             e.stopPropagation()
-                            console.log("HIDE")
                             this.hide();
                         }
 
@@ -558,17 +558,14 @@ class EdgeSelector {
         this.#parent.element.style["z-index"] = 101;
         this.#parent.element.style.border = "solid 2px var(--panel-highlight-color)"
         this.#desktop.layers[5].append(this.element)
-        console.log("show edhe", this.#parent.hasBackdrop)
         // console.log(this.#parent.element)
     }
 
     hide() {
-        console.log("edge hide", this.#parent)
         // console.log("hkbdfshkvfdavhhikvb", this.#parent.element, this.#parent.hasBackdrop)
         this.#parent.hasBackdrop[0] = false;
         this.element.remove();
         if (this.#desktop.element.dataset.editMode == "false") return;
-        console.log("edge hide", this.#parent.hasBackdrop)
         if (!this.#parent.hasBackdrop[1]) {
             this.#desktop.exitEditMode()
             this.#parent.element.style["z-index"] = undefined
@@ -587,6 +584,8 @@ class PanelOptions {
     constructor(parent, desktop) {
         this.#desktop = desktop
         this.#parent = parent
+        let numberbox = new NumberBox(0, 0)
+        numberbox.element.addEventListener("update", (e) => {if (e.detail.value() > window.innerHeight) numberbox.value = window.innerHeight})
         /*
         Floating: toggle
         Width: Fit, Fix:Number px, Full
@@ -596,15 +595,14 @@ class PanelOptions {
         Color: Color,
         Transparency: Number 0..1
         */
-        console.log(this.#parent)
         this.element = create({
             tagname: "panel-settings",
             style: {
                 "justify-self": flex[Math.abs(horizontal.indexOf(this.#parent.anchor[0]))]
             },
-            eventListener: {
-                click: (e) => { e.stopPropagation(); this.#parent.contextmenu.hide(); this.hide(); console.log("this is triggered") }
-            },
+            // eventListener: {
+            //     click: (e) => { e.stopPropagation(); this.#parent.contextmenu.hide(); this.hide(); console.log("this is triggered") }
+            // },
             dataset: { hidden: true },
             edgeH: this.#parent.anchorH,
             edgeV: this.#parent.anchorV,
@@ -612,10 +610,19 @@ class PanelOptions {
                 stopCtxPropagation: true,
                 hidden: true
             },
-            innerText: "There will be settings here, trust"
+            childElements: [
+                numberbox.element
+            ]
         })
-        document.querySelector("desktop-environment").addEventListener("click", (e) => { this.#parent.hasBackdrop = [false, false]; this.hide(e) })
-        document.querySelector("desktop-environment").addEventListener("contextmenu", (e) => { this.#parent.hasBackdrop = [false, false]; this.hide(e) })
+        document.querySelector("desktop-environment").addEventListener("click", (e) => {
+            if (this.#desktop.element.dataset.editMode == "false") return
+            this.#parent.hasBackdrop = [false, false]; this.hide(e)
+            this.#desktop.clearEditDialogs()
+        })
+        // document.querySelector("desktop-environment").addEventListener("contextmenu", (e) => {
+        //     if (this.#desktop.element.dataset.editMode == "false") return
+        //     this.#parent.hasBackdrop = [false, false]; this.hide(e)
+        // })
 
     }
 

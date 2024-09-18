@@ -41,7 +41,7 @@ import { addUser } from '../../server.js';
 import { Socket } from 'socket.io';
 
 
-// this WILL be replaced 
+// this WILL be replaced
 /**
  * Contains the password "database", a JSON, as of now
  * @todo Implement actual database before thinking about deploying anything
@@ -111,7 +111,7 @@ function tokenGen() {
 }
 
 /**
- * Generates a cryptographically random salt thats unique to every user. 
+ * Generates a cryptographically random salt thats unique to every user.
  * @todo Store salts separately from user password
  * @method saltGen
  * @method Internal:saltGen
@@ -135,12 +135,12 @@ function hashPassword(saltedPassword) {
 }
 
 /**
- * Creates new user. 
+ * Creates new user.
  * @todo Overhaul completely, 'tis but a sketch
- * @param { Socket } socket 
+ * @param { Socket } socket
  * @param { {username: String, email: String, password: String, passwordconfirm: String} } param1
  * @method signup
- * @name Export:signup 
+ * @name Export:signup
  */
 function signup(socket, {username, email, password, passwordconfirm}) {
     const salt = saltGen();
@@ -186,7 +186,7 @@ function login(socket, data, user) {
 }
 
 /**
- * Logs in automatically, if valid session token is still present. 
+ * Logs in automatically, if valid session token is still present.
  * @param { Socket } socket Socket Object
  * @param { {id: String, password: String } } data Provided login information
  * @param { Object } user Userdata fetched from database
@@ -194,7 +194,7 @@ function login(socket, data, user) {
  * @name Export:loginwithcookie
  */
 function loginwithcookie(socket, data, user) {
-    
+
     let check = tokens.filter(a => (a.id == data.userid && a.token == data.oldToken))
     if (check == null) return;
     tokens = tokens.filter(a => a.id != data.userid)
@@ -259,7 +259,7 @@ function loginconfirm(socket, data, user, withcookie) {
 
 /**
  * When a connection closes, this removes the socket from the tracker
- * @param { Socket } socket 
+ * @param { Socket } socket
  * @method removeSocket
  * @name Export:removeSocket
  */
@@ -273,7 +273,7 @@ function removeSocket(socket) {
 
 /**
  * When a new connection is established, the socket object is added to the sessions tracker. It will be unassigned, until the user logs in or is logged in automatically.
- * @param { Socket } socket 
+ * @param { Socket } socket
  * @method addUnassignedSocket
  * @name Export:addUnassignedSocket
  */
@@ -284,9 +284,9 @@ function addUnassignedSocket(socket) {
 
 /**
  * Checks if the username is available, sends errorcode, when it is not, else confirmation
- * @param { Socket } socket 
- * @param { Object } users 
- * @param { Object } data 
+ * @param { Socket } socket
+ * @param { Object } users
+ * @param { Object } data
  * @method signupCheckUsernameAvailable
  * @name Export:signupCheckUsernameAvailable
  */
@@ -308,9 +308,9 @@ function signupCheckUsernameAvailable(socket, users, data) {
 /**
  * Checks if a given email is already registered. Yes: Error, No: confirm
  * also checks validity of email address (only by syntax, not my checking if it exists.)
- * @param { Socket } socket 
- * @param { Object } users 
- * @param { Object } data 
+ * @param { Socket } socket
+ * @param { Object } users
+ * @param { Object } data
  * @method signupCheckEmailRegistered
  * @name Export:signupCheckEmailRegistered
  */
@@ -335,9 +335,9 @@ function signupCheckEmailRegistered(socket, users, data) {
 
 /**
  * Checks if passwords match, yes: confirm, no: error
- * @param { Socket } socket 
- * @param { Object } users 
- * @param { Object } data 
+ * @param { Socket } socket
+ * @param { Object } users
+ * @param { Object } data
  * @method signupCheckPasswordMatch
  * @name Export:signupCheckPasswordMatch
  */
@@ -353,9 +353,9 @@ function signupCheckPasswordMatch(socket, {password, passwordconfirm}) {
 
 /**
  * Checks if passwords meets requirement, yes: confirm, no: error
- * @param { Socket } socket 
- * @param { Object } users 
- * @param { Object } data 
+ * @param { Socket } socket
+ * @param { Object } users
+ * @param { Object } data
  * @method signupCheckPasswordRequirements
  * @name Export:signupCheckPasswordRequirements
  */
@@ -387,7 +387,7 @@ function signupCheckPasswordRequirements(socket, {password}) {
 /**
  * Called by signupCheckEmailRegistered()
  * uses regex to check if input is a possible email address. Does not confirm if it is in use. Emits error when it doesnt meet the standard
- * @param { Socket } socket 
+ * @param { Socket } socket
  * @param { string } email
  * @method signupCheckValidEmail
  * @name Internal:signupCheckValidEmail
@@ -414,4 +414,19 @@ function signupCheckValidEmail(socket, email) {
     return true
 }
 
-export {login, tokenGen, addUnassignedSocket, removeSocket, loginwithcookie, signup, signupCheckUsernameAvailable, signupCheckEmailRegistered, signupCheckPasswordMatch, signupCheckPasswordRequirements}
+function confirmPassword(socket, data) {
+    // console.log(socket)
+    const user = [...sessions.assigned].filter(a => a.socket == socket)[0];
+    console.log(user.cache.id, data.password)
+    const passwordInDatabase = passwords[user.cache.id].password
+    const hashedUserProvidedPW = hashPassword(passwords[user.cache.id].salt + data.password)
+    console.log(passwordInDatabase, hashedUserProvidedPW)
+    if (passwordInDatabase == hashedUserProvidedPW) {
+        socket.emit("Auth", {response: "password-prompt-correct"})
+    } else {
+        socket.emit("Auth", {response: "password-prompt-incorrect"})
+    }
+
+}
+
+export {confirmPassword, login, tokenGen, addUnassignedSocket, removeSocket, loginwithcookie, signup, signupCheckUsernameAvailable, signupCheckEmailRegistered, signupCheckPasswordMatch, signupCheckPasswordRequirements}

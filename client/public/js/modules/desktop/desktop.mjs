@@ -77,7 +77,7 @@ class Desktop {
                     }
                 },
                 keydown: (e) => {
-                    if (key == "Escape") console.log("it")
+                    if (e.key == "Escape") console.log("it")
                 }
             },
         })
@@ -100,6 +100,7 @@ class Desktop {
                 eventListener: {
                     click: () => {
                         this.element.dataset.editModeManuallyStarted = false;
+                        this.clearEditDialogs()
                         this.exitEditMode()
                     }
                 }
@@ -113,6 +114,7 @@ class Desktop {
                         symbol: "bx-x",
                         handler: () => {
                             this.element.dataset.editModeManuallyStarted = false;
+                            this.clearEditDialogs()
                             this.exitEditMode()
                          }
                     }

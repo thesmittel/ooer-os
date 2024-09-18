@@ -12,6 +12,7 @@ import { Panel } from "./modules/ui/panels.mjs"
 import { ArgumentError, ValueError } from "./Error.mjs"
 import * as Keyboard from "./modules/Keyboard.mjs"
 import { clock } from "./modules/clock.mjs"
+import { PasswordPrompt } from "./modules/ui/passwordPrompt.mjs"
 
 // for some reason this works, but will be changed anyways
 // Handler.openLogin({stopPropagation: ()=>{}})

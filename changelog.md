@@ -1,7 +1,38 @@
 
 ## Version
 
-0.1.240914
+0.1.240918
+- 3 new server events
+    - 2 outgoing ("password-prompt-incorrect" and "password-prompt-correct")
+    - 1 incoming ("password-confirmation")
+    - These are used by the new PasswordPrompt element for actions that require the users password after logging in
+- Password prompt functional
+- (Un-)Locking desktop symbols now requires a password
+- Small change to the window dragging module, will slowly be migrated towards a new data attribute based approach which gives more granular control over which elements can be used to move an element
+- Fixed bug related to desktop edit mode
+- New NumberBox element
+    - A textbox accepting only numbers (digits 0-9 and decimal point)
+    - Buttons for incrementing the value
+    - Holding shift while pressing the +/- button increments by 10
+    - Holding ctrl while pressing increments by 0.1
+    - Shift ALWAYS overrides ctrl
+    - takes default value and optional min/max values
+    - fires "update" event
+
+## Known issues:
+- Windows ignore panels entirely
+- Multi desktop not tested
+- Panels have no applets
+- Code is a mess
+- Selector box doesnt select anything
+
+
+## Why such a weird version numbering?
+It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
+
+## Dev Diary
+
+### 0.1.240914
 - Started rewriting some parts to be more debuggable
     - mostly involving getter and setter functions
 - fixed severe bugs that somehow materialised from that
@@ -13,20 +44,6 @@
     - For classes, this only works if the property being accessed is public or has a getter
     - Allows for accessing individual elements in objects, arrays and strings as well
     - As of now, these properties can only be printed as they are, im working on ways to manipulate them afterwards
-
-
-
-## Known issues:
-- Windows ignore panels entirely
-- Multi desktop not tested
-- Panels have no applets
-- Code is a mess
-
-
-## Why such a weird version numbering?
-It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
-
-## Dev Diary
 
 ### 0.1.240913
 - Desktop now has a dedicated edit mode

@@ -125,6 +125,11 @@ function authReq(socket, data) {
             if (username && email && pwmatch && pwreq) {
                 Auth.signup(socket, data.data)
             }
+            break;
+        case "password_confirmation": {
+            Auth.confirmPassword(socket, data);
+            break;
+        }
     }
 }
 /**

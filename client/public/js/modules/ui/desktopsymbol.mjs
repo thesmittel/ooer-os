@@ -28,6 +28,7 @@ import { dragElement } from "../Dragging.mjs";
 import * as Keys from "../Keyboard.mjs";
 import { create } from "../Util.mjs";
 import { ContextMenu, DialogBox } from "../ui.mjs";
+import { PasswordPrompt } from "./passwordPrompt.mjs";
 
 function isLockedError(text) {
     const error = new DialogBox(text,
@@ -166,19 +167,20 @@ class DesktopSymbolApp extends DesktopSymbol {
                     "label": locked?"Unlock":"Lock",
                     "symbol": locked?"bx-lock-open-alt":"bx-lock-alt",
                     handler: ({target}) => {
-                        if (target.tagname != "CONTEXT-MENU-ELEMENT") target = target.parentNode;
-                        this.locked = !this.locked
-                        System({ req: "lock_app", data: {id: this.appid, state: this.locked}})
-                        // console.log(target.childNodes)
-                        target.childNodes[0].classList.toggle("bx-lock-alt")
-                        target.childNodes[0].classList.toggle("bx-lock-open-alt")
-                        target.childNodes[1].innerText = this.locked?"Unlock":"Lock"
-                        this.element.dataset.locked = this.element.dataset.locked == "false"
-                        // if (this.locked) {
-                        //     this.element.append(this.lockedMarker)
-                        // } else {
-                        //     this.lockedMarker.remove()
-                        // }
+                        const success = (target) => {
+                            console.log(target)
+                            if (target.tagname != "CONTEXT-MENU-ELEMENT") target = target.parentNode;
+                            System({ req: "lock_app", data: {id: this.appid, state: this.locked}})
+                            this.locked = !this.locked
+                            target.childNodes[0].classList.toggle("bx-lock-alt")
+                            target.childNodes[0].classList.toggle("bx-lock-open-alt")
+                            target.childNodes[1].innerText = this.locked?"Unlock":"Lock"
+                            this.element.dataset.locked = this.element.dataset.locked == "false"
+                        }
+                        const failure = () => {
+                        }
+                        const dialog = new PasswordPrompt(() => {success(target)}, () => {failure(target)})
+
                     }
                 },
                 {

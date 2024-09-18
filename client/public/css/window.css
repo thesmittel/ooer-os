@@ -189,7 +189,7 @@
     transition: all 0.2s;
 }
 
-
+password-prompt > password-prompt-header > a[data-action="cls"]:hover,
 .window>.header-wrap >.window-header>a[data-action="cls"]:hover {
     background: var(--window-header-button-cls-hover-background);
     /* border: solid 1px #f55; */
@@ -223,7 +223,7 @@
     outline-offset: var(--window-header-button-max-border-offset);
 }
 
-
+password-prompt > password-prompt-header > a[data-action="cls"],
 .window>.header-wrap >.window-header>a[data-action="cls"] {
     /* border: solid 1px #ddd; */
     box-sizing: border-box;

@@ -25,7 +25,7 @@
 import { Auth as emit, System } from "./Connect.mjs"
 import { openSignup, openLogin, openSettings, openProfile } from "../Handlers.mjs"
 import { create } from "./Util.mjs"
-import {handlers} from "../Error.mjs"
+import {ArgumentError, handlers} from "../Error.mjs"
 import { addDesktop } from "./System.mjs"
 
 
@@ -95,6 +95,12 @@ function handle(data) {
                 password: data.data.password
             }
         })
+    }
+    if (data.response == "password-prompt-correct") {
+        correctPasswordPrompt(data)
+    }
+    if (data.response == "password-prompt-incorrect") {
+        incorrectPasswordPrompt(data)
     }
 }
 
@@ -300,4 +306,27 @@ function username() {
     return login.cache.username
 }
 
-export {handle, cookieLogin, username}
+
+// List of callbacks for actions that require password confirmation
+let requiresPassword = [];
+function registerPasswordCallback(success, failure, promptWindow) {
+    if (!success || !failure) throw new ArgumentError(undefined, registerPasswordCallback, "Needs both a success AND a failure callback");
+    requiresPassword.push({success: success, failure: failure})
+}
+
+function correctPasswordPrompt(data) {
+    for (let i = 0; i < requiresPassword.length; i++) {
+
+    }
+    requiresPassword.forEach(a => {a.success()})
+    requiresPassword = []
+}
+
+function incorrectPasswordPrompt(data) {
+    requiresPassword.forEach(a => {
+        a.failure()
+    })
+}
+
+
+export {handle, cookieLogin, username, registerPasswordCallback}

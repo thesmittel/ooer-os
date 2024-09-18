@@ -1274,3 +1274,98 @@ desktop-widget {
     position: fixed;
     z-index: -1;
 }
+
+password-prompt {
+    height: 200px;
+    width: 450px;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    position: fixed;
+    background: var(--window-background);
+    border-radius: var(--window-border-radius);
+    padding-top: var(--window-padding-top);
+    padding-bottom: var(--window-padding-bottom);
+    border: var(--window-border-style) var(--window-border-width) var(--window-border-color);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: calc(var(--window-header-height) + var(--window-header-padding-block)) 1fr 48px;
+    z-index: 10000000;
+    overflow: hidden;
+    backdrop-filter: var(--window-backdrop-filter);
+}
+
+password-prompt > password-prompt-header {
+    background: var(--window-header-background); /*var(--window-header-background);*/
+    padding-left: calc(var(--window-header-padding-left) + var(--window-padding-inline));
+    padding-right: calc(var(--window-header-padding-right) + var(--window-padding-inline));
+    display: grid;
+    grid-template-columns: var(--window-header-icon-size) 1fr var(--window-header-close-width);
+}
+
+password-prompt > password-prompt-header > span {
+    align-self: center;
+    font-size: var(--window-header-title-size);
+    font-weight: var(--window-header-title-weight);
+}
+
+password-prompt > password-prompt-header > div,
+password-prompt > password-prompt-header > a {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+password-prompt > password-prompt-header > a {
+    justify-self: right;
+    align-self: center;
+    border-radius: var(--window-header-button-cls-border-radius);
+}
+
+password-prompt > password-prompt-body {
+    /* background: #0f04; */
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    background: var(--window-body-default-background);
+    margin-inline: var(--window-padding-inline);
+    border-radius: calc( var(--window-border-radius) - var(--window-padding-bottom) ) calc( var(--window-border-radius) - var(--window-padding-bottom) ) 0 0;
+}
+password-prompt > password-prompt-body > * {
+    align-items: center;
+    align-self: center;
+    display: flex;
+}
+password-prompt > password-prompt-body > div.icon {
+    padding-inline: 12.5%;
+    justify-content: center;
+    display: flex;
+}
+password-prompt > password-prompt-body > div.message {
+    /* background: #ff02; */
+    display: grid;
+    align-self: center;
+    grid-template-rows: auto auto;
+    grid-row-gap: 12px;
+    padding-right: 12px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+password-prompt > password-prompt-body > div.message > input {
+    box-shadow: 0 0 12px #0008;
+    border: solid 1px #fff4 !important;
+}
+
+password-prompt > password-prompt-buttons {
+    background: var(--window-body-default-background);
+    border-radius: 0 0 calc( var(--window-border-radius) - var(--window-padding-bottom) )
+    calc( var(--window-border-radius) - var(--window-padding-bottom) );
+    margin-inline: var(--window-padding-inline);
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    grid-column-gap: 12px;
+    padding-inline: 12px;
+}
+
+password-prompt > password-prompt-buttons > input {
+}

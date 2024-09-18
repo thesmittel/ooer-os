@@ -9,7 +9,7 @@ class DynamicString {
     get string() {
         let r = "";
         for (let i = 0; i < this.#args.length; i++) {
-            if (typeof this.#args[i] == "string" || typeof this.#args[i] == "number" || typeof this.#args[i] == "boolean" ) {
+            if (typeof this.#args[i] == "string" || typeof this.#args[i] == "number" || typeof this.#args[i] == "boolean") {
                 r += this.#args[i];
             } else {
                 this.#args[i].properties.forEach(a => {
@@ -32,4 +32,5 @@ class DynamicString {
     }
 }
 
-export {DynamicString}
+
+export { DynamicString }
