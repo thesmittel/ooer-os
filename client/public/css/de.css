@@ -421,7 +421,6 @@ panel-settings[edgeH="right"][edgeV="bottom"][data-hidden="true"] {
 }
 
 panel-settings:hover {
-    cursor: pointer;
     background-color: #f004;
 }
 
@@ -465,20 +464,20 @@ div.exitEditMode:active {
     transition: translate 50ms ease-in-out, background-color 150ms ease-in-out;
 }
 
-div.exitEditMode:hover > * {
+div.exitEditMode:hover>* {
     display: inline-block;
     filter: drop-shadow(0 0 6px white)
 }
 
 
 
-desktop-environment:has(desktop-layer > desktop-panel[edgey="bottom"] > panel-settings[data-hidden="false"]) > div.exitEditModeContainer > div.exitEditMode {
+desktop-environment:has(desktop-layer > desktop-panel[edgey="bottom"] > panel-settings[data-hidden="false"])>div.exitEditModeContainer>div.exitEditMode {
     --margin-block: 36px;
     margin-bottom: var(--margin-block)
 }
 
 
-number-box > input[type="text"] {
+number-box>input[type="text"] {
     width: fit-content;
     font-size: 14px;
     font-weight: 300;
@@ -499,7 +498,7 @@ number-box {
     border-radius: 6px;
 }
 
-number-box > div {
+number-box>div {
     height: 100%;
     width: 100%;
     display: flex;
@@ -507,4 +506,23 @@ number-box > div {
     justify-content: center;
     font-size: 18px;
     font-weight: 500;
+    cursor: pointer;
+}
+
+number-box>div::after {
+    content: "";
+    background-color: #fff4;
+    position: absolute;
+    width: 19px;
+    height: 19px;
+    align-self: center;
+    border-radius: 100%;
+    justify-self: center;
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+}
+
+number-box>div:hover::after {
+    opacity: 1;
+    transition: opacity 0.1s ease-in-out;
 }

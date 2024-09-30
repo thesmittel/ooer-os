@@ -1,7 +1,7 @@
-import { registerPasswordCallback } from "../Auth.mjs";
-import { Auth } from "../Connect.mjs";
-import { dragElement } from "../Dragging.mjs";
-import { create } from "../Util.mjs";
+import { registerPasswordCallback } from "../../modules/connect/Auth.mjs";
+import { Auth } from "../../modules/Connect.mjs";
+import { dragElement } from "../../modules/input/Dragging.mjs";
+import { create } from "../../modules/Util.mjs";
 
 class PasswordPrompt {
     #element;

@@ -5,14 +5,14 @@
  */
 
 import * as Connect from "./modules/Connect.mjs"
-import * as Handler from "./Handlers.mjs"
+import * as Handler from "./modules/Handlers.mjs"
 import { create } from "./modules/Util.mjs"
-import { Panel } from "./modules/ui/panels.mjs"
+import { Panel } from "./components/ui.mjs"
 // import { Widget } from "./modules/desktop/desktop.mjs"
-import { ArgumentError, ValueError } from "./Error.mjs"
-import * as Keyboard from "./modules/Keyboard.mjs"
-import { clock } from "./modules/clock.mjs"
-import { PasswordPrompt } from "./modules/ui/passwordPrompt.mjs"
+import { ArgumentError, ValueError } from "./modules/system/Error.mjs"
+import * as Keyboard from "./modules/input/Keyboard.mjs"
+import { clock } from "./modules/util/clock.mjs"
+import { PasswordPrompt } from "./components/ui/passwordPrompt.mjs"
 
 // for some reason this works, but will be changed anyways
 // Handler.openLogin({stopPropagation: ()=>{}})

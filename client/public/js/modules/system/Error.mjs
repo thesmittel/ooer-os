@@ -23,7 +23,7 @@
  * @author Smittel
  */
 
-import { create } from "./modules/Util.mjs";
+import { create } from "../Util.mjs";
 
 function invalidCredentials(message) {
     let cont = document.querySelector("div#login-container")

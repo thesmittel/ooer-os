@@ -1,5 +1,5 @@
-import { create, round } from "../Util.mjs";
-import * as Keyboard from "../Keyboard.mjs"
+import { clamp, create, round } from "../../modules/Util.mjs";
+import * as Keyboard from "../../modules/input/Keyboard.mjs"
 class NumberBox {
     #element;
     #input;
@@ -100,7 +100,14 @@ class NumberBox {
         })
         this.#element = create({
             tagname: "number-box",
-            childElements: [this.#minus, this.#input, this.#plus]
+            childElements: [this.#minus, this.#input, this.#plus],
+            eventListener: {
+                wheel: (e) => {
+                    e.preventDefault()
+                    const fac = Keyboard.L_SHIFT?10:Keyboard.L_CTRL?0.1:1
+                    this.#input.value = round(clamp(this.#min, parseFloat(this.#input.value) - (e.deltaY / Math.abs(e.deltaY) * fac), this.#max),1)
+                }
+            }
         })
     }
 

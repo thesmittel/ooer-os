@@ -1,4 +1,4 @@
-import { create } from "../Util.mjs";
+import { create } from "../../modules/Util.mjs";
 class Button {
     element;
     constructor(text, x, y, style) {

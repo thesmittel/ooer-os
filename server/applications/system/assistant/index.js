@@ -1,6 +1,6 @@
 "<import>"
-import { create, clamp, sanitise, formattingParser } from "./js/modules/Util.mjs";
-import { System } from "./js/modules/Connect.mjs";
+import { create, clamp, sanitise, formattingParser } from "/js/modules/Util.mjs";
+import { System } from "/js/modules/Connect.mjs";
 "</import>"
 
 document.querySelectorAll('.grow-wrap').forEach(wrap => {
@@ -49,7 +49,7 @@ function shiftDown(event) {
     if (!shiftPressed && event.key == "Shift") {
         console.log(event)
         shiftPressed = true;
-    } 
+    }
 }
 
 function shiftUp(event) {
@@ -82,9 +82,9 @@ function valueChanged(e) {
 
 
 send.addEventListener("click", () => {
-    
+
     console.log(input.value)
-    
+
     console.log(input.inner)
     if (input.value.trim()) {
         makeBubble({from: "human", content: input.value}) // .replaceAll(/(?=\r?\n)/g, "<br>")

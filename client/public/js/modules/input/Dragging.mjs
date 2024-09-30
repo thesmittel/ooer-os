@@ -29,10 +29,10 @@
  * @todo Replace with own approach that better suits the needs of the project (and doesnt violate the License)
  */
 
-import { getElement, clamp } from "./Util.mjs";
-import { maximiseWindow } from "./App.mjs";
+import { getElement, clamp } from "../Util.mjs";
+import { maximiseWindow } from "../app/Window.mjs";
 import { loseFocus } from "../Handlers.mjs";
-import { currentDesktop } from "./System.mjs";
+import { currentDesktop } from "../connect/System.mjs";
 
 /**
  * Registers an element as draggable. Dragging is accomplished by listening to a mousedown event being fired

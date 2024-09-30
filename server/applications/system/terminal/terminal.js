@@ -57,9 +57,9 @@
  * @todo parser for more complex operations like piping
  * @todo permissions
  */
-/** 
+/**
  * @member "&lt;import>"
- * @name Import Syntax 
+ * @name Import Syntax
  * @summary To use Imports, put your imports at the top of the file like in the example. <code>"&lt;import&gt;"</code> and <code>"&lt;/import&gt;"</code> are used to mark said imports. This is critical, as otherwise, imports wont work. They need to be on separate lines. Note that some editors will autofill incorrect paths, using the local file system to determine relative paths. This obviously needs to be changed, the correct path is <code>/js/</code>, since everything on the clients end is relative to the <code>/public/</code> directory. Imports are only available for system applications, by design and definition. Non-system applications must not have the same level of access. Conversely, system apps often do need the access to system functionality.
  * @example "<​import>"
  * import { username } from "/js/modules/Auth.mjs"
@@ -67,13 +67,17 @@
  * import { App } from "/js/modules/Connect.mjs"
  * import { registerListener } from "/js/modules/App.mjs"
  * "<​/import>"
- * 
+ *
 */
 "<import>"
-import { username } from "/js/modules/Auth.mjs"
+import { username } from "/js/modules/connect/Auth.mjs"
 import { getElement } from "/js/modules/Util.mjs"
 import { App } from "/js/modules/Connect.mjs"
+import { registerListener } from "/js/modules/connect/App.mjs"
 "</import>"
+
+
+
 
 const terminalinput   = getElement("terminal-input");
 const terminallabel   = getElement("terminal-label");
@@ -81,9 +85,27 @@ const terminalcontent = getElement("terminal-past");
 const terminalshow    = getElement("terminal-show")
 const terminalbg      = getElement("terminal-bg")
 const pathelement     = getElement("path");
-
+function callback ({res, fp, id}) {
+    if (id != terminalinput.dataset.rand) return;
+    terminallabel.dataset.path = fp;
+    let entry = document.createElement("p");
+    if (res && res != "") {
+        switch (res) {
+            case "\e":
+                terminalcontent.textContent = "";
+                break;
+            default:
+                entry.style = "line-height: 16px; margin: 0;";
+                entry.innerHTML = res;
+                terminalcontent.appendChild(entry);
+        }
+    }
+    pathelement.textContent = terminallabel.dataset.path.replaceAll("/", "​/");
+    terminalbg.scrollTop = terminalbg.scrollHeight;
+}
+application.listen(callback)
 function terminalMain() {
-    
+
 
     let recentTerminalCommands = [];
     let recentIndex = -1;
@@ -99,12 +121,12 @@ function terminalMain() {
     pathelement.textContent = terminallabel.dataset.path
     terminalcontent.id = terminalcontent.id + terminalinput.dataset.rand;
 
-    const terminalCursorStyle = get("terminal-cursor");
+    const terminalCursorStyle = getElement("terminal-cursor");
     terminalCursorStyle.id = terminalCursorStyle.id + terminalinput.dataset.rand;
 
     /**
      * Handles the live syntax highlighting
-     * @param {string} input 
+     * @param {string} input
      * @returns {string} color formatted input
      */
     function syntax(input) {
@@ -124,9 +146,9 @@ function terminalMain() {
         if (tokens.length > 0) {
             let full = tokens.join(" ");
             let argnames = full.match(/-{1,2}\S+?(?=\b)/g);
-            let argvals = full.match(/(?<==)"[\s\S]+?"/g) 
+            let argvals = full.match(/(?<==)"[\s\S]+?"/g)
             let argvals2 = full.match(/(?<==)[^"]+?(?=\b)/g)
-            
+
             if (argnames) {
                 argnames = argnames.sort((a,b)=> a.length<b.length);
                 // console.log(argnames)
@@ -134,8 +156,8 @@ function terminalMain() {
                     full = full.replaceAll(a, "\x00\x03\x01" + a + "\x02")
                 }
             }
-            
-            
+
+
             if (argvals && argvals2) {
                 if (argvals2) {
                     argvals = argvals.concat(argvals2)
@@ -149,7 +171,7 @@ function terminalMain() {
                     full = full.replaceAll(a, "\x00\x04\x01" + a + "\x02")
                 }
             }
-            
+
             full = full
                 .replaceAll("\x00", '<span style="color: ')
                 .replaceAll("\x01", ' !important;">')
@@ -157,36 +179,21 @@ function terminalMain() {
                 .replaceAll("\x03", argumentname)
                 .replaceAll("\x04", value)
 
-            return `${command} ${full}` 
+            return `${command} ${full}`
         }
         return command
     }
-   
-    listen("terminal_res", ({res, fp, id}) => {
-        if (id != terminalinput.dataset.rand) return;
-        terminallabel.dataset.path = fp;
-        let entry = document.createElement("p");
-        if (res && res != "") {
-            switch (res) {
-                case "\e":
-                    terminalcontent.textContent = "";
-                    break;
-                default:
-                    entry.style = "line-height: 16px; margin: 0;";
-                    entry.innerHTML = res;
-                    terminalcontent.appendChild(entry);
-            }
-        }
-        pathelement.textContent = terminallabel.dataset.path.replaceAll("/", "​/");
-        terminalbg.scrollTop = terminalbg.scrollHeight;
-    })
+
+
+    console.log(application)
+
     terminalinput.addEventListener("input", (event) => {
         // console.log(event)
         pathelement.textContent = terminallabel.dataset.path.replaceAll("/", "​/");
         event.target.value = event.target.value.replaceAll("<","\x0E").replaceAll(">", "\x0F")
         setTimeout(()=>{terminalshow.innerHTML = syntax(event.target.value.replaceAll("\x0E","&lt;").replaceAll("\x0F", "&gt;"))}, 20)
-    }) 
-    
+    })
+
     function updateCursorPos() {
         let pos = terminalinput.selectionStart;
         return Math.max(0, Math.min(terminalinput.value.length - pos, terminalinput.value.length));
@@ -204,7 +211,7 @@ function terminalMain() {
             range.select();
         }
     }
-    
+
     function setCaretToPos (input, pos) {
            setSelectionRange(input, pos, pos);
     }
@@ -245,8 +252,8 @@ function terminalMain() {
             if (terminalinput.value != "") {
                 recentTerminalCommands.unshift(terminalinput.value)
             }
-            
-            window.send("terminal_req", {cmd: terminalinput.value, fp: terminallabel.dataset.path, id: terminalinput.dataset.rand})
+
+            App({req:"terminal_req", data: {instance: application.instance, cmd: terminalinput.value, fp: terminallabel.dataset.path, id: terminalinput.dataset.rand}})
             let entry = document.createElement("p");
             entry.style = "line-height: 14px; margin: 0;"
             entry.innerHTML = terminallabel.textContent + " " + syntax(terminalinput.value);

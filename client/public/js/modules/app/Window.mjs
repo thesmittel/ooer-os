@@ -23,27 +23,19 @@
  * @author Smittel
  */
 
-import { App as emit } from "./Connect.mjs"
-import { create, randomId, getElement } from "./Util.mjs";
-import { dragElement } from "./Dragging.mjs";
+import { App as emit } from "../Connect.mjs"
+import { create, randomId, getElement } from "../Util.mjs";
+import { dragElement } from "../input/Dragging.mjs";
 import { loseFocus } from "../Handlers.mjs";
-import { registerListener } from "./App.mjs";
-import { currentDesktop } from "./System.mjs";
+import { deleteListener, registerListener } from "../connect/App.mjs";
+import { currentDesktop } from "../connect/System.mjs";
+import { getAppInstanceObjectRef } from "../connect/App.mjs";
+
+
 document.addEventListener("mousemove", windowResize);
 document.addEventListener("mouseup", endResize)
 
-let appInstances;
-/**
- * Receives reference to object keeping track of app instances, saves it into member appInstances on the first go.
- * Rejects any subsequent attempts at altering it.
- * @param { Object } obj Reference to appInstances object from App.mjs
- */
-function addAppInstanceObjectRef(obj) {
-    // This prevents any changes after the fact, only the original assignment will go through
-    if (appInstances != undefined) return
-    appInstances = obj;
-}
-
+const appInstances = getAppInstanceObjectRef();
 
 /**
  * @class Internal:Window
@@ -69,6 +61,7 @@ class Window {
         appInstances[instanceid].removeWindow(windowid)
         document.querySelector(`taskbar-button[data-appid="${appid}"][data-instanceid="${instanceid}"][data-windowid="${windowid}"]`).remove()
         parent.remove();
+        deleteListener(this.#app_id, this.#instance_id)
     }
     /**
      *
@@ -91,7 +84,7 @@ class Window {
             dataset: { action: "cls" },
             innerHTML: '<i id="windowcontrollbuttonicon" class="bx bx-x bx-sm"></i>',
             eventListener: {
-                click: this.close,
+                click: (e) => {this.close(e)},
                 mousedown: (e) => { e.stopPropagation() }
             }
         })
@@ -471,7 +464,7 @@ class Window {
         })
 
         script.type = "text/javascript";
-        js = js.replace(`"<application>"`, `const application = globalGetElementById("${windowbody.application.bodyid}").application`)
+        js = js.replace(`"<application>"`, `const application = globalGetElementById("${windowbody.application.bodyid}").application; application.listen = function (func) {registerListener(application.app, application.instance, func)}`)
         /* TO DO:
             Theres a potential "exploit" with spawned webworkers with foreign scripts.
             Test, if possible, if so, patch
@@ -506,7 +499,7 @@ class Window {
  * @name Export:getParentWindow
  */
 function getParentWindow(el) {
-    while (!el.id.match(/^window-\d{12}-\d{12}-\d{12}$/g)) {
+    while (!el.id.match(/^window-.+?-\d{12}-\d{12}$/g)) {
         if (el.tagName == "BODY") return null;
         el = el.parentNode;
     }
@@ -922,4 +915,4 @@ function taskbarIconClick(e, windowid, instanceid, appid) {
     }
 }
 
-export { Window, getParentWindow, addAppInstanceObjectRef, maximiseWindow }
+export { Window, getParentWindow, maximiseWindow }

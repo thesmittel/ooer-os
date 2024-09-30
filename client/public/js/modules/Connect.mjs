@@ -23,15 +23,15 @@
  * @author Smittel
  */
 
-/** 
- * @borrows handle, cookieLogin from Auth.mjs 
+/**
+ * @borrows handle, cookieLogin from Auth.mjs
  * @import handle
 */
-import {handle as auth, cookieLogin as cookie} from "./Auth.mjs"
-import {handle as client} from "./Client.mjs"
-import {handle as system} from "./System.mjs"
-import {handle as app} from "./App.mjs"
-import { DialogBox } from "./ui/dialogbox.mjs"
+import {handle as auth, cookieLogin as cookie} from "./connect/Auth.mjs"
+import {handle as client} from "./connect/Client.mjs"
+import {handle as system} from "./connect/System.mjs"
+import {handle as app} from "./connect/App.mjs"
+import { DialogBox } from "../components/ui.mjs"
 
 /**
  * @constant socket Socket.io instance
@@ -101,6 +101,7 @@ function Client(data) {
  * @name Export:app
  */
 function App(data) {
+    console.log("emits", data)
     socket.emit("App", data)
 }
 
@@ -140,7 +141,7 @@ socket.on("disconnect", () => {
     const error = new DialogBox(
         "Connection lost.",
         "Connection to the server has been lost.\nTry again?",
-        4, 
+        4,
         [{
                 text: "Retry",
                 call: () => {console.log("retry")},

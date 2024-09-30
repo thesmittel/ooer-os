@@ -1,5 +1,5 @@
 import { Widget } from "./widget.mjs";
-import { deleteElement, create } from "../Util.mjs";
+import { deleteElement, create } from "../../modules/Util.mjs";
 import { DesktopSymbolApp } from "../ui/desktopsymbol.mjs";
 import { Panel } from "./systemwidgets/panel.mjs";
 import { ContextMenu } from "../ui.mjs";

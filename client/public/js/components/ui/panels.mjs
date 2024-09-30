@@ -21,7 +21,7 @@
  * @author Smittel
  */
 
-import { create } from "../Util.mjs"
+import { create } from "../../modules/Util.mjs"
 /*
 WIP:
 Panels are taskbar-like, similar to panels in modern linux DEs.
@@ -43,7 +43,7 @@ floating panels do not influence the maximised window size
 
 both attached and floating panels can have either fixed or dynamic width
 
-Additional info: 
+Additional info:
 floating panels cannot be full width/height.
 full-width/height panels occupy 3 positions with top-bottom priority:
 NW  N  NE
@@ -61,11 +61,11 @@ If the floating panel isnt set to hide but an attached panel in the same positio
 */
 
 class Panel {
-    #position; // (Left/Top)|Center|(Right/Bottom) 
+    #position; // (Left/Top)|Center|(Right/Bottom)
     #attach; #offset; // Edge the panel is attached to, offset XY relative to default
-    // Default for edge 
+    // Default for edge
     #floating; #width;
-    #applets = []; // list of applets (the respective class object). For simplicity, the taskbar is also an applet 
+    #applets = []; // list of applets (the respective class object). For simplicity, the taskbar is also an applet
 
     #style; // Object, contains additional styling such as offset if floating, background color, corner rounding etc
     #behavior; // additional behavior such as "unfloating" when a window is maximised
@@ -78,9 +78,9 @@ class Panel {
      * <li>Floating means an offset from the screen edge it is attached to.</li>
      * <li>The axis of a panel follows the edge of the screen it is attached to, regardless of actual dimensions. Unattached panels have a horizontal axis.</li>
      * @todo Implement behaviors
-     * @param {Object} options 
+     * @param {Object} options
      * @param {("north"|"east"|"south"|"west"|"none")=} [options.attach="none"] Defines the edge of the display a panel is attached to. "none" invalidates position, offset will be relative to top left of screen.
-     * @param {("left"|"top"|"center"|"right"|"bottom")} [options.position="center"] Defines the position of the panel along the edge. "left" and "top" are interchangeable, as are right and bottom, they only serve as a more descriptive option for horizontal and vertical panels. 
+     * @param {("left"|"top"|"center"|"right"|"bottom")} [options.position="center"] Defines the position of the panel along the edge. "left" and "top" are interchangeable, as are right and bottom, they only serve as a more descriptive option for horizontal and vertical panels.
      * @param {Number[]} [options.offset=[0,0]] position offset relative to default position, [x: Number, y: Number], do NOT include "px"
      * @param {Object=} options.style Defines additional styling
      * @param {String} [options.style.[property]] [property] refers to any CSS property.
@@ -105,7 +105,7 @@ class Panel {
      * @param {String} [options.behavior.shrink.anim] CSS animations (e.g. "ease-in-out", "cubic-bezier(0.1, 0.7, 1.0, 0.1)" etc)
      * @param {Number=} [options.behavior.shrink.perp] Size of panel if not in active use perpendicular to main axis of panel
      * @param {Number=} [options.behavior.shrink.axis] Size of panel along axis, if not in use
-     * @param {Boolean} [options.floating=false] false: offset perpendicular to screen edge gets ignored. 
+     * @param {Boolean} [options.floating=false] false: offset perpendicular to screen edge gets ignored.
      * @param {("fit"|"full"|Number)} [options.fullwidth="fit"] whether or not the panel takes up the entire space along its axis
      * @example new Panel({
      *   position: "center",
@@ -153,7 +153,7 @@ class Panel {
     }
 
     setWidth(width) {
-        
+
         this.#width = width;
         this.element.setAttribute("fullwidth", this.#width)
         if (typeof width == "number") {

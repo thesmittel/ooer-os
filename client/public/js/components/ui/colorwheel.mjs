@@ -21,10 +21,8 @@
  * @author Smittel
  */
 
-import { SliderGroup } from "./textslider.mjs";
-import { create, nthParent, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian } from "/js/modules/Util.mjs";
-import { Color } from "/js/modules/colors.mjs";
-import { TextboxSlider } from "/js/modules/ui/textslider.mjs";
+import { SliderGroup, TextboxSlider } from "./textslider.mjs";
+import { create, nthParent, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian, Color } from "../../modules/Util.mjs";
 
 /**
  * Color wheel class
@@ -58,7 +56,7 @@ class Wheel {
      * If these are not present, the class will initialise RGB to black with 100% alpha and attach the attributes to the parent element. <br>
      * CAREFUL! If they are present but are not a number, they will be replaced!<br>
      * It is also recommended to not have anything of value in the parent element, ideally you want to make it something that merely displays the color, because the background color gets updated automatically. It does NOT however automatically add the eventListener to the parent element, reason being that there might be different ways you might want to let the user open it.
-     * @param {HTMLElement} parentElement 
+     * @param {HTMLElement} parentElement
      */
     constructor(parentElement) {
         // If provided element is not dom element, throw up in a tantrum bc what else is there to do
@@ -161,7 +159,7 @@ class Wheel {
             ],
             dataset: { r: r, g: g, b: b, a: a, h: h, s: s, v: v, colormode: "RGB" }
         });
-        
+
 
     }
 
@@ -235,7 +233,7 @@ class Wheel {
         // Calculate color according to colormode
         let colormode = picker.element.dataset.colormode;
         let color = picker.element.dataset;
-        
+
         // Update RGB dataset in wheel
         const {r,g,b} = Color.hsv.toRgb(picker.element.dataset)
         picker.element.dataset.r = r
@@ -273,7 +271,7 @@ class Wheel {
         wheel.element.dataset.r = r
         wheel.element.dataset.g = g
         wheel.element.dataset.b = b
-        
+
         wheel.#changeSliders(true);
     }
 
@@ -309,7 +307,7 @@ class Wheel {
     }
 
     #updateDataset({r,g,b,h,s,v,a}) {
-        
+
         if (r!==undefined) {
             this.element.dataset.r = r;
             this.parentElement.dataset.r = r;
@@ -331,13 +329,13 @@ class Wheel {
         if (v!==undefined) this.element.dataset.v = v;
 
     }
-    
+
     // NO HEX HERE
     #updateFromSlider(e) {
         // detect color mode
         let {colormode} = this.element.dataset
         let values = e.detail.values();
-        
+
         // calculate hsv if needed
         switch(colormode) {
             case "RGB":{
@@ -349,7 +347,7 @@ class Wheel {
                 var {h,s,v} = {h: values[0], s: values[1], v: values[2]}
                 var {r,g,b} = Color.hsv.toRgb({h: values[0], s: values[1], v: values[2]})
                 break
-            }    
+            }
         }
         h = round(h, 2); s = round(s, 1); v = round(v, 1);
         // update dataset
@@ -359,7 +357,7 @@ class Wheel {
         // v=>Math.round(map(v, 0, 100, 136, 10)))
         const brightIndicator =this.#brightnessBar.querySelector("colorpicker-indicator");
         brightIndicator.style.top = Math.round(map(v, 0, 100, 136, 10)) + "px"
-        
+
         const hueIndicator = this.#hueSatWheel.querySelector("colorpicker-indicator");
         const angle = degreeToRadian(h);
         const radius = s;
@@ -369,7 +367,7 @@ class Wheel {
         hueIndicator.style.top = y + "px"
         hueIndicator.style.left = x + "px"
         hueIndicator.style["background-color"] = `rgb(${r},${g},${b})`
-        
+
         this.parentElement.style["background-color"] = `rgb(${r},${g},${b})`
 
         const huewheelbright = this.#hueSatWheel.querySelector("colorpicker-huewheelbright")
@@ -407,10 +405,10 @@ class Wheel {
         this.parentElement.style = `background-color: rgba(${r},${g},${b},${a})`
         this.#updateDataset({r:r,g:g,b:b,h:h,s:s,v:v})
         this.#hueSatWheel.querySelector("colorpicker-indicator").style["background-color"] = `rgba(${r},${g},${b},${a})`
-    
+
     }
 
-    
+
 
     #resetClosable() {
         setTimeout(() => {

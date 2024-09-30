@@ -12,6 +12,13 @@
     --window-border-color: #fff3;
     --window-maximised-border-radius: 0px;
     --window-maximised-offset: 0px;
+
+
+    --window-tiled-border-radius: 0px;
+    --window-tiled-inline: 4px;
+    --window-tiled-top: 0px;
+    --window-tiled-bottom: 4px;
+
     /* --window-header-background: linear-gradient(135deg, rgba(105, 224, 222, 1) 0%, rgba(56, 182, 255, 1) 40%, rgba(39, 70, 255, 1) 60%, rgba(0, 47, 150, 1) 100%); */
     --window-header-background: transparent;
     --window-header-height: 24px;

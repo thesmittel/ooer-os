@@ -23,10 +23,10 @@
  * @author Smittel
  */
 
-import { App, System } from "../Connect.mjs";
-import { dragElement } from "../Dragging.mjs";
-import * as Keys from "../Keyboard.mjs";
-import { create } from "../Util.mjs";
+import { App, System } from "../../modules/Connect.mjs";
+import { dragElement } from "../../modules/input/Dragging.mjs";
+import * as Keys from "../../modules/input/Keyboard.mjs";
+import { create } from "../../modules/Util.mjs";
 import { ContextMenu, DialogBox } from "../ui.mjs";
 import { PasswordPrompt } from "./passwordPrompt.mjs";
 

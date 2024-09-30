@@ -1,4 +1,4 @@
-import { create } from "/js/modules/Util.mjs"
+import { create } from "../../modules/Util.mjs"
 
 class TextDropDown {
     element;
@@ -7,7 +7,7 @@ class TextDropDown {
     #selected;
     #listElements;
     /**
-     * 
+     *
      * @param {String[]} arr array of options
      * @param {Number} defaultSelection index of default element
      */
@@ -59,7 +59,7 @@ class TextDropDown {
             ]
         })
         document.addEventListener("click", (e) => {
-            if (e.target.tagName != "TEXTDROPDOWN-LIST" 
+            if (e.target.tagName != "TEXTDROPDOWN-LIST"
             && e.target.tagName != "TEXTDROPDOWN-MAIN"
             && e.target.parentNode.tagName != "TEXTDROPDOWN-MAIN") {
                 this.#list.remove()

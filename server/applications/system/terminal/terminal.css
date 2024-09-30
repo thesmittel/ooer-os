@@ -1,7 +1,9 @@
-
-
 * {
     --console-background: #121212a2;
+}
+.console-background > * {
+
+font-family: monospace !important;
 }
 
 .console-background {
@@ -36,7 +38,7 @@
     background-color: transparent;
     color: white;
     z-index: 0;
-    margin-left: 1ch; 
+    margin-left: 1ch;
     font-family: monospace;
 }
 

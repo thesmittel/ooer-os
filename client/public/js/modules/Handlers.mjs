@@ -22,11 +22,11 @@
  * @name UI:Handlers
  * @author Smittel
  */
-import * as Util from "./modules/Util.mjs";
-import * as Server from "./modules/Connect.mjs"
-import {handlers} from "./Error.mjs"
-import { ContextMenu } from "./modules/ui.mjs";
-import { currentDesktop } from "./modules/System.mjs";
+import * as Util from "./Util.mjs";
+import * as Server from "./Connect.mjs"
+import {handlers} from "./system/Error.mjs"
+import { ContextMenu } from "../components/ui.mjs";
+import { currentDesktop } from "./connect/System.mjs";
 
 const hub = document.querySelector("desktop-hub")
 

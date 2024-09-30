@@ -23,18 +23,19 @@
  * @author Smittel
  */
 
-import { App as emit } from "./Connect.mjs"
-import { randomId } from "./Util.mjs";
-import { Window, addAppInstanceObjectRef, maximiseWindow } from "./Window.mjs"
+import { App as emit } from "../Connect.mjs"
+import { randomId } from "../Util.mjs";
+import { Window, maximiseWindow } from "../app/Window.mjs"
 
 /**
  * Receives data from the server directed at this module via the Connect module, serves as the connection between the two.
  * @method handle
  * @name Export:handle
- * @param {Object} data 
- * 
+ * @param {Object} data
+ *
  */
 function handle(res) {
+    console.log("res", res)
     switch (res.response) {
         case "start_app":
             new App(res.data.id, res.data, res.data.permissions)
@@ -44,12 +45,14 @@ function handle(res) {
             break
         case "appdata":
             const { id } = res.data;
-            appListeners[id](res.data);
+            if (appListeners[res.app] == undefined) return;
+            if (appListeners[res.app][res.instance] == undefined) return
+            appListeners[res.app][res.instance](res.data);
             break;
     }
 }
 /**
- * Holds an applications full identifier and their server data event callback as key-value pairs 
+ * Holds an applications full identifier and their server data event callback as key-value pairs
  * @member appListeners
  * @name Internal:appListeners
  * @type Object
@@ -57,25 +60,27 @@ function handle(res) {
  */
 const appListeners = {}
 /**
- * Allows system apps to register a callback function for server communication. 
+ * Allows system apps to register a callback function for server communication.
  * @param {String} id App-Instance-Window ID
  * @param {Function} func Callback
  * @method registerListener
  * @name Export:registerListener
  */
-function registerListener(id, func) {
-    if (appListeners[id]) {
-        throw new Error("Applications can only register one listener.")
-    };
-    appListeners[id] = func;
+function registerListener(appid, instanceid, func) {
+    if (appListeners[appid] == undefined) {
+        appListeners[appid] = {}
+    }
+    if (appListeners[appid][instanceid] == undefined) {
+        appListeners[appid][instanceid] = func
+    }
 }
 
-function deleteListener(id) {
-    if (!appListeners[id]) {
-        throw new Error("No listener registered (Application: " + id + ")")
+function deleteListener(id, instanceid) {
+    if (!appListeners[id][instanceid]) {
+        throw new Error("No listener registered (Application: " + id + ", instance: " + instanceid + ")")
         return -1;
     }
-    delete appListeners[id]
+    delete appListeners[id][instanceid]
 }
 
 /**
@@ -85,8 +90,22 @@ function deleteListener(id) {
  * @type Object
  */
 let appInstances = {}
-// Sends 
-addAppInstanceObjectRef(appInstances)
+// Sends
+let appInstanceObjectRefSent = false;
+/**
+ * Returns a reference to the AppInstances object exactly once. Returns null for any subsequent requests.
+ * @returns {Object|null}
+ */
+function getAppInstanceObjectRef() {
+    let ret = appInstanceObjectRefSent?null:appInstances;
+    appInstanceObjectRefSent = true;
+    return ret;
+}
+
+// setTimeout(() => {
+//     addAppInstanceObjectRef(appInstances)
+// }, 1);
+
 
 
 
@@ -120,7 +139,7 @@ class App {
      */
     constructor(app_id, data, sys) {
         this.#instance_id = randomId(12)
-        this.#app_id = (sys === 2)?"000000000000":app_id.toString().padStart(12, "0");
+        this.#app_id = (sys === 2)?app_id:app_id.toString().padStart(12, "0");
         this.#author = data.config.author;
         this.#name = data.config.name;
         this.#type = data.config.type;
@@ -162,4 +181,4 @@ class App {
 }
 
 
-export { handle, maximiseWindow, registerListener, deleteListener }
+export { handle, maximiseWindow, registerListener, deleteListener, getAppInstanceObjectRef }

@@ -22,12 +22,12 @@
  * @name Client:Client
  * @author Smittel
  */
-import { Client as emit } from "./Connect.mjs"
+import { Client as emit } from "../Connect.mjs"
 
 /**
  * Handles incoming data from the server relating to client settings and user data
  * @method handle
- * @param {Object} data 
+ * @param {Object} data
  * @name Export:handle
  */
 function handle(data) {

@@ -22,10 +22,10 @@
  * @name Client:Auth
  * @author Smittel
  */
-import { Auth as emit, System } from "./Connect.mjs"
+import { Auth as emit, System } from "../Connect.mjs"
 import { openSignup, openLogin, openSettings, openProfile } from "../Handlers.mjs"
-import { create } from "./Util.mjs"
-import {ArgumentError, handlers} from "../Error.mjs"
+import { create } from "../Util.mjs"
+import {ArgumentError, handlers} from "../system/Error.mjs"
 import { addDesktop } from "./System.mjs"
 
 

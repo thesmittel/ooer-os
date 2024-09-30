@@ -1,5 +1,5 @@
-import { create, randomId } from "../Util.mjs"
-import { ValueError } from "../../Error.mjs"
+import { create, randomId } from "../../modules/Util.mjs"
+import { ValueError } from "../../modules/system/Error.mjs"
 class Widget {
     #xPos; #yPos;
     #anchorX; #anchorY;
@@ -9,7 +9,7 @@ class Widget {
     #appid;
     #style
     constructor(appid, html, css, {x, y, w, h, anchorX, anchorY}) {
-        
+
         this.#appid = appid;
         this.#id = `desktop-widget-${randomId(12)}`;
         this.#style = create({
@@ -34,7 +34,7 @@ class Widget {
             `,
             innerHTML: html
         })
-        
+
     }
 
     setDimenions({w, h}) {

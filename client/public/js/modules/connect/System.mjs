@@ -23,12 +23,11 @@
  * @author Smittel
  */
 
-import { System as emit, App } from "./Connect.mjs"
-import { handlers } from "../Error.mjs";
-import * as Util from "./Util.mjs";
-import { ContextMenu } from "./ui.mjs";
-import { DesktopSymbolApp } from "./ui/desktopsymbol.mjs";
-import { Desktop } from "./desktop/desktop.mjs";
+import { System as emit, App } from "../Connect.mjs"
+import { handlers } from "../system/Error.mjs";
+import * as Util from "../Util.mjs";
+import { ContextMenu, DesktopSymbolApp  } from "../../components/ui.mjs";
+import { Desktop } from "../../components/desktop/desktop.mjs";
 
 
 

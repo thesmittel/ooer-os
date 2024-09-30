@@ -145,6 +145,8 @@ function appReq(socket, data) {
         case "fetch_app":
             App.grabApplication(socket, data.data)
             break
+        case "terminal_req":
+            socket.emit("App", {response: "appdata", app: "terminal", instance: data.data.instance, data: {res: "test", fp: data.data.fp, id: data.data.id}})
     }
 }
 

@@ -1,6 +1,15 @@
 
 ## Version
 
+0.1.240930
+- Applications can now register listeners
+    - This is of course only temporary, serving more as a sketch that will be translated into the webworker API
+- Drastically changed the structure of the front end code
+    - The way it is sorted now should be compatible with the ooer-desktop app in the future.
+- Fixed some styling
+- basic backend logic for terminal implemented
+- Started preparing some rewrites
+
 0.1.240918
 - 3 new server events
     - 2 outgoing ("password-prompt-incorrect" and "password-prompt-correct")

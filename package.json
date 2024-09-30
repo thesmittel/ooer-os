@@ -2,7 +2,7 @@
   "name": "website",
   "version": "0.1.0",
   "description": "First beta test",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
     "doc": "jsdoc -c jsdoc.json"
   },

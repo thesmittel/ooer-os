@@ -30,15 +30,17 @@
  */
 
 
-import { create, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian } from "./Util.mjs";
-import { Color } from "./colors.mjs";
+import { create, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian, Color } from "../modules/Util.mjs";
 import { Wheel } from "./ui/colorwheel.mjs";
 import { TextboxSlider, SliderGroup } from "./ui/textslider.mjs";
 import { DropDownMenu } from "./ui/dropdown.mjs";
+import { DesktopSymbolApp } from "./ui/desktopsymbol.mjs"
 import { TextDropDown } from "./ui/textdropdown.mjs";
 import { ContextMenu } from "./ui/contextmenu.mjs";
 import { DialogBox } from "./ui/dialogbox.mjs";
 import { Button } from "./ui/button.mjs";
+import { NumberBox } from "./ui/numberbox.mjs";
+import { Panel } from "./ui/panels.mjs"
 let closable = true;
 let activeSelector;
 
@@ -399,4 +401,4 @@ function makeColorSelector(parentElement) {
  */
 
 
-export {Wheel, Button, TextboxSlider, SliderGroup, DropDownMenu, TextDropDown, ContextMenu, DialogBox}
+export {Wheel, Button, NumberBox, TextboxSlider, SliderGroup, DropDownMenu, TextDropDown, ContextMenu, DialogBox, DesktopSymbolApp, Panel}

@@ -1,4 +1,4 @@
-import { ArgumentError, ValueError } from "../../Error.mjs";
+import { ArgumentError, ValueError } from "../system/Error.mjs";
 
 class Color {
     #r;#g;#b;

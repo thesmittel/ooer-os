@@ -1,5 +1,5 @@
 
-import { create, round, clamp, snap, isElement } from "/js/modules/Util.mjs";
+import { create, round, clamp, snap, isElement } from "../../modules/Util.mjs";
 
 class TextboxSlider {
 
@@ -39,7 +39,7 @@ class TextboxSlider {
             originalTarget: this.element,
             currentTarget: this.element
         })
-        // new internal event 
+        // new internal event
         if (min === undefined) throw new ReferenceError("'min' is not defined.")
         if (max === undefined) throw new ReferenceError("'max' is not defined.")
         if (val === undefined) throw new ReferenceError("'val' is not defined.")
@@ -54,7 +54,7 @@ class TextboxSlider {
             classList: ["indicator"],
             style: `width: ${round((val - min) / (max - min) * 100, 1)}%;`
         })
-        
+
         textbox = create({
             tagname: "input",
             type: "number",
@@ -117,8 +117,8 @@ class TextboxSlider {
             }
         })
 
-        
-        
+
+
         labelEl = create({
             tagname: "span",
             innerText: label || ""
@@ -135,8 +135,8 @@ class TextboxSlider {
 
 
         slider = create({
-            tagname: "input",    type: "range", id: id || "", name: name || "", min: min, 
-            style: "z-index: 2", max: max,      step: step || 1, value: val,   
+            tagname: "input",    type: "range", id: id || "", name: name || "", min: min,
+            style: "z-index: 2", max: max,      step: step || 1, value: val,
             eventListener: {
                 "input": (e) => {
                     indicator.style.width = round((e.target.value - this.min) / (this.max - this.min) * 100, 1) + "%"
@@ -197,7 +197,7 @@ class TextboxSlider {
     }
 
     setStyle(style) {
-        
+
         if (typeof style == "object") {
             for (let i in style) {
                 this.element.style[i] = style[i]
@@ -224,7 +224,7 @@ class TextboxSlider {
         this.#labelDom.innerText = t
     }
     /**
-     * This should only be used for single slideboxes. For grouped slideboxes, use SliderGroup.setParameters(). 
+     * This should only be used for single slideboxes. For grouped slideboxes, use SliderGroup.setParameters().
      * Using this function for grouped sliders without the event firing, the group will not be updated properly, and firing the event for every individual one will cause the group to also fire its update event 3 times
      * @emits update
      * @param {Object} parameters Object containing the new parameters for the slidebox
@@ -239,8 +239,8 @@ class TextboxSlider {
         const nma = (typeof max  == "number") ? max : this.max;
         const nst = (typeof step == "number") ? step: this.step;
         const nva = (typeof val ==  "number") ? clamp(nmi, snap(val, nmi, nst), nma) : this.value;
-        
-        
+
+
         this.value = nva
         this.#slider.value = nva
         this.#textbox.value = nva
@@ -251,9 +251,9 @@ class TextboxSlider {
         this.#slider.max = nma
         this.step = nst
         this.#slider.step = nst
-        
+
         this.#indicator.style =` width: ${round((nva - nmi) / (nma - nmi) * 100, 1)}%`
-        if(fireevent !== undefined && fireevent) this.element.dispatchEvent(this.#event) 
+        if(fireevent !== undefined && fireevent) this.element.dispatchEvent(this.#event)
         // todo: setparameters in group class, so that the event only fires  once.
     }
 
@@ -272,7 +272,7 @@ class SliderGroup {
 
     constructor(array, label) {
         if (!(array instanceof Array)) throw new TypeError("Class SliderGroup: Constructor expects array")
-        
+
         this.#event = new CustomEvent("update", {
             detail: {
                 values: () => this.#values
@@ -284,7 +284,7 @@ class SliderGroup {
             originalTarget: this.element,
             currentTarget: this.element
         })
-        
+
         this.#mouseup = new CustomEvent("set", {
             detail: {
                 values: () => this.values
@@ -297,7 +297,7 @@ class SliderGroup {
             currentTarget: this.element
         })
 
-        
+
 
         for (let i in array) {
             if(isElement(array[i])) {
@@ -371,7 +371,7 @@ class SliderGroup {
         } else {
             this.element.style = style;
         }
-        
+
     }
 
     #valueJuggling (e) {
@@ -384,7 +384,7 @@ class SliderGroup {
     getElements() {
         return this.#objects
     }
-    
+
     /**
      * To manually update slideboxes inside a group, use this method.
      * It takes either an Array if updating all (or the first n slideboxes) at once, or an object, whose keys are the indices of the slidebox to be changed.

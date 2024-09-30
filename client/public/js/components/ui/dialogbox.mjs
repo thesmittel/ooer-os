@@ -22,10 +22,10 @@
  * @author Smittel
  */
 
-import { create } from "../Util.mjs";
+import { create } from "../../modules/Util.mjs";
 
 /**
- * 
+ *
  */
 class DialogBox {
     title;
@@ -42,10 +42,10 @@ class DialogBox {
         "<box-icon name='help-circle'size='lg'color='#3ae'></box-icon>", // Question
         "<box-icon name='error' size='lg' color='#ec2'></box-icon>", // Exclamation
         "<box-icon color='#ea1425' size='lg' name='x-circle'></box-icon>" // Error (Critical)
-    
+
     ]
     /**
-     * 
+     *
      * @param {String} title Header text of the dialog box
      * @param {String} description Text content of the dialog box
      * @param {(0|1|2|3|4)} type 0: Alarm/Clock/Timer, 1: Info, 2: Question, 3: Warning, 4: Critical

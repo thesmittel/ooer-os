@@ -1,4 +1,4 @@
-import { create, getElement } from "/js/modules/Util.mjs";
+import { create, getElement } from "../../modules/Util.mjs";
 
 const elements = {};
 // Predefine start and search
@@ -28,7 +28,7 @@ function addElement(appid, instanceid, windowid, obj) {
     } catch {
         ; // only here to prevent errors being thrown while checking if a window is already registered
     }
-    
+
     // create app obj if not present
     if (!elements[appid]) elements[appid] = {}
     // create instance obj if not present
@@ -52,4 +52,3 @@ function addElement(appid, instanceid, windowid, obj) {
             }
         })
 }
-

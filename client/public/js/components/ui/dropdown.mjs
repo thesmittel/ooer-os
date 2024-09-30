@@ -1,4 +1,4 @@
-import { isElement, deleteElement, create } from "/js/modules/Util.mjs";
+import { isElement, deleteElement, create } from "../../modules/Util.mjs";
 
 
 class DropDownMenu {
@@ -25,7 +25,7 @@ class DropDownMenu {
                 tagname: "dropdown-element",
                 innerText: elements[el].label,
                 dataset: {
-                    id: el, 
+                    id: el,
                     label: elements[el].label,
                     selected: this.#selectedId == el
                 },
@@ -42,7 +42,7 @@ class DropDownMenu {
                 }}
             }))
         }
-        
+
         this.#listcontainer = create({
             tagname: "dropdown-list",
             childElements: this.#listelements,
@@ -54,18 +54,18 @@ class DropDownMenu {
             style: `grid-template-rows: repeat(${elements.length}, 36px);`
         })
 
-        
+
         function bodyClick(e) {
             const openDropDown = document.querySelector("dropdown-menu[data-open='true']")
             if (openDropDown != e.target && openDropDown != null) {
                 openDropDown.querySelector("dropdown-list").remove()
                 openDropDown.dataset.open = "false"
             }
-            
-            
+
+
         }
         document.body.addEventListener("click", bodyClick)
-        
+
         this.element = create({
             tagname: "dropdown-menu",
             dataset: {
@@ -82,14 +82,14 @@ class DropDownMenu {
                         bodyClick(a)
                         const currEl = this.#listelements[this.#selectedId];
                         const {height} = currEl.getBoundingClientRect();
-                        this.#listcontainer.scrollTop = (0, 
-                            currEl.offsetTop 
-                            - height 
+                        this.#listcontainer.scrollTop = (0,
+                            currEl.offsetTop
+                            - height
                             - parseInt(getComputedStyle(this.#listcontainer, null)["grid-row-gap"])
                         )
                     }
                     a.target.dataset.open = a.target.dataset.open == "false"
-                    
+
                 }
             }
         })
