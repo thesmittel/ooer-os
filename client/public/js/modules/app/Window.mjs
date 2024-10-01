@@ -532,7 +532,7 @@ function getNumberOfWindows() {
  */
 function maximiseWindow(t) {
     let target = t;
-    while (!target.id.match(/^window-\d{12}-\d{12}-\d{12}$/g)) {
+    while (!target.id.match(/^window-.+?-\d{12}-\d{12}$/g)) {
         target = target.parentNode;
     }
 

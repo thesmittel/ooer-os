@@ -118,7 +118,7 @@ function getElement(str) {
  * @name Export:getParentWindow
  */
 function getParentWindow(el) {
-	while (!el.id.match(/^window-\d{12}-\d{12}-\d{12}$/g)) {
+	while (!el.id.match(/^window-.+?-\d{12}-\d{12}$/g)) {
 		if (el.tagName == "BODY") return null;
 		el = el.parentNode;
 	}

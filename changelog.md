@@ -1,7 +1,24 @@
 
 ## Version
 
-0.1.240930
+0.1.241001
+- Fixed snapping
+- Fixed Window ID detection
+
+## Known issues:
+- Windows ignore panels entirely
+- Multi desktop not tested
+- Panels have no applets
+- Code is a mess
+- Selector box doesnt select anything
+
+
+## Why such a weird version numbering?
+It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
+
+## Dev Diary
+
+### 0.1.240930
 - Applications can now register listeners
     - This is of course only temporary, serving more as a sketch that will be translated into the webworker API
 - Drastically changed the structure of the front end code
@@ -10,7 +27,7 @@
 - basic backend logic for terminal implemented
 - Started preparing some rewrites
 
-0.1.240918
+### 0.1.240918
 - 3 new server events
     - 2 outgoing ("password-prompt-incorrect" and "password-prompt-correct")
     - 1 incoming ("password-confirmation")
@@ -27,19 +44,6 @@
     - Shift ALWAYS overrides ctrl
     - takes default value and optional min/max values
     - fires "update" event
-
-## Known issues:
-- Windows ignore panels entirely
-- Multi desktop not tested
-- Panels have no applets
-- Code is a mess
-- Selector box doesnt select anything
-
-
-## Why such a weird version numbering?
-It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
-
-## Dev Diary
 
 ### 0.1.240914
 - Started rewriting some parts to be more debuggable

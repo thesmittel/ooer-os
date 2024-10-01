@@ -96,7 +96,7 @@ function dragElement(elmnt) {
     // Window Snapping
     let newLeft = elmnt.offsetLeft - pos1;
     let newTop =  clamp(0, (elmnt.offsetTop - pos2), window.innerHeight - 30);
-    if (elmnt.dataset.maximised == "true" && elmnt.id.match(/^window-\d{12}-\d{12}-\d{12}$/g)) {
+    if (elmnt.dataset.maximised == "true" && elmnt.id.match(/^window-.+?-\d{12}-\d{12}$/g)) {
       maximiseWindow(elmnt);
       newLeft = e.clientX - parseInt(elmnt.style.width) / 2
       newTop = 0;
@@ -115,7 +115,7 @@ function dragElement(elmnt) {
     prev.style.height = bounds. height+ "px"
 
 
-    if (parseInt(elmnt.style.top) < 1 && elmnt.dataset.maximised != "true" && elmnt.id.match(/^window-\d{12}-\d{12}-\d{12}$/g)) {
+    if (parseInt(elmnt.style.top) < 1 && elmnt.dataset.maximised != "true" && elmnt.id.match(/^window-.+?-\d{12}-\d{12}$/g)) {
       // if (!elmnt.classList.contains("about-to-be-maximised")) {
         elmnt.classList.add("about-to-be-maximised")
       // }
@@ -138,7 +138,7 @@ function dragElement(elmnt) {
   function closeDragElement(e) {
     // e.stopPropagation();
     // stop moving when mouse button is released:
-    if (parseInt(elmnt.style.top) < 1 && !elmnt.maximised && elmnt.id.match(/^window-\d{12}-\d{12}-\d{12}$/g)) {
+    if (parseInt(elmnt.style.top) < 1 && !elmnt.maximised && elmnt.id.match(/^window-.+?-\d{12}-\d{12}$/g)) {
       currentDesktop.snapPreview.dataset.visible = false
       maximiseWindow(elmnt);
     }

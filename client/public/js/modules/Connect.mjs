@@ -37,6 +37,7 @@ import { DialogBox } from "../components/ui.mjs"
  * @constant socket Socket.io instance
  * @name Internal:socket
  */
+console.log(globalThis.process!==undefined?"process":"window")
 const socket = io();
 
 /**
