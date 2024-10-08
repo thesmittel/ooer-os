@@ -79,12 +79,20 @@ app.get('/media/icons', (req, res) => {
     res.sendFile(__dirname + "/server/media/icons/" + req.query.i)
 })
 
-app.get('/media/desktopicons', (req, res) => {
-    if (req.query.i.match(/^\d{12}$/g)) {
-        res.sendFile(__dirname + "/server/applications/custom/" + req.query.i + "/icon.png")
+app.get('/media/images/:img', (req, res) => {
+    res.sendFile(__dirname + "/server/media/images/" + req.params.img)
+})
+
+app.get('/media/icons/:img', (req, res) => {
+    res.sendFile(__dirname + "/server/media/icons/" + req.params.img)
+})
+
+app.get('/media/desktopicons/:app', (req, res) => {
+    if (req.params.app.match(/^\d{12}$/g)) {
+        res.sendFile(__dirname + "/server/applications/custom/" + req.params.app + "/icon.png")
         return
     }
-    res.sendFile(__dirname + "/server/applications/system/" + req.query.i + "/icon.png")
+    res.sendFile(__dirname + "/server/applications/system/" + req.params.app + "/icon.png")
 })
 
 /**

@@ -179,7 +179,7 @@ function loggedin(data) {
     }
     */
    data.desktop = {
-    backgroundimage: "/media/images?i=iceland.jpg"
+    backgroundimage: "/media/images/iceland.jpg"
    }
    addDesktop(data.desktop, data.cache.desktop_symbols)
     let expire = new Date(data.expires).toUTCString()
@@ -192,7 +192,7 @@ function loggedin(data) {
 	login = {id: data.id, token: data.token, expires: data.expires, cache: data.cache};
     smtopbar.innerHTML = "";
 
-    let userpfp = data.cache.avatar?`/media/images?i=${data.cache.avatar}`:`/media/images?i=default.jpg`;
+    let userpfp = data.cache.avatar?`/media/images/${data.cache.avatar}`:`/media/images/default.jpg`;
 
     smtopbar.append(
         create({

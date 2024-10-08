@@ -64,6 +64,7 @@ class DialogBox {
         this.#buttons = buttons;
         this.#parent = parent;
         if (!(this.#parent instanceof HTMLElement)) this.#parent = document.body
+
         this.element = create({
             tagname: "error-box",
             dataset: {

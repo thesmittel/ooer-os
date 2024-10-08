@@ -108,7 +108,7 @@ ${code}`
                     author: config.author,
                     resizable: config.resizable
                 },
-                icon: `/media/desktopicons?i=${id}`,
+                icon: `/media/desktopicons/${id}`,
                 id: id,
                 permissions: 2
             }

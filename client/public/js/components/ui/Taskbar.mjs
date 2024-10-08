@@ -14,7 +14,7 @@ Object.defineProperties(elements, {
         configurable: false
     },
     "000000000001": {
-        icon: "/media/desktopicons?i=000000000001", // Taskbar shortcut example
+        icon: "/media/desktopicons/000000000001", // Taskbar shortcut example
         tooltip: "Example application"
     }
 })

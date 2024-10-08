@@ -19,11 +19,11 @@
 
     <h1 class="page-title">Source: client/public/js/modules/System.mjs</h1>
 
-    
 
 
 
-    
+
+
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
@@ -82,7 +82,7 @@ function registerSysApp(fullId, func) {
  * @see Client:Connect
  * @param { Object } data Server Data
  * @method handle
- * @name Export:handle 
+ * @name Export:handle
  */
 function handle(data) {
     console.log("System", data)
@@ -116,7 +116,7 @@ function addMessageListener(app, func) {
  * Sets up the desktop symbols supplied by the server based on user preference
  * @param { Object } data Server Data
  * @method setupDesktopSymbols
- * @name Internal:setupDesktopSymbols 
+ * @name Internal:setupDesktopSymbols
  */
 function setupDesktopSymbols({ data }) {
     const container = document.getElementById("sysdsouter");
@@ -129,7 +129,7 @@ function setupDesktopSymbols({ data }) {
 
 /**
  * Handles incoming server messages that passed through the Connect module.
- * @param { Event } e 
+ * @param { Event } e
  * @method dragSymbol
  * @name Internal:dragSymbol
  * @todo Actually implement something
@@ -147,7 +147,7 @@ function dragSymbol(e) {
  * @todo Add click listener with attached application, screen or other event
  * @param { Object } notificationData Icon, title, text and app associated with the notification
  * @method makeNotification
- * @name Internal:makeNotification 
+ * @name Internal:makeNotification
  */
 function makeNotification({ icon, title, text, app }) {
     const box = Util.create({
@@ -160,7 +160,7 @@ function makeNotification({ icon, title, text, app }) {
                 childElements: [
                     {
                         tagname: "img",
-                        src: `/media/icons?i=${icon}`
+                        src: `/media/icons/${icon}`
                     }
                 ]
             }, {

@@ -92,7 +92,7 @@ const document = {
             // if (file == "js") {
             //     res = res.toString().replace(/ +/g, " ").replace(/(\t)/g, "").replace(/(\r?\n)/g, ";")
             // }
-            
+
             config.windows[n][file] = res.toString();
             count--;
             if (!count) send()
@@ -103,14 +103,14 @@ const document = {
             fs.readFile(appDir + config.windows[w].js, (err, res)=>{cbj(res, w, "js")})
             fs.readFile(appDir + config.windows[w].css, (err, res)=>{cb(res, w, "css")})
         }
-        
-        
+
+
         function send() {
             for (let w = 0; w < config.windows.length; w++) {
                 config.windows[w].html = config.windows[w].html.toString().replace(/<\s*?script[\w\W]*?>[\w\W]*?<\/script>/gi, "")
             }
             // config.windows[0].js = `function getScriptWorker(foo) {return window.URL.createObjectURL(new Blob([foo], {type: "text/javascript"}))};function protectCode(code) {let worker  = new Worker(getScriptWorker(code))};protectCode(${config.windows[0].js.replace(/\r/g, "")})`;
-            // 
+            //
             // config.windows[0].js = config.windows[0].js.replace(/([^;\n]*?((document)|(process)|(window))(\n*).*?(;|\n|$)|(eval\([^)(]*(?:\([^)(]*(?:\([^)(]*(?:\([^)(]*\)[^)(]*)*\)[^)(]*)*\)[^)(]*)*\))|[^\n].*?parentNode.*?(;|$|\n))/gi, "")
             // (?<=;|\n)[^;\n]*?((previous(Element)?Sibling)|(parent(Element|Node)|ownerDocument)).*?[;|\n]
             let appObj = {
@@ -122,14 +122,14 @@ const document = {
                     author: config.author,
                     resizable: config.resizable
                 },
-                icon: `/media/desktopicons?i=${id}`,
+                icon: `/media/desktopicons/${id}`,
                 id: id,
                 permissions: appDB[id].permissions
             }
             socket.emit("App", {response: "start_app", data: appObj})
         }
-        
-        
+
+
     })
 }
 

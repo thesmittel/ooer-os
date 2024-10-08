@@ -83,7 +83,7 @@ class DesktopSymbol {
         this.description = description
         this.background = create({
             tagname: "div",
-            style: `background-image: url(/media/desktopicons?i=${this.icon});`,
+            style: `background-image: url(/media/desktopicons/${this.icon});`,
             classList: ["desktop-symbol-background"]
         })
 

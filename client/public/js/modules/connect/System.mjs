@@ -175,7 +175,7 @@ function makeNotification({ icon, title, text, app }) {
                 childElements: [
                     {
                         tagname: "img",
-                        src: `/media/icons?i=${icon}`
+                        src: `/media/icons/${icon}`
                     }
                 ]
             }, {

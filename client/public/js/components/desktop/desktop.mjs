@@ -51,7 +51,7 @@ class Desktop {
         this.element = create({
             tagname: "desktop-environment",
             childElements: this.layers,
-            style: `background-image: url("${data.backgroundimage || "/media/images?i=wallpaper abstract 2.png"}");
+            style: `background-image: url("${data.backgroundimage || "/media/images/wallpaper abstract 2.png"}");
                     background-size: ${data.backgroundsize || "cover"};
                     background-position: ${data.backgroundposition || "center center"};
                     background-attachment: fixed;`,

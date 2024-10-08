@@ -68,6 +68,10 @@ function create(args, debug) {
                         e[a] = args[a];
                     }
                     break;
+                case "innerHTML":
+                case "innerText":
+                    e[a] = args[a];
+                    break
                 default:
                     e.setAttribute(a, args[a])
                     e[a] = args[a];
