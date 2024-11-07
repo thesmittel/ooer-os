@@ -5,6 +5,7 @@
 - Backend is being reworked
     - express and socket.io are being replaced by Deno built in and std library functionality
     - server-client communication is being reworked
+    - as a result nothing works
 
 ## Known issues:
 - Windows ignore panels entirely
