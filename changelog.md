@@ -1,9 +1,10 @@
 
 ## Version
 
-0.1.241001
-- Fixed snapping
-- Fixed Window ID detection
+0.1.241107
+- Backend is being reworked
+    - express and socket.io are being replaced by Deno built in and std library functionality
+    - server-client communication is being reworked
 
 ## Known issues:
 - Windows ignore panels entirely
@@ -17,6 +18,10 @@
 It's in early development. I took a long break from the project, when i came back, a lot was already present, so im assuming this to be `0.1`. However, since then, not enough has changed to warrant a new number, so i use the date in YYMMDD format to differenciate the progress.
 
 ## Dev Diary
+
+### 0.1.241001
+- Fixed snapping
+- Fixed Window ID detection
 
 ### 0.1.240930
 - Applications can now register listeners

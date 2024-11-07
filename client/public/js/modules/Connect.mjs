@@ -38,7 +38,16 @@ import { DialogBox } from "../components/ui.mjs"
  * @name Internal:socket
  */
 console.log(globalThis.process!==undefined?"process":"window")
-const socket = io();
+// const socket = io();
+// test. changing
+const socket = new WebSocket(document.location)
+socket.emit = function(module, action, data) {
+    socket.send(JSON.stringify({
+        module: module,
+        action: action,
+        data: data
+    }))
+}
 
 /**
  * Sends system data back to the server via a websocket.
@@ -53,9 +62,9 @@ const socket = io();
  * @param {Object} data
  * @name Export:System
  */
-function System(data) {
+function System(action, data) {
     // console.log(data)
-    socket.emit("System", data)
+    socket.emit("System", action, data)
 }
 
 /**
@@ -70,8 +79,8 @@ function System(data) {
  * @param {Object} data
  * @name Export:Auth
  */
-function Auth(data) {
-    socket.emit("Auth", data)
+function Auth(action, data) {
+    socket.emit("Auth", action, data)
 }
 
 /**
@@ -86,8 +95,8 @@ function Auth(data) {
  * @param {Object} data
  * @name Export:Client
  */
-function Client(data) {
-    socket.emit("Client", data)
+function Client(action, data) {
+    socket.emit("Client", action, data)
 }
 /**
  * Sends app data back to the server via a websocket. Used for communication between apps and the server. Currently only accessible by system level apps.
@@ -101,44 +110,61 @@ function Client(data) {
  * @param {Object} data
  * @name Export:app
  */
-function App(data) {
+function App(action, data) {
     console.log("emits", data)
-    socket.emit("App", data)
+    socket.emit("App", action, data)
 }
 
+socket.addEventListener("message", ({data})=> {
+    const response = JSON.parse(data);
+    switch(response.module) {
+        case "App":
+            app(data);
+            break
+        case "System": 
+            system(data);
+            break
+        case "User":
+            client(data);
+            break
+        case "Auth": 
+            auth(data);
+            break
+    }
+})
 cookie()
-// console.log("system:", system.toString())
-/**
- * @listens System
- * @callback System:handle
- * @name Server:System
- * @see Client:System
- */
-socket.on("System", system)
-/**
- * @listens Auth
- * @callback Auth:handle
- * @name Server:Auth
- * @see Client:Auth
- */
-socket.on("Auth",   auth)
-/**
- * @listens Client
- * @callback Client:handle
- */
-socket.on("Client", client)
-/**
- * @listens App
- * @callback App:handle
- * @name Server:App
- * @see Client:App
- */
-socket.on("App",    app)
+// // console.log("system:", system.toString())
+// /**
+//  * @listens System
+//  * @callback System:handle
+//  * @name Server:System
+//  * @see Client:System
+//  */
+// socket.on("System", system)
+// /**
+//  * @listens Auth
+//  * @callback Auth:handle
+//  * @name Server:Auth
+//  * @see Client:Auth
+//  */
+// socket.on("Auth",   auth)
+// /**
+//  * @listens Client
+//  * @callback Client:handle
+//  */
+// socket.on("Client", client)
+// /**
+//  * @listens App
+//  * @callback App:handle
+//  * @name Server:App
+//  * @see Client:App
+//  */
+// socket.on("App",    app)
 /**
  * @listens disconnect
  * @callback Error:errorDialog
  */
-socket.on("disconnect", () => {
+socket.addEventListener("disconnect", () => {
     const error = new DialogBox(
         "Connection lost.",
         "Connection to the server has been lost.\nTry again?",
@@ -157,4 +183,5 @@ socket.on("disconnect", () => {
 
     )
 })
+//test
 export {System, App, Auth, Client}

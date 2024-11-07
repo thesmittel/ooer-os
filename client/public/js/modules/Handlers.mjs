@@ -205,13 +205,17 @@ function openLogin(event) {
         loginscreen.remove();
     }
     function login(e) {
-        Server.Auth({
-            req: "login",
-            data: {
-                username: loginscreen.querySelector("input#login-user").value,
-                password: loginscreen.querySelector("input#login-password").value
-            }
-        })
+        Server.Auth("login", {
+                    username: loginscreen.querySelector("input#login-user").value,
+                    password: loginscreen.querySelector("input#login-password").value
+                })
+        // Server.Auth({
+        //     req: "login",
+        //     data: {
+        //         username: loginscreen.querySelector("input#login-user").value,
+        //         password: loginscreen.querySelector("input#login-password").value
+        //     }
+        // })
     }
 }
 

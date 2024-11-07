@@ -13,7 +13,7 @@ import { ArgumentError, ValueError } from "./modules/system/Error.mjs"
 import * as Keyboard from "./modules/input/Keyboard.mjs"
 import { clock } from "./modules/util/clock.mjs"
 import { PasswordPrompt } from "./components/ui/passwordPrompt.mjs"
-
+console.log("SERVED")
 // for some reason this works, but will be changed anyways
 // Handler.openLogin({stopPropagation: ()=>{}})
 

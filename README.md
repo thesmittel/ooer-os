@@ -1,10 +1,11 @@
-
+# IMPORTANT
+As of the latest commit, it now uses Deno 2 instead of node. 
+The backend is slowly changed to typescript, regardless what you will find in the text below. 
+Full list of needed packages follows soon, most are part of the Deno std library
 
 ## Dependencies
-- Node, exact minimum compatible version unknown, im using v21 but i dont think thats necessary.
-- Node v12.x is confirmed incompatible
-- `express`
-- `socket.io`
+- Deno 2.0.1
+
 
 ## THIS IS NOT READY TO USE. DO NOT ATTEMPT TO DO SO!
 Some work needs to be done on the backend to properly implement login and signup, as of now, user login info is saved in a JSON using MD5, while the salt is fairly big, i still wouldnt advise using it, though youre free to do so. You can also change the backend, not much going on there so far, but then, theres still the issue of it still being single threaded.
@@ -27,7 +28,7 @@ A switch to typescript is NOT planned. I just dont care enough. JSDoc provides t
 A backend rewrite in Rust is on the table, but for that i have to learn it first
 
 ## Current version:
-`0.1.240918`
+`0.1.241107`
 
 ## Information regarding documentation
 

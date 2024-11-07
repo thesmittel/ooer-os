@@ -31,13 +31,13 @@
  * @requires url
  * @todo Replace user password storage with a database instead of a JSON
  */
-import * as fs from "fs"
-import * as url from 'url';
+import * as fs from "node:fs"
+import * as url from 'node:url';
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL('..', import.meta.url));
 
-let appDB = JSON.parse(fs.readFileSync("./server/applications/custom/db.json"))
-
+// let appDB = JSON.parse(fs.readFileSync("./server/applications/custom/db.json"))
+let appDB = JSON.parse(Deno.readFile("./server/applications/custom/db.json"))
 function grabApplication(socket, data) {
     console.log("grabApp")
     const id = data.id;

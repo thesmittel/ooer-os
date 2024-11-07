@@ -35,9 +35,9 @@
  * @todo Replace user password storage with a database instead of a JSON
  */
 
-import * as Crypto from 'crypto'
-import * as fs from "fs"
-import { addUser } from '../../server.js';
+import * as Crypto from 'node:crypto'
+import * as fs from "node:fs"
+import { addUser } from '../../server.ts';
 import { Socket } from 'socket.io';
 
 
