@@ -2,7 +2,7 @@ import {serveDir, serveFile} from "jsr:@std/http/file-server"
 export async function route(req: Request) {
     const url : string[] = req.url.split("/").filter(a => a!= "");
 
-    console.log(url, url.length)
+    // console.log(url, url.length)
     // console.log(url[2])
     // console.log(import.meta.url)
 

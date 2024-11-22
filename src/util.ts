@@ -1,12 +1,13 @@
-import * as Crypto from "https://deno.land/x/crypto_random_string@1.1.0/mod.ts";
 import {crypto} from "@std/crypto"
 import {encodeHex} from "@std/encoding/hex"
 import * as encode from "@std/encoding"
 const encoder = new TextEncoder()
 
-export function randomId(length : number, type: ("numeric" | undefined)) : string {
-    const randomBytes : string[] = Array.from(Crypto.cryptoRandomString({length: length, type: type}));
-    return randomBytes.map((a : string) => {return  parseInt(a) % 10}).join("");
+export function randomId(length : number) : string {
+    const rBytes = crypto.getRandomValues(new Uint8Array(length))
+    return encode.encodeHex(rBytes)
+    // const randomBytes : string[] = Array.from(Crypto.cryptoRandomString({length: length, type: type}));
+    // return randomBytes.map((a : string) => {return  parseInt(a) % 10}).join("");
 }
 
 export function generateToken() : string {

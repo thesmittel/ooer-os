@@ -20,5 +20,8 @@ export const Auth = {
     },
     confirmLogin: function(socket : WebSocket, data : object) {
         send(socket, "Auth", "confirmLogin", data)
+    },
+    return: function(socket : WebSocket, data : object) {
+        send(socket, "Auth", "return", data)
     }
 }

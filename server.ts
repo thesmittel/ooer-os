@@ -2,10 +2,12 @@ import handle from "./src/connection/receive.ts";
 import { route } from "./src/route.ts";
 import * as Types from "./src/types.ts";
 
-let sessions : Types.SessionList = {
-    assigned: new Set<Types.UserSession>(),
-    unassigned: new Set()
-}
+// let sessions : Types.SessionList = {
+//     assigned: new Set<Types.UserSession>(),
+//     unassigned: new Set()
+// }
+
+
 
 async function main(_req: Request) : Promise<Response> {
     if (_req.headers.get("upgrade") == "websocket") {
@@ -30,10 +32,16 @@ async function main(_req: Request) : Promise<Response> {
         })
         return response;
     }
-    const res = await route(_req);
+    // const res = await route(_req);
 
-    if (res == undefined) return new Response(null, {status: 501})
-    return res
+    // if (res == undefined) return new Response(null, {status: 501})
+    // return res
+    return route(_req).then((response) => {
+        if (response == undefined) return new Response(null, {status: 501})
+        
+        return response;
+    })
+    
     // console.log(_req.headers.get("accept"), _req.url)
     // if (_req.headers.get("accept").match(/text\/css/) && _req.url.match(/\.css$/)) {
     //     const req = _req.url.split("/")[4];

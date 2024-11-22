@@ -1,7 +1,6 @@
 # IMPORTANT
 As of the latest commit, it now uses Deno 2 instead of node. 
-The backend is slowly changed to typescript, regardless what you will find in the text below. 
-Full list of needed packages follows soon, most are part of the Deno std library
+The backend is slowly changed to typescript for no other reason than sanity during development. Full list of needed packages follows soon, most are part of the Deno std library
 
 ## Dependencies
 - Deno 2.0.1
@@ -24,11 +23,11 @@ Web workers will get access to different calls depending on app permission level
 
 The system worker will be the ultimate authority. It will decide what application can request what kind of data both clientside and serverside.
 
-A switch to typescript is NOT planned. I just dont care enough. JSDoc provides the necessary info while writing the code.
+~~A switch to typescript is NOT planned. I just dont care enough. JSDoc provides the necessary info while writing the code.~~ haha surprise its typescript now
 A backend rewrite in Rust is on the table, but for that i have to learn it first
 
 ## Current version:
-`0.1.241107`
+`0.1.241123`
 
 ## Information regarding documentation
 
