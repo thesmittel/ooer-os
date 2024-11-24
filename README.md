@@ -94,7 +94,7 @@ The name you choose can be almost arbitrary, BUT:
 - All whitespaces and leading digits get removed
 - All non-alphanumeric characters are removed
 - Some names are invalid, such as
-    - Invalid strings (see Terminology)
+    - Invalid strings (see [Terminology](Terminology))
     - Names starting with `#`
     - Empty strings
     - Undefined
@@ -174,7 +174,7 @@ These packets ALWAYS have the shape
 ```
 Only the `data` part of this packet gets passed to the listener function. The module and action identifiers are "discarded".
 
-As of now there are no restrictions on action names, that might change in the future, see `Ideas`
+As of now there are no restrictions on action names, that might change in the future, see [`Ideas`](Ideas)
 
 ---
 
