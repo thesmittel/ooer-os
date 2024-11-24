@@ -50,14 +50,14 @@ It handles incoming and outgoing data and sorts it.
     - `constructor`
 
 ### How it works
-0. Serverside only: Get a websocket object. In Deno, this is done via
+#### 0. Serverside only: Get a websocket object. In Deno, this is done via
 ```js
 const {socket, response} = Deno.upgradeWebsocket(/* HTTP request for websocket upgrade */)
 ```
 
 ---
 
-1. Create a SocketManager instance
+#### 1. Create a SocketManager instance
 
 CLIENTSIDE: 
 ```js
@@ -73,7 +73,8 @@ const socketmanager = new SocketManager(socket) // socket being the object that 
 
 ---
 
-2. The only listeners you can explicitly define are the eventlisteners for `open`, `close` and `error`.
+#### 2. Initial setup
+The only listeners you can explicitly define are the eventlisteners for `open`, `close` and `error`.
 Do so using 
 ```js
 socketmanager.connectionOpened(/* Some Function */)
@@ -81,8 +82,10 @@ socketmanager.connectionClosed(/* Some Function */)
 socketmanager.error(/* Some Function */)
 ```
 Technically this is optional, but you should only start communicating via the websocket if it is connected.
+
 ---
-3. Register your modules
+
+#### 3. Register your modules
 ```js
 socketmanager.registerModule(/* Some string */)
 ```
@@ -100,8 +103,10 @@ The name you choose can be almost arbitrary, BUT:
 You can register multiple modules at once by using an array of strings. 
 Careful: The same restrictions apply. It WILL throw an error if somethings off.
 Also, the logic is implemented recursively. You can pass arrays of arrays of arrays of strings. That probably isnt ideal, but it is possible. Try to avoid it.
+
 ---
-4. Deleting Modules
+
+#### 4. Deleting Modules
 The usecase for this is not yet entirely clear to me, but I did not want to not have this option.
 ```js
 socketmanager.deleteModule(/* Some string */);
@@ -109,8 +114,10 @@ socketmanager.deleteModule(/* Some string */);
 It will throw an error if anything other than a string or an invalid string is passed, it will NOT however provide feedback when trying to delete something that isnt there. It fails silently by design, since nothing can go wrong in this case (nothing at all happens), throwing an exception seems excessive. It does however mean that you need to debug it though some other means, if you really want to know.
 
 ! This function executes the same operations as the registerModule function (cleanup and camelCase conversion).
+
 ---
-5. Sending data
+
+#### 5. Sending data
 
 Clientside:
 ```js
@@ -146,8 +153,10 @@ The error codes are arbitrary. There are some other error codes defined in the S
 - `1001` (Module requested by client not registered on the server)
 - `1002` (Requested action does not exist for module)
 They are what they are because that'll make sense in context of the wider project. Once i release this standalone, there will probably be a config file.
+
 ---
-6. Receiving data / adding listeners
+
+#### 6. Receiving data / adding listeners
 
 This is the same on both ends and has already been shown.
 ```js
@@ -166,8 +175,10 @@ These packets ALWAYS have the shape
 Only the `data` part of this packet gets passed to the listener function. The module and action identifiers are "discarded".
 
 As of now there are no restrictions on action names, that might change in the future, see `Ideas`
+
 ---
-7. Deleting listeners
+
+#### 7. Deleting listeners
 Removes an action identifier and its corresponding function from the manager, after which it will not be executed anymore, instead, an error is thrown to the developer console.
 ```js
 socketmanager.moduleName.delete(/* action name */);
