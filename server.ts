@@ -1,73 +1,82 @@
 import handle from "./src/connection/receive.ts";
 import { route } from "./src/route.ts";
 import * as Types from "./src/types.ts";
-
+import { SocketManager } from "./src/connection/SocketManager.ts";
+import { setupAuthSocketHooks } from "./src/connection/handlers/Auth.ts";
+import * as Testing from "./src/connection/test.ts"
 // let sessions : Types.SessionList = {
 //     assigned: new Set<Types.UserSession>(),
 //     unassigned: new Set()
 // }
 
+async function main(_req: Request): Promise<Response> {
+  if (_req.headers.get("upgrade") == "websocket") {
+    const { socket, response } = Deno.upgradeWebSocket(_req);
+    const newtest = new SocketManager(socket)
+    newtest.connectionOpened((e: any) => {
+        console.log("connected")
+        setupAuthSocketHooks(newtest)
+        // console.log(test)
+      });
+    // newtest.registerModule("testing")
+    // console.log("registereed", newtest)
+    // newtest.testing.listen({
+    //   "oman": ()=>{},
+    //   "wep": ()=>{}
+    // })
+    // console.log("multi", newtest)
+    // newtest.testing.delete("omsan")
+    // console.log("deleted oman", newtest)
+    // newtest.deleteModule("testing")
+    // console.log("deleted", newtest)
 
 
-async function main(_req: Request) : Promise<Response> {
-    if (_req.headers.get("upgrade") == "websocket") {
-        const {socket, response} = Deno.upgradeWebSocket(_req);
-        socket.addEventListener("open" , () => {
-            console.log("connected")
-        })
-    
-        socket.addEventListener("message", (event) => {
-            handle(socket, event.data)
-            // if (event.data === "ping") {
-            //     socket.send("pong")
-            // }
-            // if (event.data.module) {
-            //     handle(socket, event.data)
-            // }
-        })
-    
-        socket.addEventListener("error", (error) => {
-            console.log(socket, error)
-            socket.close();
-        })
-        return response;
-    }
-    // const res = await route(_req);
-
-    // if (res == undefined) return new Response(null, {status: 501})
-    // return res
-    return route(_req).then((response) => {
-        if (response == undefined) return new Response(null, {status: 501})
-        
-        return response;
-    })
-    
-    // console.log(_req.headers.get("accept"), _req.url)
-    // if (_req.headers.get("accept").match(/text\/css/) && _req.url.match(/\.css$/)) {
-    //     const req = _req.url.split("/")[4];
-    //     console.log(req)
-    //     const css = Deno.readTextFileSync("./client/public/css/" + req)
-    //     return new Response(css, {
-    //         headers: {
-    //             "content-type": "text/css"
-    //         }
-    //     })
-    // }
-
-    // const html = Deno.readTextFileSync("./client/index.html");
-    // return new Response(html, {
-    //     "headers": {
-    //         "content-type": "text/html"
-    //     }
+    // const test = new SocketManager(socket);
+    // test.connectionOpened((e: any) => {
+    //   console.log("connected")
+    //   setupAuthSocketHooks(test)
+    //   // console.log(test)
+    // });
+    // test.error((error : object) => {
+    //   // console.log(socket, error);
+    //   socket.close();
     // })
 
-    // if (_req.headers.get("upgrade") != "websocket") {
-    //     return new Response(null, {status: 501})
-    // }
+    return response;
+  }
+  // const res = await route(_req);
 
-    
+  // if (res == undefined) return new Response(null, {status: 501})
+  // return res
+  return route(_req).then((response) => {
+    if (response == undefined) return new Response(null, { status: 501 });
+
+    return response;
+  });
+
+  // console.log(_req.headers.get("accept"), _req.url)
+  // if (_req.headers.get("accept").match(/text\/css/) && _req.url.match(/\.css$/)) {
+  //     const req = _req.url.split("/")[4];
+  //     console.log(req)
+  //     const css = Deno.readTextFileSync("./client/public/css/" + req)
+  //     return new Response(css, {
+  //         headers: {
+  //             "content-type": "text/css"
+  //         }
+  //     })
+  // }
+
+  // const html = Deno.readTextFileSync("./client/index.html");
+  // return new Response(html, {
+  //     "headers": {
+  //         "content-type": "text/html"
+  //     }
+  // })
+
+  // if (_req.headers.get("upgrade") != "websocket") {
+  //     return new Response(null, {status: 501})
+  // }
 }
-
 
 Deno.serve({ port: 8080 }, main);
 
@@ -83,8 +92,6 @@ Deno.serve({ port: 8080 }, main);
 // // import * as Auth from "./server/modules/Auth.js"
 // // import * as System from "./server/modules/System.js"
 // // import * as App from "./server/modules/App.js"
-
-
 
 // const app = express();
 // const server = http.createServer(app);

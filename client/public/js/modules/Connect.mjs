@@ -32,7 +32,7 @@ import { handle as client } from "./connect/Client.mjs";
 import { handle as system } from "./connect/System.mjs";
 import { handle as app } from "./connect/App.mjs";
 import { DialogBox } from "../components/ui.mjs";
-import { Socket } from "./system/socket.mjs";
+import { SocketManager } from "./system/SocketManager.mjs";
 // import * as Test from "./test.mjs"
 /**
  * @constant socket Socket.io instance
@@ -41,23 +41,49 @@ import { Socket } from "./system/socket.mjs";
 console.log(globalThis.process !== undefined ? "process" : "Window");
 // const socket = io();
 // test. changing
-const socket = new WebSocket(document.location);
+// const socket = new WebSocket(document.location);
 
-socket.emit = function (module, action, data) {
-    socket.send(JSON.stringify({
-        module: module,
-        action: action,
-        data: data,
-    }));
-};
+// socket.emit = function (module, action, data) {
+//     socket.send(JSON.stringify({
+//         module: module,
+//         action: action,
+//         data: data,
+//     }));
+// };
 
-const SOCKET = new Socket(document.location)
+const SOCKET = new SocketManager(document.location);
 SOCKET.connectionOpened(() => {
-    SOCKET.registerModule("Auth");
-    // SOCKET.registerModule(Test)
-    SOCKET.Auth.send("test", "data");
-    SOCKET.Auth.listen("return", (d) => {console.log("RETURNED", d)})
-})
+  // SOCKET.registerModule(Test)
+  SOCKET.Auth.send("test", "data");
+});
+
+SOCKET.registerModule("Auth");
+SOCKET.Auth.listen("test", (d) => {
+  console.log("RETURNED", d);
+});
+
+SOCKET.connectionClosed(() => {
+  const error = new DialogBox(
+    "Connection lost.",
+    "Connection to the server has been lost.\nTry again?",
+    4,
+    [{
+      text: "Retry",
+      call: () => {
+        console.log("retry");
+      },
+      main: true,
+    }, {
+      text: "Abort",
+      call: () => {
+        console.log("abort");
+      },
+      main: false,
+    }],
+    document.body,
+    false,
+  );
+});
 /**
  * Sends system data back to the server via a websocket.
  * System data includes general commands and requests to the server, like starting an app.
@@ -72,8 +98,8 @@ SOCKET.connectionOpened(() => {
  * @name Export:System
  */
 function System(action, data) {
-    // console.log(data)
-    socket.emit("System", action, data);
+  // console.log(data)
+  socket.emit("System", action, data);
 }
 
 /**
@@ -89,7 +115,7 @@ function System(action, data) {
  * @name Export:Auth
  */
 function Auth(action, data) {
-    socket.emit("Auth", action, data);
+  socket.emit("Auth", action, data);
 }
 
 /**
@@ -105,7 +131,7 @@ function Auth(action, data) {
  * @name Export:Client
  */
 function Client(action, data) {
-    socket.emit("Client", action, data);
+  socket.emit("Client", action, data);
 }
 /**
  * Sends app data back to the server via a websocket. Used for communication between apps and the server. Currently only accessible by system level apps.
@@ -120,29 +146,29 @@ function Client(action, data) {
  * @name Export:app
  */
 function App(action, data) {
-    console.log("emits", data);
-    socket.emit("App", action, data);
+  console.log("emits", data);
+  socket.emit("App", action, data);
 }
 
-socket.addEventListener("message", ({ data }) => {
-    const response = JSON.parse(data);
-    switch (response.module) {
-        case "App":
-            app(data);
-            break;
-        case "System":
-            system(data);
-            break;
-        case "User":
-            client(data);
-            break;
-        case "Auth":
-            auth(data);
-            break;
-        case "Test":
-            alert("test");
-    }
-});
+// socket.addEventListener("message", ({ data }) => {
+//     const response = JSON.parse(data);
+//     switch (response.module) {
+//         case "App":
+//             app(data);
+//             break;
+//         case "System":
+//             system(data);
+//             break;
+//         case "User":
+//             client(data);
+//             break;
+//         case "Auth":
+//             auth(data);
+//             break;
+//         case "Test":
+//             alert("test");
+//     }
+// });
 cookie();
 // // console.log("system:", system.toString())
 // /**
@@ -175,27 +201,27 @@ cookie();
  * @listens disconnect
  * @callback Error:errorDialog
  */
-socket.addEventListener("disconnect", () => {
-    const error = new DialogBox(
-        "Connection lost.",
-        "Connection to the server has been lost.\nTry again?",
-        4,
-        [{
-            text: "Retry",
-            call: () => {
-                console.log("retry");
-            },
-            main: true,
-        }, {
-            text: "Abort",
-            call: () => {
-                console.log("abort");
-            },
-            main: false,
-        }],
-        document.body,
-        false,
-    );
-});
+// socket.addEventListener("disconnect", () => {
+//     const error = new DialogBox(
+//         "Connection lost.",
+//         "Connection to the server has been lost.\nTry again?",
+//         4,
+//         [{
+//             text: "Retry",
+//             call: () => {
+//                 console.log("retry");
+//             },
+//             main: true,
+//         }, {
+//             text: "Abort",
+//             call: () => {
+//                 console.log("abort");
+//             },
+//             main: false,
+//         }],
+//         document.body,
+//         false,
+//     );
+// });
 //test
 export { App, Auth, Client, System };

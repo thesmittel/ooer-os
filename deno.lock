@@ -5,15 +5,16 @@
     "jsr:@std/crypto@^1.0.3": "1.0.3",
     "jsr:@std/encoding@^1.0.5": "1.0.5",
     "jsr:@std/fmt@^1.0.3": "1.0.3",
-    "jsr:@std/http@*": "1.0.9",
-    "jsr:@std/http@^1.0.9": "1.0.9",
-    "jsr:@std/media-types@^1.0.3": "1.0.3",
+    "jsr:@std/html@^1.0.3": "1.0.3",
+    "jsr:@std/http@*": "1.0.11",
+    "jsr:@std/http@^1.0.11": "1.0.11",
+    "jsr:@std/media-types@^1.1.0": "1.1.0",
     "jsr:@std/net@^1.0.4": "1.0.4",
-    "jsr:@std/path@^1.0.7": "1.0.8",
-    "jsr:@std/streams@^1.0.7": "1.0.8",
+    "jsr:@std/path@^1.0.8": "1.0.8",
+    "jsr:@std/streams@^1.0.8": "1.0.8",
     "npm:@types/express@5": "5.0.0",
     "npm:express@^4.21.1": "4.21.1",
-    "npm:socket.io@^4.8.0": "4.8.0"
+    "npm:socket.io@^4.8.1": "4.8.1"
   },
   "jsr": {
     "@std/cli@1.0.6": {
@@ -28,20 +29,24 @@
     "@std/fmt@1.0.3": {
       "integrity": "97765c16aa32245ff4e2204ecf7d8562496a3cb8592340a80e7e554e0bb9149f"
     },
-    "@std/http@1.0.9": {
-      "integrity": "d409fc319a5e8d4a154e576c758752e9700282d74f31357a12fec6420f9ecb6c",
+    "@std/html@1.0.3": {
+      "integrity": "7a0ac35e050431fb49d44e61c8b8aac1ebd55937e0dc9ec6409aa4bab39a7988"
+    },
+    "@std/http@1.0.11": {
+      "integrity": "f1928e69e7dcf1664e22d153934cb866bf31e1bbe4bc59f8ac1b4d0e98cb7558",
       "dependencies": [
         "jsr:@std/cli",
         "jsr:@std/encoding",
         "jsr:@std/fmt",
+        "jsr:@std/html",
         "jsr:@std/media-types",
         "jsr:@std/net",
         "jsr:@std/path",
         "jsr:@std/streams"
       ]
     },
-    "@std/media-types@1.0.3": {
-      "integrity": "b12d30a7852f7578f4d210622df713bbfd1cbdd9b4ec2eaf5c1845ab70bab159"
+    "@std/media-types@1.1.0": {
+      "integrity": "c9d093f0c05c3512932b330e3cc1fe1d627b301db33a4c2c2185c02471d6eaa4"
     },
     "@std/net@1.0.4": {
       "integrity": "2f403b455ebbccf83d8a027d29c5a9e3a2452fea39bb2da7f2c04af09c8bc852"
@@ -522,8 +527,8 @@
         "debug@4.3.7"
       ]
     },
-    "socket.io@4.8.0": {
-      "integrity": "sha512-8U6BEgGjQOfGz3HHTYaC/L1GaxDCJ/KM0XTkJly0EhZ5U/du9uNEZy4ZgYzEzIqlx2CMm25CrCqr1ck899eLNA==",
+    "socket.io@4.8.1": {
+      "integrity": "sha512-oZ7iUCxph8WYRHHcjBEc9unw3adt5CmSNlppj/5Q4k2RIrhl8Z5yY2Xr4j9zj0+wzVZ0bxmYoGSzKJnRl6A4yg==",
       "dependencies": [
         "accepts",
         "base64id",
@@ -575,13 +580,13 @@
     "dependencies": [
       "jsr:@std/crypto@^1.0.3",
       "jsr:@std/encoding@^1.0.5",
-      "jsr:@std/http@^1.0.9"
+      "jsr:@std/http@^1.0.11"
     ],
     "packageJson": {
       "dependencies": [
         "npm:@types/express@5",
         "npm:express@^4.21.1",
-        "npm:socket.io@^4.8.0"
+        "npm:socket.io@^4.8.1"
       ]
     }
   }
