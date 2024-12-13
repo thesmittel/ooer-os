@@ -3,6 +3,7 @@
   "specifiers": {
     "jsr:@std/cli@^1.0.6": "1.0.6",
     "jsr:@std/crypto@^1.0.3": "1.0.3",
+    "jsr:@std/encoding@1": "1.0.5",
     "jsr:@std/encoding@^1.0.5": "1.0.5",
     "jsr:@std/fmt@^1.0.3": "1.0.3",
     "jsr:@std/html@^1.0.3": "1.0.3",
@@ -12,6 +13,8 @@
     "jsr:@std/net@^1.0.4": "1.0.4",
     "jsr:@std/path@^1.0.8": "1.0.8",
     "jsr:@std/streams@^1.0.8": "1.0.8",
+    "jsr:@stdext/crypto@*": "0.0.6",
+    "jsr:@stdext/crypto@^0.0.6": "0.0.6",
     "npm:@types/express@5": "5.0.0",
     "npm:express@^4.21.1": "4.21.1",
     "npm:socket.io@^4.8.1": "4.8.1"
@@ -36,7 +39,7 @@
       "integrity": "f1928e69e7dcf1664e22d153934cb866bf31e1bbe4bc59f8ac1b4d0e98cb7558",
       "dependencies": [
         "jsr:@std/cli",
-        "jsr:@std/encoding",
+        "jsr:@std/encoding@^1.0.5",
         "jsr:@std/fmt",
         "jsr:@std/html",
         "jsr:@std/media-types",
@@ -56,6 +59,12 @@
     },
     "@std/streams@1.0.8": {
       "integrity": "b41332d93d2cf6a82fe4ac2153b930adf1a859392931e2a19d9fabfb6f154fb3"
+    },
+    "@stdext/crypto@0.0.6": {
+      "integrity": "92998693fd043b7a995d786273f78011bb963b04c91b4c86ca0a14b8f88b380a",
+      "dependencies": [
+        "jsr:@std/encoding@1"
+      ]
     }
   },
   "npm": {
@@ -571,6 +580,11 @@
   "remote": {
     "https://deno.land/std@0.99.0/encoding/base64.ts": "eecae390f1f1d1cae6f6c6d732ede5276bf4b9cd29b1d281678c054dc5cc009e",
     "https://deno.land/std@0.99.0/encoding/hex.ts": "f952e0727bddb3b2fd2e6889d104eacbd62e92091f540ebd6459317a61932d9b",
+    "https://deno.land/x/bcrypt@v0.4.1/mod.ts": "ff09bdae282583cf5f7d87efe37ddcecef7f14f6d12e8b8066a3058db8c6c2f7",
+    "https://deno.land/x/bcrypt@v0.4.1/src/bcrypt/base64.ts": "b8266450a4f1eb6960f60f2f7986afc4dde6b45bd2d7ee7ba10789e67e17b9f7",
+    "https://deno.land/x/bcrypt@v0.4.1/src/bcrypt/bcrypt.ts": "ec221648cc6453ea5e3803bc817c01157dada06aa6f7a0ba6b9f87aae32b21e2",
+    "https://deno.land/x/bcrypt@v0.4.1/src/main.ts": "08d201b289c8d9c46f8839c69cd6625b213863db29775c7a200afc3b540e64f8",
+    "https://deno.land/x/bcrypt@v0.4.1/src/worker.ts": "5a73bdfee9c9e622f47c9733d374b627dce52fb3ec1e74c8226698b3fc57ffac",
     "https://deno.land/x/crypto_random_string@1.1.0/constants.ts": "834f718bc3e7bba4d19a28cbc9d289309c6c3db5d6486c300d509fffa42a75d6",
     "https://deno.land/x/crypto_random_string@1.1.0/cryptoRandomString.ts": "301046e469dd9228171262b8c1ae31aa44ae1a7595ba0e2dbbc464819ad9aa43",
     "https://deno.land/x/crypto_random_string@1.1.0/deps.ts": "742c4c04df39a5fcc8939d3a2c9052229c2e2d61c2d7af5317fcbee5dd93c2ff",
@@ -580,7 +594,8 @@
     "dependencies": [
       "jsr:@std/crypto@^1.0.3",
       "jsr:@std/encoding@^1.0.5",
-      "jsr:@std/http@^1.0.11"
+      "jsr:@std/http@^1.0.11",
+      "jsr:@stdext/crypto@^0.0.6"
     ],
     "packageJson": {
       "dependencies": [

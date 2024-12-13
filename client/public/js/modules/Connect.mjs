@@ -54,6 +54,8 @@ console.log(globalThis.process !== undefined ? "process" : "Window");
 const SOCKET = new SocketManager(document.location);
 SOCKET.connectionOpened(() => {
   // SOCKET.registerModule(Test)
+  console.log("open")
+  SOCKET.registerModule("User")
   SOCKET.Auth.send("test", "data");
 });
 
@@ -61,7 +63,12 @@ SOCKET.registerModule("Auth");
 SOCKET.Auth.listen("test", (d) => {
   console.log("RETURNED", d);
 });
-
+SOCKET.Auth.listen("error", (d) => {
+  console.log(d)
+})
+SOCKET.Auth.listen("confirmLogin", (d) => {
+  console.log(d)
+})
 SOCKET.connectionClosed(() => {
   const error = new DialogBox(
     "Connection lost.",
@@ -115,7 +122,8 @@ function System(action, data) {
  * @name Export:Auth
  */
 function Auth(action, data) {
-  socket.emit("Auth", action, data);
+  SOCKET.Auth.send("login", data)
+  // socket.emit("Auth", action, data);
 }
 
 /**

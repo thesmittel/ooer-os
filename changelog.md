@@ -1,16 +1,14 @@
 ## Version
 
-0.1.241124
+0.1.241213
+- Added login backend
+- Changed user ID to UUID
+- Changed salt and hash algorithms to bcrypt
+  - expect further changes down the line
+- changed the way passwords are stored
+- Still no database
+- Noticed problems regarding promises inside handler function
 
-- Fully replaced socket.io with own SocketManager
-- Both serverside and clientside
-- Back end is still in an absolute state, old code commented out, unused code,
-  everythings still a testing ground
-- two versions exist of both the client and serverside code
-  - Old version is a bit more limited but also cleaner
-  - New version allows deleting listeners and modules as well as adding and
-    deleting listeners in batches
-- See readme for details
 
 ## Known issues:
 
@@ -28,6 +26,18 @@ then, not enough has changed to warrant a new number, so i use the date in
 YYMMDD format to differenciate the progress.
 
 ## Dev Diary
+
+### 0.1.241124
+
+- Fully replaced socket.io with own SocketManager
+- Both serverside and clientside
+- Back end is still in an absolute state, old code commented out, unused code,
+  everythings still a testing ground
+- two versions exist of both the client and serverside code
+  - Old version is a bit more limited but also cleaner
+  - New version allows deleting listeners and modules as well as adding and
+    deleting listeners in batches
+- See readme for details
 
 ### 0.1.241123
 

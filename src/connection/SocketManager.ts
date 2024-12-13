@@ -53,8 +53,9 @@ export class SocketManager {
           `Action "${request.action}" not defined for module "${request.module}"`,
       });
     }
-    const response : SocketResponse = this[request.module].listeners[request.action](request.data);
-    this.#emit(response.module || request.module, response.action || request.action, response.data || {error: 1, message: "No data"})
+    const response : SocketResponse|null = this[request.module].listeners[request.action](request.data);
+    if (response === null) {return}
+    this.#emit(response?.module || request.module, response?.action || request.action, response?.data || {error: 1, message: "No data"})
   }
 
   deleteModule(moduleName : string) {
@@ -200,6 +201,7 @@ export class SocketManager {
   }
 
   #emit(module: string, action: string, data: object) {
+
     this.#socket.send(JSON.stringify({
       module: module,
       action: action,

@@ -4,6 +4,8 @@ import * as Types from "./src/types.ts";
 import { SocketManager } from "./src/connection/SocketManager.ts";
 import { setupAuthSocketHooks } from "./src/connection/handlers/Auth.ts";
 import * as Testing from "./src/connection/test.ts"
+import { setupUserSocketHooks } from "./src/connection/handlers/User.ts";
+import { Connection, UnassignedConnection } from "./src/connection/index.ts";
 // let sessions : Types.SessionList = {
 //     assigned: new Set<Types.UserSession>(),
 //     unassigned: new Set()
@@ -12,12 +14,17 @@ import * as Testing from "./src/connection/test.ts"
 async function main(_req: Request): Promise<Response> {
   if (_req.headers.get("upgrade") == "websocket") {
     const { socket, response } = Deno.upgradeWebSocket(_req);
-    const newtest = new SocketManager(socket)
-    newtest.connectionOpened((e: any) => {
-        console.log("connected")
-        setupAuthSocketHooks(newtest)
-        // console.log(test)
-      });
+    const connection : Connection = new UnassignedConnection(new SocketManager(socket))
+    
+    // const newtest = new SocketManager(socket)
+    // newtest.connectionOpened((e: any) => {
+    //     console.log("connected")
+    //     setupAuthSocketHooks(newtest)
+    //     setupUserSocketHooks(newtest)
+    //     // console.log(test)
+    //   });
+
+
     // newtest.registerModule("testing")
     // console.log("registereed", newtest)
     // newtest.testing.listen({

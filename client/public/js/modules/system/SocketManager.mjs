@@ -14,7 +14,8 @@ export class SocketManager {
       this.#onMessage(e);
     });
   }
-
+  // maybe 
+  // get connectionOpened() 
   connectionOpened(callback) {
     if (typeof callback !== "function") {
       throw new Error(
@@ -48,7 +49,6 @@ export class SocketManager {
 
   #onMessage({ data }) {
     const response = JSON.parse(data);
-
     if (this[response.module] == undefined) {
       throw new ReferenceError(`Socket: Module ${response.module} not defined`);
     }
@@ -104,9 +104,6 @@ export class SocketManager {
     }
     moduleName = this.#cleanupString(moduleName)
     moduleName = this.#convertToCamelCase(moduleName)
-    if (moduleName == "") {
-      throw new ReferenceError(`Socket.registerModule(name): Invalid module name ${moduleName}`);
-    }
     
     if (this.#invalid.includes(moduleName) || moduleName.charAt(0) == "#") {
       throw new ReferenceError(`Socket.registerModule(name): Invalid module name ${moduleName}`);
