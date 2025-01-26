@@ -55,6 +55,7 @@ export class SocketManager {
     }
     const response : SocketResponse|null = this[request.module].listeners[request.action](request.data);
     if (response === null) {return}
+    console.log("response", response)
     this.#emit(response?.module || request.module, response?.action || request.action, response?.data || {error: 1, message: "No data"})
   }
 

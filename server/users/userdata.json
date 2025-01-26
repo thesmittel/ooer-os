@@ -3,7 +3,7 @@
         {
             "id": "000000000000",
             "username": "username",
-            "nickname": "A funny nickname",
+            "nickname": "nickname",
             "email": "johndoe@example.com",
             "banner": null,
             "avatar": null,

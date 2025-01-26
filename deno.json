@@ -2,6 +2,7 @@
   "imports": {
     "@std/crypto": "jsr:@std/crypto@^1.0.3",
     "@std/encoding": "jsr:@std/encoding@^1.0.5",
+    "@std/fs": "jsr:@std/fs@^1.0.10",
     "@std/http": "jsr:@std/http@^1.0.11",
     "@stdext/crypto": "jsr:@stdext/crypto@^0.0.6"
   }

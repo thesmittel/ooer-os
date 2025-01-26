@@ -27,7 +27,8 @@ class Application {
             "CHANGE_SETTINGS",
             "ACCESS_LOCAL_FILES",
             "ACCESS_CLOUD_FILES",
-            "MAKE_GLOBAL_SHORTCUT"
+            "MAKE_GLOBAL_SHORTCUT",
+            "READ_PROFILE_PICTURE"
         ]
         for (let i = 0; i < names.length; i++) {
             this.#permissions[names[i]] = (p & i == 1)

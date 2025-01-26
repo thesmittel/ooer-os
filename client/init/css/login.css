@@ -1,21 +1,99 @@
 /* reconsider, if this should be loaded on page start or sent on request later */
 
+.blackout {
+    position: fixed;
+    inset: 0;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(9deg, rgba(2, 0, 36, 1) 0%, rgba(23, 42, 46, 1) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10002;
+    transition: opacity 0.4s;
+}
+
+.blackout>div {
+    height: 30px;
+    width: auto;
+    display: block;
+    transition: opacity 0.4s;
+}
+
+.blackout>div>.dot-container {
+    height: 100%;
+    aspect-ratio: 1;
+    margin-inline: 3px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@keyframes dotpulse {
+    from {
+        opacity: 0;
+        height: 12px
+    }
+
+    to {
+        opacity: 1;
+        height: 20px;
+    }
+}
+
+.blackout>div>.dot-container>.dot {
+    background-color: white;
+    aspect-ratio: 1;
+    animation-name: dotpulse;
+    animation-duration: .6s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    border-radius: 100%;
+}
+
+.blackout>div>*:nth-child(1)>.dot {
+    animation-delay: 0ms;
+}
+
+.blackout>div>*:nth-child(2)>.dot {
+    animation-delay: 200ms;
+}
+
+.blackout>div>*:nth-child(3)>.dot {
+    animation-delay: 400ms;
+}
+
+div.loading-text {
+    font-weight: 300;
+    font-size: 20px;
+    display: block;
+    margin-top: 12px;
+    color: white;
+    transition: opacity 0.4s;
+}
+
+div.loading-text::after {
+    content: "...";
+    position: absolute;
+}
+
 login-main {
     display: flex;
     height: 100%;
     width: 100%;
     /* background-color: #0003;
     backdrop-filter: blur(20px); */
-    background-image: url("/media/images/login wallpaper.jpg");
+    /* background-image: url("/media/images/login wallpaper.jpg");
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: fixed; */
     position: fixed;
     align-items: center;
     justify-content: center;
     z-index: 10001;
     transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-    opacity: 1;
+    opacity: 0;
     transform: scale(1);
 }
 
@@ -180,20 +258,20 @@ login-main[data-hide="true"] {
 
 .login-container:not([data-error="none"])::after {
     content: attr(data-error);
-  outline: solid 2px red;
-  background-color: #f007;
-  color: white;
-  position: absolute;
-  bottom: -15px;
-  left: 197px;
-  width: 447px;
-  white-space: nowrap;
-  height: fit-content;
-  transform: translateX(-50%);
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  padding-block: 4px;
+    outline: solid 2px red;
+    background-color: #f007;
+    color: white;
+    position: absolute;
+    bottom: -15px;
+    left: 197px;
+    width: 447px;
+    white-space: nowrap;
+    height: fit-content;
+    transform: translateX(-50%);
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding-block: 4px;
 }
 
 
@@ -325,4 +403,11 @@ a.login-button {
     justify-content: center;
     align-items: center;
     color: white;
+}
+
+.welcome-text {
+    color: white;
+    font-weight: 200;
+    font-size: 52px;
+    height: 72px !important;
 }

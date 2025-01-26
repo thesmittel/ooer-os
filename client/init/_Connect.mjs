@@ -28,11 +28,11 @@
  * @import handle
  */
 import { cookieLogin as cookie, handle as auth } from "./connect/Auth.mjs";
-import { handle as client } from "./connect/Client.mjs";
-import { handle as system } from "./connect/System.mjs";
-import { handle as app } from "./connect/App.mjs";
-import { DialogBox } from "../components/ui.mjs";
-import { SocketManager } from "./system/SocketManager.mjs";
+// import { handle as client } from "./connect/Client.mjs";
+// import { handle as system } from "./connect/System.mjs";
+// import { handle as app } from "./connect/App.mjs";
+// import { DialogBox } from "../components/ui.mjs";
+import { SocketManager } from "./connect/SocketManager.mjs";
 // import * as Test from "./test.mjs"
 /**
  * @constant socket Socket.io instance
@@ -70,26 +70,27 @@ SOCKET.Auth.listen("confirmLogin", (d) => {
   console.log(d)
 })
 SOCKET.connectionClosed(() => {
-  const error = new DialogBox(
-    "Connection lost.",
-    "Connection to the server has been lost.\nTry again?",
-    4,
-    [{
-      text: "Retry",
-      call: () => {
-        console.log("retry");
-      },
-      main: true,
-    }, {
-      text: "Abort",
-      call: () => {
-        console.log("abort");
-      },
-      main: false,
-    }],
-    document.body,
-    false,
-  );
+  console.log("error")
+  // const error = new DialogBox(
+  //   "Connection lost.",
+  //   "Connection to the server has been lost.\nTry again?",
+  //   4,
+  //   [{
+  //     text: "Retry",
+  //     call: () => {
+  //       console.log("retry");
+  //     },
+  //     main: true,
+  //   }, {
+  //     text: "Abort",
+  //     call: () => {
+  //       console.log("abort");
+  //     },
+  //     main: false,
+  //   }],
+  //   document.body,
+  //   false,
+  // );
 });
 /**
  * Sends system data back to the server via a websocket.

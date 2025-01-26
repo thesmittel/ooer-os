@@ -6,6 +6,7 @@
     "jsr:@std/encoding@1": "1.0.5",
     "jsr:@std/encoding@^1.0.5": "1.0.5",
     "jsr:@std/fmt@^1.0.3": "1.0.3",
+    "jsr:@std/fs@^1.0.10": "1.0.10",
     "jsr:@std/html@^1.0.3": "1.0.3",
     "jsr:@std/http@*": "1.0.11",
     "jsr:@std/http@^1.0.11": "1.0.11",
@@ -31,6 +32,12 @@
     },
     "@std/fmt@1.0.3": {
       "integrity": "97765c16aa32245ff4e2204ecf7d8562496a3cb8592340a80e7e554e0bb9149f"
+    },
+    "@std/fs@1.0.10": {
+      "integrity": "bf041f9d7a0a460817f0421be8946d0e06011b3433e6c83a215628de5e3c7c2c",
+      "dependencies": [
+        "jsr:@std/path"
+      ]
     },
     "@std/html@1.0.3": {
       "integrity": "7a0ac35e050431fb49d44e61c8b8aac1ebd55937e0dc9ec6409aa4bab39a7988"
@@ -594,6 +601,7 @@
     "dependencies": [
       "jsr:@std/crypto@^1.0.3",
       "jsr:@std/encoding@^1.0.5",
+      "jsr:@std/fs@^1.0.10",
       "jsr:@std/http@^1.0.11",
       "jsr:@stdext/crypto@^0.0.6"
     ],

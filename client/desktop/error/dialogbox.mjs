@@ -22,7 +22,7 @@
  * @author Smittel
  */
 
-import { create } from "../../modules/Util.mjs";
+import { create } from "../Util.mjs";
 
 /**
  *

@@ -104,6 +104,9 @@ export class AssignedConnection extends Connection {
   }
 
   downgradeConnection() { // log out
+    this.socket.deleteModule("User")
+    this.socket.deleteModule("System")
+    this.socket.deleteModule("App")
     // remove all listeners
     // turn back into unassigned connection
   }

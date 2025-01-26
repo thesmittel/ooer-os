@@ -1,0 +1,147 @@
+
+https://dbdiagram.io/d
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table passwords {
+  user_id varchar [primary key]
+  hash varchar
+}
+
+Table desktopSymbols {
+  uuid varchar pk
+  user_id varchar
+  type varchar
+  info varchar
+  created timestamp
+  links_to varchar
+}
+
+Table Applications {
+  uuid varchar pk
+  app_id varchar 
+  version varchar
+  html varchar [note: "path to app html"]
+  js varchar [note: "path to app js"]
+  css varchar [note: "path to app css"]
+  author varchar
+  userref varchar
+  name varchar
+  description varchar
+}
+
+Table UserAppPermissions {
+  user_id varchar pk
+  app_uuid varchar pk
+  update_content boolean
+  summon_window boolean
+  open_dialog boolean
+  override_window boolean
+  server_communication boolean
+  read_notifications boolean
+  send_notifications boolean
+  access_contacts boolean
+  read_username boolean
+  change_username boolean
+  read_nickname boolean
+  change_nickname boolean
+  read_settings boolean
+  change_settings boolean
+  access_local_files boolean
+  access_cloud_files boolean
+  make_global_shortcut boolean
+  read_profile_picture boolean
+}
+
+Table AppPermissions {
+  app_uuid varchar pk
+  update_content boolean
+  summon_window boolean
+  open_dialog boolean
+  override_window boolean
+  server_communication boolean
+  read_notifications boolean
+  send_notifications boolean
+  access_contacts boolean
+  read_username boolean
+  change_username boolean
+  read_nickname boolean
+  change_nickname boolean
+  read_settings boolean
+  change_settings boolean
+  access_local_files boolean
+  access_cloud_files boolean
+  make_global_shortcut boolean
+  read_profile_picture boolean
+}
+
+
+Table users {
+  user_id varchar [primary key]
+  username varchar [not null, unique] 
+  nickname varchar
+  about varchar
+  status integer
+  banner varchar
+  created timestamp
+}
+
+Table sensitive {
+  user_id varchar pk
+  email varchar
+  phone varchar
+}
+
+Table social {
+  user_id varchar pk
+  friends varchar pk
+  created timestamp
+  tier integer
+}
+
+Table sharedElements {
+  owner varchar pk
+  user2 varchar pk
+  type varchar pk
+  uuid varchar pk
+  shareLevel integer
+}
+
+Table Files {
+  uuid varchar pk
+  type varchar
+  name varchar 
+  created timestamp
+  last_modified timestamp
+  path varchar
+}
+
+Table Folders {
+  uuid varchar pk
+  user_id varchar
+  folder_address varchar
+  path varchar
+  description varchar
+  elements varchar
+}
+
+Ref: UserAppPermissions.user_id - users.user_id
+Ref: AppPermissions.app_uuid - Applications.uuid
+Ref: UserAppPermissions.app_uuid - Applications.uuid
+Ref: Folders.elements < Folders.uuid
+Ref: Folders.elements < Files.uuid
+Ref: Folders.user_id - users.user_id
+Ref: desktopSymbols.links_to - Folders.uuid
+Ref: desktopSymbols.links_to - Applications.uuid
+Ref: desktopSymbols.links_to - Files.uuid
+Ref: desktopSymbols.user_id > users.user_id
+Ref: Applications.userref > users.user_id
+Ref: Files.uuid - sharedElements.uuid
+Ref: Folders.uuid - sharedElements.uuid
+Ref: users.user_id - sharedElements.owner
+Ref: users.user_id - sharedElements.user2
+Ref: users.user_id - social.user_id
+Ref: social.friends - users.user_id
+Ref: users.user_id - sensitive.user_id 
+Ref: users.user_id - passwords.user_id 
+

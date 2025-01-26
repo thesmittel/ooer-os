@@ -1,4 +1,4 @@
-import { ValueError } from "./Error.mjs";
+
 
 export class SocketManager {
   #socket;
@@ -49,6 +49,7 @@ export class SocketManager {
 
   #onMessage({ data }) {
     const response = JSON.parse(data);
+    console.log("socket response", response)
     if (this[response.module] == undefined) {
       throw new ReferenceError(`Socket: Module ${response.module} not defined`);
     }

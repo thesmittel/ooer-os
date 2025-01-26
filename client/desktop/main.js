@@ -3,18 +3,35 @@
  * @name Client:main
  * @description Starting point, initialiser for all other modules. Handles clockticks
  */
-
-import * as Connect from "./modules/Connect.mjs"
-import * as Handler from "./modules/Handlers.mjs"
-import { create } from "./modules/Util.mjs"
-import { Panel } from "./components/ui.mjs"
-// import { Widget } from "./modules/desktop/desktop.mjs"
-import { ArgumentError, ValueError } from "./modules/system/Error.mjs"
-import * as Keyboard from "./modules/input/Keyboard.mjs"
-import { clock } from "./modules/util/clock.mjs"
-import { PasswordPrompt } from "./components/ui/passwordPrompt.mjs"
-
+import { closeLogin } from "../desktop/connect/Auth.mjs";
+// import * as Connect from "./modules/Connect.mjs"
+// import * as Handler from "./modules/Handlers.mjs"
+// import { create } from "./modules/Util.mjs"
+// import { Panel } from "./components/ui.mjs"
+// // import { Widget } from "./modules/desktop/desktop.mjs"
+// import { ArgumentError, ValueError } from "./modules/system/Error.mjs"
+// import * as Keyboard from "./modules/input/Keyboard.mjs"
+// import { clock } from "./modules/util/clock.mjs"
+// import { PasswordPrompt } from "./components/ui/passwordPrompt.mjs"
 console.log("SERVED")
+
+
+const bo = document.querySelector("div.blackout");
+bo.style.opacity = 0;
+bo.addEventListener("transitionend", () => {
+    bo.remove()
+})
+const loadingAnim = Array.from(document.querySelector("div.blackout").childNodes).filter(a => a.dataset)
+console.log(loadingAnim)
+loadingAnim.forEach(a => {
+    a.style.opacity = 0;
+    a.addEventListener("transitionend", () => {
+        a.remove()
+    })
+})
+closeLogin()
+
+
 // for some reason this works, but will be changed anyways
 // Handler.openLogin({stopPropagation: ()=>{}})
 

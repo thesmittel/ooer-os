@@ -6,6 +6,8 @@ import * as Hash from "jsr:@stdext/crypto/hash"
 import * as util from "jsr:@stdext/crypto/utils"
 import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 import {crypto} from  "@std/crypto"
+import {walk} from "@std/fs/walk"
+
 
 // export function handle(socket: WebSocket, data: SocketRequest) {
 //   switch (data.action) {
@@ -50,13 +52,18 @@ function handleLogin(data: LoginInfo, socket: SocketManager) {
   }
   const user = userdata[0]
   
+
   // grab salt and hashed password from DB
   // Hash provided password with salt
   // check
   bcrypt.compare(data.password, passwords[user.id])
         .then((passwordCorrect)=> {
           if (passwordCorrect) {
-            socket.Auth.send("confirmLogin", user)
+            numberOfFilesToServe().then(a => {
+              user.expectedNumberOfFiles = a
+              socket.Auth.send("confirmLogin", user)
+            })
+            
             return
             // return {
             //   action: "confirmLogin",
@@ -131,15 +138,37 @@ function handleLoginWithToken(data: any): SocketResponse {
   };
 }
 
+function handleRegister(data:any, socket: SocketManager) {
+  
+}
+
 export function setupAuthSocketHooks(sm: SocketManager) {
   sm.registerModule("Auth");
   console.log("here")
   sm.Auth.listen("login", (data:any) => {return handleLogin(data, sm)});
   sm.Auth.listen("tokenLogin", handleLoginWithToken);
+  sm.Auth.listen("register", (data:any) => {return handleRegister(data, sm)})
   sm.Auth.listen("test", (): SocketResponse => {
     return {
       data: {OMAN: ":c"}
     };
     sm.Auth.send("return", { OMAN: "omAN" });
   });
+
+}
+
+export async function numberOfFilesToServe() {
+  let n = 0;
+  for await (const walkEntry of walk(Deno.cwd() + "/client/desktop")) {
+    const type = walkEntry.isSymlink
+      ? "symlink"
+      : walkEntry.isFile
+      ? "file"
+      : "directory";
+    if (type == "file") {
+      n++;
+    }
+  }
+  
+  return n;
 }
