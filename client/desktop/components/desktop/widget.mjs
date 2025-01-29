@@ -1,5 +1,5 @@
-import { create, randomId } from "../../modules/Util.mjs"
-import { ValueError } from "../../modules/system/Error.mjs"
+import { create, randomId } from "../../Util.mjs"
+import { ValueError } from "../../error/Error.mjs"
 class Widget {
     #xPos; #yPos;
     #anchorX; #anchorY;

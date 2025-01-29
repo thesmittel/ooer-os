@@ -1,5 +1,5 @@
 
-import { create, round, clamp, snap, isElement } from "../../modules/Util.mjs";
+import { round, clamp, snap, isElement } from "../../Util.mjs";
 
 class TextboxSlider {
 

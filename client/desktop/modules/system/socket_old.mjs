@@ -1,4 +1,4 @@
-import { ValueError } from "./Error.mjs";
+import { ValueError } from "../../error/Error.mjs";
 
 export class Socket {
   #socket;

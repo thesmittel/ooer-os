@@ -1,4 +1,4 @@
-import { App as emit } from "./modules/Connect.mjs";
+import { App as emit } from "../../../init/Connect.mjs";
 
 class UnknownIdentifierError extends Error {
     constructor(t) {

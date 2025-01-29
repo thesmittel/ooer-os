@@ -24,10 +24,10 @@
  */
 
 import { System as emit, App } from "../Connect.mjs"
-import { handlers } from "../system/Error.mjs";
+import { handlers } from "../error/Error.mjs"
 import * as Util from "../Util.mjs";
-import { ContextMenu, DesktopSymbolApp  } from "../../components/ui.mjs";
-import { Desktop } from "../../components/desktop/desktop.mjs";
+import { ContextMenu, DesktopSymbolApp  } from "../components/ui.mjs";
+import { Desktop } from "../components/desktop/desktop.mjs";
 
 
 

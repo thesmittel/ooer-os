@@ -22,11 +22,11 @@
  * @name UI:Desktop.Panel
  * @author Smittel
  */
-import { AutoTypeError, ValueError } from "../../../modules/system/Error.mjs";
+import { AutoTypeError, ValueError } from "../../../error/Error.mjs";
 import { contextMenu } from "../../../modules/Handlers.mjs";
 import { ContextMenu, NumberBox } from "../../ui.mjs";
 // import { NumberBox } from "../../ui/numberbox.mjs";
-import { create, randomId, DynamicString } from "../../../modules/Util.mjs";
+import { create, randomId, DynamicString } from "../../../Util.mjs";
 import { Window } from "../../../modules/app/Window.mjs";
 import { Desktop } from "../desktop.mjs";
 

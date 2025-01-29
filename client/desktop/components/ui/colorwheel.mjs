@@ -22,7 +22,7 @@
  */
 
 import { SliderGroup, TextboxSlider } from "./textslider.mjs";
-import { create, nthParent, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian, Color } from "../../modules/Util.mjs";
+import { nthParent, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian, Color } from "../../Util.mjs";
 
 /**
  * Color wheel class

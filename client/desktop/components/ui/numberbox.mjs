@@ -1,4 +1,4 @@
-import { clamp, create, round } from "../../modules/Util.mjs";
+import { clamp, round } from "../../Util.mjs";
 import * as Keyboard from "../../modules/input/Keyboard.mjs"
 class NumberBox {
     #element;

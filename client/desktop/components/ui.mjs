@@ -30,7 +30,7 @@
  */
 
 
-import { create, round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian, Color } from "../modules/Util.mjs";
+import { round, map, clamp, cartesianToPolar, polarToCartesian, radianToDegree, degreeToRadian, Color } from "../Util.mjs";
 import { Wheel } from "./ui/colorwheel.mjs";
 import { TextboxSlider, SliderGroup } from "./ui/textslider.mjs";
 import { DropDownMenu } from "./ui/dropdown.mjs";

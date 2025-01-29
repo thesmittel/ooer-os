@@ -4,15 +4,13 @@ The backend is slowly changed to typescript for no other reason than sanity duri
 
 ## Dependencies
 - Serverside
-    - Deno 2.0.1
+    - Deno 2.1.3
     - Deno @std/http/...
-    
-    - For the time being, Socket.io will remain a dependency, even if it is not used. It will be phased out soon
 - Clientside
     - All dependencies come bundled, there are no external dependencies.
 
 ## THIS IS NOT READY TO USE. DO NOT ATTEMPT TO DO SO!
-Some work needs to be done on the backend to properly implement login and signup, as of now, user login info is saved in a JSON using MD5, while the salt is fairly big, i still wouldnt advise using it, though youre free to do so. You can also change the backend, not much going on there so far, but then, theres still the issue of it still being single threaded.
+Some work needs to be done on the backend to properly implement login and signup, as of now, user login info is saved in a JSON, using what i understand to be cryptographically secure methods, i still wouldnt advise using it, though youre free to do so. You can also change the backend, not much going on there so far, but then, theres still the issue of it still being single threaded.
 
 ## What is this and what is the goal
 The goal is to not only imitate a desktop environment in a website, but also to provide functionality that the streamed nature of the entire thing offers, like sharing files more easily, collaboration (like google drive for example), easy communication etc.
@@ -32,7 +30,7 @@ The system worker will be the ultimate authority. It will decide what applicatio
 A backend rewrite in Rust is on the table, but for that i have to learn it first
 
 ## Current version:
-`0.2_250126`
+`0.2_250130`
 
 ## The Socket Manager
 Serves as an abstraction layer over the default WebSocket object.

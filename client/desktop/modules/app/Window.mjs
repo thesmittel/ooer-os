@@ -23,13 +23,12 @@
  * @author Smittel
  */
 
-import { App as emit } from "../Connect.mjs"
-import { create, randomId, getElement } from "../Util.mjs";
+import { App as emit } from "../../../init/Connect.mjs"
+import { create, randomId, getElement } from "../../Util.mjs";
 import { dragElement } from "../input/Dragging.mjs";
 import { loseFocus } from "../Handlers.mjs";
-import { deleteListener, registerListener } from "../connect/App.mjs";
-import { currentDesktop } from "../connect/System.mjs";
-import { getAppInstanceObjectRef } from "../connect/App.mjs";
+import { deleteListener, registerListener, getAppInstanceObjectRef } from "../../connect/App.mjs";"../connect/App.mjs";
+import { currentDesktop } from "../../connect/System.mjs";
 
 
 document.addEventListener("mousemove", windowResize);

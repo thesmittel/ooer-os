@@ -1,5 +1,5 @@
 import { Widget } from "./widget.mjs";
-import { deleteElement, create } from "../../modules/Util.mjs";
+import { deleteElement } from "../../Util.mjs";
 import { DesktopSymbolApp } from "../ui/desktopsymbol.mjs";
 import { Panel } from "./systemwidgets/panel.mjs";
 import { ContextMenu } from "../ui.mjs";
@@ -51,9 +51,9 @@ class Desktop {
         this.element = create({
             tagname: "desktop-environment",
             childElements: this.layers,
-            style: `background-image: url("${data.backgroundimage || "/media/images/wallpaper abstract 2.png"}");
-                    background-size: ${data.backgroundsize || "cover"};
-                    background-position: ${data.backgroundposition || "center center"};
+            style: `background-image: url("${data?.backgroundimage || "/media/images/iceland.jpg"}");
+                    background-size: ${data?.backgroundsize || "cover"};
+                    background-position: ${data?.backgroundposition || "center center"};
                     background-attachment: fixed;`,
             dataset: {
                 editMode: false,

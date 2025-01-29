@@ -4,8 +4,12 @@
  * @description Starting point, initialiser for all other modules. Handles clockticks
  */
 import { closeLogin } from "../desktop/connect/Auth.mjs";
+import { Socket, System } from "../init/Connect.mjs";
+import { User } from "../init/init.js";
+import { Desktop } from "./components/desktop/desktop.mjs";
+import { setDesktopSymbols, setWidgets, setSettings, setWindows } from "./modules/User.mjs";
 // import * as Connect from "./modules/Connect.mjs"
-// import * as Handler from "./modules/Handlers.mjs"
+import * as Handler from "./modules/Handlers.mjs"
 // import { create } from "./modules/Util.mjs"
 // import { Panel } from "./components/ui.mjs"
 // // import { Widget } from "./modules/desktop/desktop.mjs"
@@ -14,6 +18,7 @@ import { closeLogin } from "../desktop/connect/Auth.mjs";
 // import { clock } from "./modules/util/clock.mjs"
 // import { PasswordPrompt } from "./components/ui/passwordPrompt.mjs"
 console.log("SERVED")
+
 
 
 const bo = document.querySelector("div.blackout");
@@ -30,7 +35,48 @@ loadingAnim.forEach(a => {
     })
 })
 closeLogin()
+setupUI();
 
+
+
+function setupUI() {
+    console.log("SOCKET,", Socket)
+    setupFinished()
+    // maybe a timeout should be set to prevent being stuck forever
+    // If something times out, it should be set to null. 
+    // It is important that something is actively done so it can escape while also 
+    // marking that the data is missing.
+    // Empty object also works
+    Socket.System.listen("desktopSymbols", (incoming) => {
+        setDesktopSymbols(incoming);
+        if (isDone()) setupFinished()
+    })
+    Socket.System.listen("widgets", (incoming) => {
+        setWidgets(incoming);
+        if (isDone()) setupFinished()
+    })
+    Socket.System.listen("windows", (incoming) => {
+        setWindows(incoming);
+        if (isDone()) setupFinished()
+    })
+    Socket.System.listen("settings", (incoming) => {
+        setSettings(incoming);
+        if (isDone()) setupFinished()
+    })
+}
+
+function isDone() {
+    let x = true;
+    for (let i of data) {
+        x *= (i !== undefined)
+    }
+    return x
+}
+
+function setupFinished() {
+    const desktop = new Desktop();
+    console.log(desktop)
+}
 
 // for some reason this works, but will be changed anyways
 // Handler.openLogin({stopPropagation: ()=>{}})

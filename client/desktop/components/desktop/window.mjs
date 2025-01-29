@@ -1,7 +1,7 @@
 import { ContextMenu } from "../ui.mjs";
-import { randomId } from "../Util.mjs";
+import { randomId } from "../../Util.mjs";
 
-class Window {
+export class Window {
     element;
     #header;
     #body;

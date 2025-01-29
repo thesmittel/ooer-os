@@ -1,6 +1,6 @@
 
 import { Auth } from "./Connect.mjs";
-
+export let User = {};
 document.addEventListener("contextmenu", (e)=>{
   e.stopPropagation(); 
   e.preventDefault()
@@ -59,11 +59,14 @@ globalThis.create = function create(args, debug) {
 const loadingAnim = Array.from(document.querySelector("div.blackout").childNodes).filter(a => a.dataset)
 console.log(loadingAnim)
 loadingAnim.forEach(a => a.style.opacity = 1)
+
+
 export function setupAuthListeners(sm) {
   sm.Auth.listen("confirmLogin", (d) => {
     sm.registerModule("User");
     sm.registerModule("App");
     sm.registerModule("System");
+    User = d;
 
     // const script = document.createElement("script");
     // script.src = "/desktop/main.js";

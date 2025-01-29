@@ -481,12 +481,12 @@ function removeLoadingAnimation() {
 //     return login.cache.username
 // }
 
-// // List of callbacks for actions that require password confirmation
-// let requiresPassword = [];
-// function registerPasswordCallback(success, failure, promptWindow) {
-//     if (!success || !failure) throw new ArgumentError(undefined, registerPasswordCallback, "Needs both a success AND a failure callback");
-//     requiresPassword.push({success: success, failure: failure})
-// }
+// List of callbacks for actions that require password confirmation
+let requiresPassword = [];
+export function registerPasswordCallback(success, failure, promptWindow) {
+    if (!success || !failure) throw new ArgumentError(undefined, registerPasswordCallback, "Needs both a success AND a failure callback");
+    requiresPassword.push({success: success, failure: failure})
+}
 
 // function correctPasswordPrompt(data) {
 //     for (let i = 0; i < requiresPassword.length; i++) {

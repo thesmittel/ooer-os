@@ -25,7 +25,7 @@
 
 import { App as emit } from "../Connect.mjs"
 import { randomId } from "../Util.mjs";
-import { Window, maximiseWindow } from "../app/Window.mjs"
+import { Window, maximiseWindow } from "../modules/app/Window.mjs"
 
 /**
  * Receives data from the server directed at this module via the Connect module, serves as the connection between the two.

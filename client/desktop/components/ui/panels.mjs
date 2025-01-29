@@ -21,7 +21,6 @@
  * @author Smittel
  */
 
-import { create } from "../../modules/Util.mjs"
 /*
 WIP:
 Panels are taskbar-like, similar to panels in modern linux DEs.

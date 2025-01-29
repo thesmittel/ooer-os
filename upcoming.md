@@ -1,6 +1,10 @@
 # Whats planned
 a list of a few ideas that MAY eventually be implemented
 
+### File reduction
+For now, util and component are split into a lot of files. This will remain as is for now, but at the very latest for release 1.0, everything that goes together will be consolidated.
+
+
 ### Login screen changes
 A login screen will be made. It will be what first shows up unless there is a valid session token present. 
 

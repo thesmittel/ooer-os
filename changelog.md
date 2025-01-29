@@ -1,16 +1,11 @@
 ## Version
 
-0.2_250126
-- Changed which files are loaded when
-  - Before login, only a minimal number of files required to facilitate login are loaded
-  - After login, files required for desktop functionality are loaded
-  - Added loading screens as indicators
-- Changed backend
-  - certain requests now serve multiple files at once, the hope was to not require as many individual requests that block each other, in theory making loading faster
-  - unsure if that is the case, but worst case scenario is its equal.
-- drastically altered front end code structure. 
-- A lot of unnecessary or dead code still remains, will be handled shortly
-- Commit deemed big enough to bump version to 0.2
+0.2_250130
+- Various front end fixes 
+- Modules are now correctly imported again
+- UI is functional again
+- Since the way data is fetched now changed, the actual desktop is not usable, the server does not provide any apps, symbols, widgets or settings.
+- Slightly changed structure again
 
 ## Known issues:
 
@@ -27,7 +22,21 @@ back, a lot was already present, so im assuming this to be `0.1`. However, since
 then, not enough has changed to warrant a new number, so i use the date in
 YYMMDD format to differenciate the progress.
 
-## Dev Diary
+# Dev Diary
+
+### 0.2_250126
+- Changed which files are loaded when
+  - Before login, only a minimal number of files required to facilitate login are loaded
+  - After login, files required for desktop functionality are loaded
+  - Added loading screens as indicators
+- Changed backend
+  - certain requests now serve multiple files at once, the hope was to not require as many individual requests that block each other, in theory making loading faster
+  - unsure if that is the case, but worst case scenario is its equal.
+- drastically altered front end code structure. 
+- A lot of unnecessary or dead code still remains, will be handled shortly
+- Commit deemed big enough to bump version to 0.2
+
+## 0.1
 
 ### 0.1.241213
 - Added login backend
