@@ -91,6 +91,7 @@ export class SocketManager {
       );
     }
     if (name instanceof Array) {
+      name = name.flat()
       for (const i of name) {
         this.registerModule(i)
       }

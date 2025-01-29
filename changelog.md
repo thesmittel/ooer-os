@@ -7,6 +7,9 @@
 - Since the way data is fetched now changed, the actual desktop is not usable, the server does not provide any apps, symbols, widgets or settings.
 - Slightly changed structure again
 
+0.2_250130b
+- Fixed small issue with socketmanager: flattened input and fixed variable names
+
 ## Known issues:
 
 - Windows ignore panels entirely

@@ -94,13 +94,14 @@ export class SocketManager {
         "Socket.registerModule(name): name not defined",
       );
     }
-    if (name instanceof Array) {
-      for (const i of name) {
+    if (moduleName instanceof Array) {
+      name = moduleName.flat(); // added this bc why the fuck not, at least its not full yolo recursive
+      for (const i of moduleName) {
         this.registerModule(i)
       }
       return
     }
-    if (typeof name != "string") {
+    if (typeof moduleName != "string") {
       throw new TypeError(`Socket.registerModule(name): name must be String, got "${name}" of type ${typeof name}`)
     }
     moduleName = this.#cleanupString(moduleName)
