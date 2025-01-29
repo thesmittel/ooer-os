@@ -30,7 +30,7 @@ The system worker will be the ultimate authority. It will decide what applicatio
 A backend rewrite in Rust is on the table, but for that i have to learn it first
 
 ## Current version:
-`0.2_250130b`
+`0.2_250130c`
 
 ## The Socket Manager
 Serves as an abstraction layer over the default WebSocket object.

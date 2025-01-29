@@ -10,6 +10,7 @@ import { Desktop } from "./components/desktop/desktop.mjs";
 import { setDesktopSymbols, setWidgets, setSettings, setWindows } from "./modules/User.mjs";
 // import * as Connect from "./modules/Connect.mjs"
 import * as Handler from "./modules/Handlers.mjs"
+import { addDesktop } from "./connect/System.mjs";
 // import { create } from "./modules/Util.mjs"
 // import { Panel } from "./components/ui.mjs"
 // // import { Widget } from "./modules/desktop/desktop.mjs"
@@ -74,8 +75,7 @@ function isDone() {
 }
 
 function setupFinished() {
-    const desktop = new Desktop();
-    console.log(desktop)
+    addDesktop("", [])
 }
 
 // for some reason this works, but will be changed anyways

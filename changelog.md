@@ -6,9 +6,19 @@
 - UI is functional again
 - Since the way data is fetched now changed, the actual desktop is not usable, the server does not provide any apps, symbols, widgets or settings.
 - Slightly changed structure again
+- create() is now a global function, no longer an import.
+  - not strictly necessary, but saves a bunch of imports in smaller UI modules
 
 0.2_250130b
 - Fixed small issue with socketmanager: flattened input and fixed variable names
+
+0.2_250130c
+- Desktop now shows "properly"
+- Symbols still dont load
+- Demo panels are present and functional, edit mode works as intended.
+- Theme styling didnt load 
+  - needs to be changed anyways but now it works
+
 
 ## Known issues:
 

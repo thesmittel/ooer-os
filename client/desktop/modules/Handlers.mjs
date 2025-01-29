@@ -169,7 +169,7 @@ document.addEventListener("mousedown", (e) => {
   if (e.target.tagName != "DESKTOP-ENVIRONMENT") return;
   if (e.target.dataset.editMode == "true") return;
   origin = [e.clientX, e.clientY];
-  const dragSelector = Util.create({
+  const dragSelector = create({
     tagname: "selector-box",
   });
   function dragSelect(e) {
